@@ -12,7 +12,7 @@ component PhysicsObject {
     bool SlowInLiquids;
     bool IsWaterSolid;
     bool SinksInQuickSandAndGoo;
-    bool BreakMegaObjects;
+    bool BreakMegaObjects;//i forgor if i used this
     
     [ExcludeFromPrototype] FPVector2 Velocity;
     [ExcludeFromPrototype] EntityRef Parent;

@@ -3,6 +3,39 @@ Photon Realtime C# Client - Changelog
 www.photonengine.com  -  Join our Discord Server: https://dashboard.photonengine.com/account/profile
 
 
+Version 5.1.15 (15. July 2026)
+    Updated: XML reference in various places to remove outdated references and naming. Extended reference in various places.
+    Added: RealtimeClient.CrcEnabled to make it more available/accessible in the client.
+    Updated: Demo Particle for Unity and .Net. Both use the same logic now. 32x32 grid default. Simplest matchmaking. Auto-move uses directions.
+    Added: Example of using Stats is now in the GameLogic, showing Snapshot and Delta.
+    Updated: Logging to avoid boxing and allocations as much as possible. Checked this with Unity's Project Auditor in 6.4. No Major/Critical issues remain.
+    Changed: EventBetter (handling callbacks) is now NonSerialized (as intended).
+
+Version 5.1.14 (1. June 2026 - sha 81dc467)
+    Updated: Static value initialization for Unity using RuntimeInitializeOnLoadMethod in RegionHandler and Log.
+    Updated: AsyncExtensions with annotations for the Unity Analyzer to avoid misleading warnings about static values. See SuppressMessage why each is fine.
+    Updated: SystemConnectionSummary.ToString() to include an annotation of the error codes.
+    Minor: EventCode.CommandEvent from being static to const (consistent with the other codes).
+    Note: Skipping release of v5.1.13 which was used in a few preview builds.
+
+Version 5.1.12 (01. April 2026 - rev8344)
+    Updated: EventBetterWorker instance checks for Unity 6.4 and up (using GetEntityId()). This avoids warnings for using obsolete APIs.
+
+Version 5.1.11 (30. March 2026 - rev8336)
+    Fixed: Lookup for SocketNativeSource used the old namespace in ConfigUnitySockets() (RealtimeClient and ChatClient).
+    Changed: SocketWebTcp now removes surplus dashes from addresses, if present. This makes sure all APIs can use the addresses properly.
+
+Version 5.1.10 (24. February 2026 - rev8290)
+    Changed: ToProtocolAddress now removes trailing slashes from the server address to connect to (especially the Name Server address for WS/WSS). This should avoid issues with WS/WSS APIs, which do not accept two slashes where the URL query starts (address//?query).
+    Fixed: A condition in MatchmakingExtensions.ReconnectToRoomAsync().
+    Changed: RoomInfo.InternalCacheProperties() to InternalCachePropertiesRoomInfo() which is no longer virtual. Separating InternalCachePropertiesRoomInfo() from Room.InternalCacheProperties() allows calls from the constructor(s).
+    Updated: EventBetter.GetAliveTarget() with simpler checks. The method is now static.
+    Updated: Compile defines used for Switch 2.
+    Updated: AppSettings internally.
+    Added: Several null checks.
+    Changed: The internal RoomOptionBit now has a Flags attribute.
+    Changed: MatchmakingArguments are no longer Serializable (it was not planned to use them this way).
+
 Version 5.1.9 (10. November 2025 - rev8156)
     Changed: RegionHandler to check if a RegionPinger started successfully before adding it to the list of RegionPingers to finish.
     Changed: Unity 6 made AsyncSetup.GlobalCancellationSource obsolete. We will conditionally use Application.exitCancellationToken.

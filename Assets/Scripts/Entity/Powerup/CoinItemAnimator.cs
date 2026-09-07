@@ -1,3 +1,4 @@
+using NSMB.Utilities;
 using NSMB.Utilities.Extensions;
 using Quantum;
 using System.Collections.Generic;
@@ -139,7 +140,7 @@ namespace NSMB.Entities.CoinItems {
             }
             HandleDespawningBlinking(hazard->LifeTime);
         }
-
+        
         private void HandleSpawningAnimation(Frame f, CoinItem* coinItem) {
             if (f.Exists(coinItem->ParentMarioPlayer) && coinItem->SpawnAnimationFrames > 0) {
                 // Following player
@@ -170,8 +171,8 @@ namespace NSMB.Entities.CoinItems {
 
         private void HandleDespawningBlinking(float lifetime) {
             bool newlyEnabled = false;
-            if (lifetime <= 60 && lifetime != 0 && blinkingRate != -1) {
-                newlyEnabled = ((lifetime / 60f * blinkingRate) % 1) > 0.5f;
+            if (lifetime <= 180f && lifetime != 0 && blinkingRate != -1) {
+                newlyEnabled = ((lifetime / 180f * blinkingRate) % 1) > 0.5f;
             } else {
                 newlyEnabled = true;
             }

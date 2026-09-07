@@ -1,6 +1,6 @@
+using NSMB.Utilities;
 using Quantum;
 using System;
-using System.Windows.Forms;
 using UnityEngine;
 using static NSMB.Utilities.QuantumViewUtils;
 
@@ -20,8 +20,7 @@ namespace NSMB.Particles {
             QuantumEvent.Subscribe<EventCollectableDespawned>(this, OnCollectableDespawned, FilterOutReplayFastForward);
             QuantumEvent.Subscribe<EventEnemyKicked>(this, OnEnemyKicked, FilterOutReplayFastForward);
             QuantumEvent.Subscribe<EventEnemyDespawnedOffscreen>(this, OnEnemyDespawnedOffscreen, FilterOutReplayFastForward);
-
-            QuantumEvent.Subscribe<EventPlayPuffParticle>(this, OnPlayPuffParticle, FilterOutReplayFastForward);
+            QuantumEvent.Subscribe<EventMarioPlayerBlueShellStomped>(this, OnMarioPlayerBlueShellStomped, FilterOutReplayFastForward);
         }
 
         private bool TryGetParticlePair(ParticleEffect particleEffect, out ParticlePair particlePair) {
@@ -65,11 +64,14 @@ namespace NSMB.Particles {
             Play(ParticleEffect.Puff, e.Position.ToUnityVector3());
         }
 
-        private unsafe void OnPlayPuffParticle(EventPlayPuffParticle e) {
-            Instantiate(
-                Enums.PrefabParticle.Enemy_Puff.GetGameObject(),
-                new Vector3(e.Position.X.AsFloat, e.Position.Y.AsFloat, -5),
-                Quaternion.identity);
+        private void OnMarioPlayerBlueShellStomped(EventMarioPlayerBlueShellStomped e) {
+            QuantumEntityView view = Updater.GetView(e.Entity);
+            if (view) {
+                Instantiate(
+                    Enums.PrefabParticle.Enemy_HardKick.GetGameObject(),
+                    view.transform.position + (Vector3.back * 5) + (Vector3.up * 0.1f),
+                    Quaternion.identity);
+            }
         }
 
         [Serializable]

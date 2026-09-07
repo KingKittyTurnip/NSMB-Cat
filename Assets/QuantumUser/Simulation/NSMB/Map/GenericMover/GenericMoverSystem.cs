@@ -1,18 +1,16 @@
 // #define MULTITHREADED
 using Photon.Deterministic;
-using Quantum.Task;
 
 namespace Quantum {
 #if MULTITHREADED
-        public unsafe class GenericMoverSystem : SystemThreadedFilter<GenericMoverSystem.Filter> {
+    public unsafe class GenericMoverSystem : SystemThreadedFilter<GenericMoverSystem.Filter> {
 #else
-        public unsafe class GenericMoverSystem : SystemMainThreadEntityFilter<GenericMover, GenericMoverSystem.Filter> {
+    public unsafe class GenericMoverSystem : SystemMainThreadEntityFilter<GenericMover, GenericMoverSystem.Filter> {
 #endif
         public struct Filter {
             public EntityRef Entity;
             public Transform2D* Transform;
             public GenericMover* GenericMover;
-            //public MovingPlatform* Platform; //KKT Mod Removal
         }
 
 #if MULTITHREADED
@@ -26,7 +24,6 @@ namespace Quantum {
                 return;
             }
 
-            //var platform = filter.Platform; //KKT Mod Removal
             var genericMover = filter.GenericMover;
             var transform = filter.Transform;
             var asset = f.FindAsset(genericMover->MoverAsset);
@@ -49,6 +46,8 @@ namespace Quantum {
             } else {
                 transform->Position += velocity;
             }
+
+            //KKT Mod
             if (!(asset.ObjectRot == null || asset.ObjectRot.Length == 0))
                 transform->Rotation = SampleRotation(asset.ObjectRot, nextTime, asset.LoopMode);
         }

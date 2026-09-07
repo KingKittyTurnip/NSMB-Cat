@@ -1,4 +1,5 @@
 using NSMB.Utilities;
+using NSMB.Utilities.Extensions;
 using Quantum;
 using System.Text;
 using TMPro;
@@ -15,12 +16,14 @@ namespace NSMB.UI.Game.Scoreboard {
         //---Serialized Variables
         [SerializeField] private Image background, pingIndicator, teamSprite;
         [SerializeField] private TMP_Text nicknameText, scoreText;
+        [SerializeField] private LayoutElement nameLayoutElement;
 
         //---Private Variables
         private ScoreboardUpdater updater;
         private NicknameColor nicknameColor = NicknameColor.White;
         private string cachedNickname, cachedPingSymbol;
         private bool nicknameMayHaveChanged;
+        private StringBuilder stringBuilder = new();
 
         public void Start() {
             QuantumCallback.Subscribe<CallbackGameResynced>(this, OnGameResynced);
@@ -89,7 +92,7 @@ namespace NSMB.UI.Game.Scoreboard {
             Color backgroundColor = Utils.GetPlayerColor(f, info.PlayerRef, considerDisqualifications: true);
             backgroundColor.a = 0.6f;
             background.color = backgroundColor;
-
+            
             if (Settings.Instance.GraphicsColorblind) {
                 if (f.Global->Rules.ModifierTeamsEnabled) {
                     var teams = f.Context.GetAllAssets<TeamAsset>();
@@ -100,7 +103,7 @@ namespace NSMB.UI.Game.Scoreboard {
                         teamSprite.sprite = null;
                     }
                 } else {
-                    var slot = Utils.GetPlayerSlotInfo(f, info.PlayerRef);
+                    var slot = Utils.GetPlayerSlotInfo(Index);
                     if (slot) {
                         teamSprite.sprite = slot.Sprite;
                     } else {
@@ -120,13 +123,13 @@ namespace NSMB.UI.Game.Scoreboard {
                 lives = mario->Disconnected ? 0 : mario->Lives;
             }
 
-            StringBuilder scoreBuilder = new();
-            if (f.Global->Rules.ModifierLivesEnabled) {
-                scoreBuilder.Append(character.UiString).Append(Utils.GetSymbolString(lives.ToString()));
+            stringBuilder.Clear();
+            if (f.Global->Rules.IsLivesEnabled) {
+                stringBuilder.Append(character.UiString).Append(Utils.GetSymbolString(lives.ToString(), padUpToNLength: 2));
             }
-            scoreBuilder.Append(Utils.GetSymbolString(gamemode.ObjectiveSymbolPrefix + objective.ToString()));
+            stringBuilder.Append(Utils.GetSymbolString(gamemode.ObjectiveSymbolPrefix)).Append(Utils.GetSymbolString(objective.ToString(), padUpToNLength: 2));
 
-            scoreText.text = scoreBuilder.ToString();
+            scoreText.SetText(stringBuilder);
             updater.RequestSorting = true;
         }
 

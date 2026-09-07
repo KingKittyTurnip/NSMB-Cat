@@ -24,7 +24,7 @@ namespace Quantum {
         }
 
         if (_instance == null) {
-          _instance = FindFirstObjectByType<QuantumMapLoader>();
+          _instance = FindAnyObjectByType<QuantumMapLoader>();
         }
 
         if (_instance == null) {
@@ -53,6 +53,7 @@ namespace Quantum {
     /// Reset global statics.
     /// </summary>
     [StaticFieldResetMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     public static void ResetStatics() {
       _instance              = null;
       _isApplicationQuitting = false;

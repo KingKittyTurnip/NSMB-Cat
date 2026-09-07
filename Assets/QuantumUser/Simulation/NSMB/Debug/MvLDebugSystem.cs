@@ -49,6 +49,8 @@ namespace Quantum {
                     //hazard->IsActive = true;
                 }
                 if (f.Unsafe.TryGetPointer(newEntity, out Enemy* enemy)) {
+                    enemy->DisableRespawning = true;
+                    enemy->IgnoreOffscreen = true;
                     enemy->FacingRight = mario->FacingRight;
                     enemy->IsDead = false;
                 }
@@ -58,6 +60,9 @@ namespace Quantum {
                 break;
             case DebugCommand.FreezeSelf:
                 IceBlockSystem.Freeze(f, marioEntity);
+                break;
+            case DebugCommand.KnockbackSelf:
+                mario->DoKnockback(f, marioEntity, mario->FacingRight, 1, KnockbackStrength.Normal, EntityRef.None, true);
                 break;
             }
         }

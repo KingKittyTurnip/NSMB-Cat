@@ -1,5 +1,4 @@
 using NSMB.Replay;
-using NSMB.UI.MainMenu;
 using NSMB.UI.MainMenu.Submenus.Replays;
 using NSMB.UI.Translation;
 using NSMB.Utilities.Extensions;
@@ -155,7 +154,7 @@ namespace NSMB.UI.Game.Results {
 
         public void Select(int index) {
             Deselect(index);
-            labels[index].text = "» " + labels[index].text;
+            labels[index].text = "Â» " + labels[index].text;
             labels[index].color = labelSelectedColor;
         }
 
@@ -170,23 +169,23 @@ namespace NSMB.UI.Game.Results {
             case 0:
                 if (IsReplay) {
                     ReplayListManager replayManager = ReplayListManager.Instance;
-                    int nextReplayIndex = replayManager.Replays.IndexOf(rle => rle.ReplayFile == ActiveReplayManager.Instance.CurrentReplay);
+                    int nextReplayIndex = replayManager.AllReplays.IndexOf(ActiveReplayManager.Instance.CurrentReplay);
 
                     bool success = false;
-                    ReplayListEntry newReplay = null;
-                    while (++nextReplayIndex < replayManager.Replays.Count) {
-                        newReplay = replayManager.Replays[nextReplayIndex];
-                        if (newReplay.ReplayFile != ActiveReplayManager.Instance.CurrentReplay && newReplay.ReplayFile.Header.IsCompatible) {
+                    BinaryReplayFile newReplay = null;
+                    while (++nextReplayIndex < replayManager.AllReplays.Count) {
+                        newReplay = replayManager.AllReplays[nextReplayIndex];
+                        if (newReplay != ActiveReplayManager.Instance.CurrentReplay && newReplay.Header.IsCompatible) {
                             success = true;
                             break;
                         }
                     }
                     
                     if (success) {
-                        ReplayListManager.Instance.Select(newReplay, true);
-                        ActiveReplayManager.Instance.StartReplayPlayback(newReplay.ReplayFile);
+                        _ = replayManager.CreateReplayListEntries(default, newReplay);
+                        ActiveReplayManager.Instance.StartReplayPlayback(newReplay);
                     } else {
-                        labels[0].text = "» " + GlobalController.Instance.translationManager.GetTranslation("ui.game.results.nextreplay.nomore");
+                        labels[0].text = "Â» " + GlobalController.Instance.translationManager.GetTranslation("ui.game.results.nextreplay.nomore");
                         sfx.PlayOneShot(SoundEffect.UI_Error);
                         if (noReplaysCoroutine != null) {
                             StopCoroutine(noReplaysCoroutine);
@@ -222,9 +221,12 @@ namespace NSMB.UI.Game.Results {
             case 2:
                 if (exitPrompt) {
                     QuantumRunner.Default.Shutdown();
+                    if (GlobalController.Instance.bootedWithReplayArg) {
+                        Application.Quit();
+                    }
                 } else {
                     exitPrompt = true;
-                    labels[2].text = "» " + GlobalController.Instance.translationManager.GetTranslation(exitPrompt ? "ui.generic.confirmation" : "ui.game.results.quittomainmenu");
+                    labels[2].text = "Â» " + GlobalController.Instance.translationManager.GetTranslation(exitPrompt ? "ui.generic.confirmation" : "ui.game.results.quittomainmenu");
                 }
                 sfx.PlayOneShot(SoundEffect.UI_Decide);
                 break;

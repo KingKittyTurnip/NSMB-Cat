@@ -36,14 +36,12 @@ namespace Photon.Realtime
     /// It keeps (connection) state and will automatically execute transitions from Name Server to Master Server and Game Servers.
     /// </summary>
     /// <remarks>
-    /// This class (and the Player class) should be extended to implement your own game logic.
-    /// You can override CreatePlayer as "factory" method for Players and return your own Player instances.
     /// The State of this class is essential to know when a client is in a lobby (or just on the master)
     /// and when in a game where the actual gameplay should take place.
-    /// Extension notes:
-    /// An extension of this class should override the methods of the IPhotonPeerListener, as they
-    /// are called when the state changes. Call base.method first, then pick the operation or state you
-    /// want to react to and put it in a switch-case.
+    /// To react to state changes and server events, implement the callback interfaces (IConnectionCallbacks,
+    /// IMatchmakingCallbacks, IInRoomCallbacks, ILobbyCallbacks, IErrorInfoCallbacks) and register an
+    /// instance via <see cref="AddCallbackTarget"/>. Inheriting from RealtimeClient or Player is no longer
+    /// recommended in v5.
     /// We try to provide demo to each platform where this api can be used, so lookout for those.
     /// </remarks>
     public partial class RealtimeClient : IPhotonPeerListener
@@ -98,6 +96,13 @@ namespace Photon.Realtime
             {
                 this.RealtimePeer.SerializationProtocolType = value;
             }
+        }
+
+        /// <summary>Enables CRC checksums on outgoing and incoming packets. Adds a small CPU cost in exchange for detecting corrupted data on the wire.</summary>
+        public bool CrcEnabled
+        {
+            get { return this.RealtimePeer.CrcEnabled; }
+            set { this.RealtimePeer.CrcEnabled = value; }
         }
 
         /// <summary>Stores this client's AppSettings, as applied by ConnectUsingSettings().</summary>
@@ -178,10 +183,10 @@ namespace Photon.Realtime
         /// </remarks>
         public ProtocolPorts ProtocolPorts = new ProtocolPorts();
 
-        /// <summary>The currently used server address (if any). The type of server is define by Server property.</summary>
+        /// <summary>The currently used server address (if any). The type of server is defined by Server property.</summary>
         public string CurrentServerAddress { get { return this.RealtimePeer.ServerAddress; } }
 
-        /// <summary>Your Master Server address. In PhotonCloud, call ConnectToRegionMaster() to find your Master Server.</summary>
+        /// <summary>Your Master Server address. In PhotonCloud, call ConnectUsingSettings() to find your Master Server via the Name Server.</summary>
         /// <remarks>
         /// In the Photon Cloud, explicit definition of a Master Server Address is not best practice.
         /// The Photon Cloud has a "Name Server" which redirects clients to a specific Master Server (per Region and AppId).
@@ -224,10 +229,8 @@ namespace Photon.Realtime
                 ClientState previousState = this.state;
                 this.state = value;
 
-                if (this.StateChanged != null)
-                {
-                    this.StateChanged(previousState, this.state);
-                }
+                var stateChanged = this.StateChanged;
+                stateChanged?.Invoke(previousState, this.state);
             }
         }
 
@@ -1107,19 +1110,19 @@ namespace Photon.Realtime
         private void ConfigUnitySockets()
         {
             Type websocketType = null;
-            #if (UNITY_XBOXONE || UNITY_GAMECORE) && !UNITY_EDITOR
-            websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp", false);
+            #if (UNITY_XBOXONE || UNITY_GAMECORE || UNITY_SWITCH2) && !UNITY_EDITOR
+            websocketType = Type.GetType("Photon.Client.SocketNativeSource, Assembly-CSharp", false);
             if (websocketType == null)
             {
-                websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp-firstpass", false);
+                websocketType = Type.GetType("Photon.Client.SocketNativeSource, Assembly-CSharp-firstpass", false);
             }
             if (websocketType == null)
             {
-                websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, PhotonRealtime", false);
+                websocketType = Type.GetType("Photon.Client.SocketNativeSource, PhotonRealtime", false);
             }
             if (websocketType != null)
             {
-                this.RealtimePeer.SocketImplementationConfig[ConnectionProtocol.Udp] = websocketType;    // on Xbox, the native socket plugin supports UDP as well
+                this.RealtimePeer.SocketImplementationConfig[ConnectionProtocol.Udp] = websocketType;    // the native socket plugin supports UDP as well
             }
             #else
             // to support WebGL export in Unity, we find and assign the SocketWebTcp class (if it's in the project).
@@ -1197,7 +1200,7 @@ namespace Photon.Realtime
             }
 
             Uri uri = new Uri(protocolScheme + address);
-            string result = $"{uri.Scheme}://{uri.Host}:{port}{uri.AbsolutePath}";
+            string result = $"{uri.Scheme}://{uri.Host}:{port}{uri.AbsolutePath}".TrimEnd('/');
 
             if (this.AddressRewriter != null)
             {
@@ -1232,7 +1235,7 @@ namespace Photon.Realtime
 
 
         /// <summary>Creates a string useful to debug matchmaking. Includes a matchmaking hashcode ("MMH") and the lobby in use.</summary>
-        /// <remarks>The matchmaking hashcode is generated from: AppId, AppVersion, CloudRegion and CurrentCluster.</remarks>
+        /// <remarks>The matchmaking hashcode is generated from: AppId, AppVersion, CurrentRegion and CurrentCluster.</remarks>
         /// <param name="lobbyInArgs">TypedLobby set in the join/create options of an operation.</param>
         /// <returns>Compact debug string for matchmaking.</returns>
         string GetMatchmakingHash(TypedLobby lobbyInArgs)
@@ -1261,8 +1264,15 @@ namespace Photon.Realtime
         /// </summary>
         private void ReadoutProperties(PhotonHashtable gameProperties, PhotonHashtable actorProperties, int targetActorNr)
         {
+            if (this.CurrentRoom == null)
+            {
+                // can't read properties of players or room without a CurrentRoom
+                Log.Error("Reading properties requires a CurrentRoom.", this.LogLevel, this.LogPrefix);
+                return;
+            }
+
             // read game properties and cache them locally
-            if (this.CurrentRoom != null && gameProperties != null)
+            if (gameProperties != null)
             {
                 this.CurrentRoom.InternalCacheProperties(gameProperties);
                 if (this.InRoom)
@@ -1342,6 +1352,7 @@ namespace Photon.Realtime
             if (this.LocalPlayer == null)
             {
                 Log.Warn(string.Format("Local actor is null. CurrentRoom: {0} CurrentRoom.Players: {1} newID: {2}", this.CurrentRoom, this.CurrentRoom?.Players == null, newID), this.LogLevel, this.LogPrefix);
+                return;
             }
 
             if (this.CurrentRoom == null)
@@ -1503,7 +1514,7 @@ namespace Photon.Realtime
                     }
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("serverConnection", serverConnection, null);
+                    throw new ArgumentOutOfRangeException($"ServerConnection value unknown: {((int)serverConnection).ToString()}");
             }
             return false;
         }
@@ -1512,7 +1523,7 @@ namespace Photon.Realtime
         {
             if (!this.CheckIfOpAllowedOnServer(opCode, serverConnection))
             {
-                Log.Error(string.Format("Operation {0} ({1}) not allowed on current server ({2})", opName, opCode, serverConnection), this.LogLevel, this.LogPrefix);
+                Log.Error($"Operation {opName} ({opCode.ToString()}) not allowed on current server {serverConnection.ToString()})", this.LogLevel, this.LogPrefix);
                 return false;
             }
 
@@ -1520,17 +1531,18 @@ namespace Photon.Realtime
             {
                 if (opCode == OperationCode.RaiseEvent && (this.State == ClientState.Leaving || this.State == ClientState.Disconnecting || this.State == ClientState.DisconnectingFromGameServer))
                 {
-                    Log.Info(string.Format("Operation {0} ({1}) not called while leaving the room or game server. Client state: {2}", opName, opCode, Enum.GetName(typeof(ClientState), this.State)), this.LogLevel, this.LogPrefix);
+                    Log.Info($"Operation {opName} ({opCode.ToString()}) not called while leaving the room or game server. Client state: {this.State.ToString()}", this.LogLevel, this.LogPrefix);
                     return false;
                 }
 
-                Log.Error(string.Format("Operation {0} ({1}) not called because client is not connected or not ready yet. Client state: {2}", opName, opCode, Enum.GetName(typeof(ClientState), this.State)), this.LogLevel, this.LogPrefix);
+                // as alloc-free as it can be (also in unity):
+                Log.Error(string.Concat("Operation ", opName, " (", opCode.ToString(), ") not called because client is not connected or not ready yet. Client state: ", this.State.ToString()), this.LogLevel, this.LogPrefix);
                 return false;
             }
 
             if (this.RealtimePeer.PeerState != PeerStateValue.Connected)
             {
-                Log.Error(string.Format("Operation {0} ({1}) can't be sent because peer is not connected. Peer state: {2}", opName, opCode, this.RealtimePeer.PeerState), this.LogLevel, this.LogPrefix);
+                Log.Error($"Operation {opName} ({opCode.ToString()}) can't be sent because peer is not connected. Peer state: {this.RealtimePeer.PeerState.ToString()}", this.LogLevel, this.LogPrefix);
                 return false;
             }
             return true;
@@ -1545,7 +1557,7 @@ namespace Photon.Realtime
                 case OperationCode.Authenticate:
                 case OperationCode.AuthenticateOnce:
                     return this.IsConnectedAndReady ||
-                         this.State == ClientState.ConnectingToNameServer || // this is required since we do not set state to ConnectedToNameServer before authentication
+                        this.State == ClientState.ConnectingToNameServer || // this is required since we do not set state to ConnectedToNameServer before authentication
                         this.State == ClientState.ConnectingToMasterServer || // this is required since we do not set state to ConnectedToMasterServer before authentication
                         this.State == ClientState.ConnectingToGameServer; // this is required since we do not set state to ConnectedToGameServer before authentication
 
@@ -1579,7 +1591,7 @@ namespace Photon.Realtime
 
         #region Implementation of IPhotonPeerListener
 
-        /// <summary>Debug output handling for the PhotonPeer. Use RealtimePeer.LogLevel if you want to check if a message should get logged.</summary>
+        /// <summary>Debug output handling for the PhotonPeer. Use LogLevelPeer if you want to check if a message should get logged.</summary>
         /// <remarks>The RealtimePeer will internally check its log level before writing any messages, so likely this just logs anything that comes through.</remarks>
         public virtual void DebugReturn(LogLevel level, string message)
         {
@@ -1953,7 +1965,8 @@ namespace Photon.Realtime
                     break;
             }
 
-            if (this.OpResponseReceived != null) this.OpResponseReceived(operationResponse);
+            var opResponseReceived = this.OpResponseReceived;
+            opResponseReceived?.Invoke(operationResponse);
         }
 
         /// <summary>
@@ -2361,10 +2374,8 @@ namespace Photon.Realtime
             }
 
             this.UpdateCallbackTargets();
-            if (this.EventReceived != null)
-            {
-                this.EventReceived(photonEvent);
-            }
+            var eventReceived = this.EventReceived;
+            eventReceived?.Invoke(photonEvent);
         }
 
 
@@ -2372,10 +2383,8 @@ namespace Photon.Realtime
         public virtual void OnMessage(bool isRawMessage, object message)
         {
             this.UpdateCallbackTargets();
-            if (this.MessageReceived != null)
-            {
-                this.MessageReceived(isRawMessage, message);
-            }
+            var messageReceived = this.MessageReceived;
+            messageReceived?.Invoke(isRawMessage, message);
         }
 
 
@@ -2410,7 +2419,10 @@ namespace Photon.Realtime
                 return;
             }
 
-            this.CurrentRegion = regionHandler.BestRegion.Code;
+            if (regionHandler.BestRegion != null)
+            {
+                this.CurrentRegion = regionHandler.BestRegion.Code;
+            }
 
             if (State == ClientState.ConnectedToNameServer)
             {

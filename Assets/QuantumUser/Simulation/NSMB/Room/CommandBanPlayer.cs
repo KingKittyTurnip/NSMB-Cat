@@ -11,7 +11,7 @@ namespace Quantum {
 
         public unsafe void Execute(Frame f, PlayerRef sender, PlayerData* playerData) {
             if (f.Global->GameState != GameState.PreGameRoom
-                || !playerData->IsRoomHost 
+                || !playerData->IsRoomHost(f) 
                 || sender == Target 
                 || !f.PlayerIsConnected(Target)) {
                 // Can't ban
@@ -19,10 +19,8 @@ namespace Quantum {
             }
 
             RuntimePlayer targetPlayerData = f.GetPlayerData(Target);
-            f.ResolveList(f.Global->BannedPlayerIds).Add(new BannedPlayerInfo {
-                Nickname = targetPlayerData.PlayerNickname,
-                UserId = targetPlayerData.UserId,
-            });
+            f.ResolveList(f.Global->BannedPlayerIds).Add(new BannedPlayerInfo(targetPlayerData));
+
             f.Events.PlayerKickedFromRoom(Target, true);
             f.Signals.OnPlayerRemoved(Target);
         }

@@ -3,7 +3,7 @@ using Quantum.Collections;
 using Quantum.Physics2D;
 using Quantum.Profiling;
 using System;
-using UnityEditor.SceneManagement;
+using System.Runtime.CompilerServices;
 
 namespace Quantum {
 #if MULTITHREADED
@@ -188,8 +188,7 @@ namespace Quantum {
                 }
 
                 effectiveVelocity -= physicsObject->ParentVelocity;
-                physicsObject->Velocity.X = effectiveVelocity.X / velocityModifier.X;
-                physicsObject->Velocity.Y = effectiveVelocity.Y / velocityModifier.Y;
+                physicsObject->Velocity = effectiveVelocity;
 
                 HandleCeilingCrushers(f, ref filter, contacts);
 
@@ -229,9 +228,12 @@ namespace Quantum {
                 if (!physicsObject->WasTouchingGround && physicsObject->IsTouchingGround) {
                     f.Events.PhysicsObjectLanded(entity);
                 }
+
+                /* Moved to MovingPlatformSystem
                 if (!physicsObject->WasBeingCrushed && physicsObject->IsBeingCrushed) {
                     f.Signals.OnEntityCrushed(entity);
                 }
+                */
             }
         }
 
@@ -314,7 +316,12 @@ namespace Quantum {
                 adjustment.Y = 0; // Don't preserve vertical movement, it messes with jumps.
                 
                 physicsObject->Velocity += adjustment;
+                if (physicsObject->Velocity.Y < 0 && (maxVelocity?.Y ?? 0) == 0) {
+                    // Setting to 0 breaks ground snap
+                    physicsObject->Velocity.Y = physicsObject->Gravity.Y * f.DeltaTime;
+                }
             }
+
             physicsObject->ParentVelocity = maxVelocity ?? FPVector2.Zero;
         }
 
@@ -336,9 +343,7 @@ namespace Quantum {
             var physicsObject = filter.PhysicsObject;
 
             if (!physicsObject->DisableCollision) {
-                if (!contacts.HasValue) {
-                    contacts = f.ResolveList(physicsObject->Contacts);
-                }
+                contacts ??= f.ResolveList(physicsObject->Contacts);
 
                 var collider = filter.Collider;
                 var shape = &collider->Shape;
@@ -487,9 +492,9 @@ namespace Quantum {
                     }
 
                     // Get n-lowest contacts (within tolerance)
-                    InsertionSortByDistance(potentialContacts, potentialContactCount);
+                    InsertionSortByDistance(potentialContacts[..potentialContactCount]);
                     //QuickSortSpan(potentialContacts, 0, potentialContactCount - 1);
-                    FP tolerance = FP._0_01;
+                    FP tolerance = 0;
                     FP? min = null;
                     FPVector2 avgNormal = FPVector2.Zero;
                     int contactCount = 0;
@@ -508,6 +513,7 @@ namespace Quantum {
                         }
 
                         if (earlyContinue
+                            || (i > 0 && contact.Equals(potentialContacts[i - 1]))
                             || (min.HasValue && min.Value > 0 && contact.Distance - min.Value > tolerance)
                             || contact.Distance > FPMath.Abs(velocityY)
                             /* || removedContacts.Contains(contact) */
@@ -574,17 +580,15 @@ namespace Quantum {
                 hitObject = false;
                 return velocity;
             }
-            var physicsObject = filter.PhysicsObject;
-            if (!contacts.HasValue) {
-                contacts = f.ResolveList(physicsObject->Contacts);
-            }
 
+            var physicsObject = filter.PhysicsObject;
             var transform = filter.Transform;
 
             FPVector2 directionVector = velocityX > 0 ? FPVector2.Right : FPVector2.Left;
 
-
             if (!physicsObject->DisableCollision) {
+                contacts ??= f.ResolveList(physicsObject->Contacts);
+
                 var collider = filter.Collider;
                 var shape = &collider->Shape;
                 var boxShape = &shape->Box;
@@ -626,7 +630,7 @@ namespace Quantum {
                 }
 
                 physicsHits.SortCastDistance();
-                
+
                 position += shape->Centroid;
                 FP checkPointX = position.X + boxShape->Extents.X * (velocityX > 0 ? 1 : -1);
                 FPVector2 bottomWorldCheckPoint = new(checkPointX, position.Y - boxShape->Extents.Y);
@@ -650,7 +654,7 @@ namespace Quantum {
                     for (FP y = bottom; y <= top; y += FP._0_50) {
                         FPVector2 worldPos = new FPVector2(x + FP._0_25, y + FP._0_25);
                         StageTileInstance tile = stage.GetTileWorld(f, worldPos);
-                        
+
                         if (!tile.GetWorldPolygons(f, stage, vertexBuffer, shapeVertexCountBuffer, out StageTile stageTile, worldPos)) {
                             continue;
                         }
@@ -679,7 +683,9 @@ namespace Quantum {
 
                                 for (int i = 0; i < polygonContacts; i++) {
                                     PhysicsContact newContact = contactBuffer[i];
+                                    newContact.Frame = f.Number;
                                     newContact.Tile = tilePos;
+
                                     potentialContacts[potentialContactCount++] = newContact;
                                 }
                             }
@@ -732,9 +738,9 @@ namespace Quantum {
                     }
 
                     // Get n-lowest contacts (within tolerance)
-                    InsertionSortByDistance(potentialContacts, potentialContactCount);
+                    InsertionSortByDistance(potentialContacts[..potentialContactCount]);
                     //QuickSortSpan(potentialContacts, 0, potentialContactCount - 1);
-                    FP tolerance = FP._0_01;
+                    FP tolerance = 0;
                     FP? min = null;
                     FPVector2 avgNormal = FPVector2.Zero;
                     int contactCount = 0;
@@ -753,6 +759,7 @@ namespace Quantum {
                         }
                         
                         if (earlyContinue
+                            || (i > 0 && contact.Equals(potentialContacts[i - 1]))
                             || (min.HasValue && min.Value > 0 && contact.Distance - min.Value > tolerance)
                             || contact.Distance - Constants.PhysicsSkin > FPMath.Abs(velocityX) + Constants.PhysicsSkin
                             /* || removedContacts.Contains(contact) */
@@ -1050,20 +1057,27 @@ namespace Quantum {
                     continue;
                 }
 
-                bool valid = false;
+                FPVector2 checkDirection;
                 if ((length == 2 || !isPolygon) && (i == 0 || i == length - 1)) {
-                    /*
-                    if (i == 0) {
-                        valid = FPVector2.Dot(GetNormal(polygon[i], polygon[i + 1]), direction) < 0;
-                    } else {
-                        valid = FPVector2.Dot(GetNormal(polygon[i - 1], polygon[i]), direction) < 0;
+                    if (a.Y < point.Y || b.Y < point.Y) {
+                        // This biases semisolids to only work consistently when they're facing upwards.
+                        // TODO: fix so it works with any arbitrary directions
+                        continue;
                     }
-                    */
+
+                    if (i == 0) {
+                        checkDirection = GetNormal(point, polygon[i + 1]);
+                    } else {
+                        checkDirection = GetNormal(polygon[i - 1], point);
+                    }
                 } else {
-                    valid |= FPVector2.Dot(GetNormal(point, polygon[(i + 1) % polygon.Length]), direction) < 0;
-                    valid |= FPVector2.Dot(GetNormal(polygon[(i - 1 + polygon.Length) % polygon.Length], point), direction) < 0;
+                    checkDirection = GetAngleBisector(
+                        QuantumUtils.IndexModulo(polygon, i - 1),
+                        point,
+                        QuantumUtils.IndexModulo(polygon, i + 1));
                 }
 
+                bool valid = FPVector2.Dot(direction, checkDirection) < 0;
                 if (valid) {
                     contact.Normal *= -1; // Inverted normals
                     contactBuffer[count++] = contact;
@@ -1073,6 +1087,12 @@ namespace Quantum {
             return count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FPVector2 GetAngleBisector(FPVector2 a, FPVector2 b, FPVector2 c) {
+            return -((a - b).Normalized + (c - b).Normalized).Normalized;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static FPVector2 GetNormal(FPVector2 a, FPVector2 b) {
             FPVector2 diff = b - a;
             return new FPVector2(-diff.Y, diff.X);
@@ -1144,7 +1164,8 @@ namespace Quantum {
             return true;
         }
 
-        private static FPVector2 Project(FPVector2 a, FPVector2 b) {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static FPVector2 Project(FPVector2 a, FPVector2 b) {
             return b * (FPVector2.Dot(a, b) / b.Magnitude);
         }
 
@@ -1154,13 +1175,12 @@ namespace Quantum {
             FPVector2 boxMin = origin - extents;
             FPVector2 boxMax = origin + extents;
 
-            FPVector2[] boxCorners = {
-                new(origin.X - extents.X, origin.Y + extents.Y),
-                boxMax,
-                new(origin.X + extents.X, origin.Y - extents.Y),
-                boxMin,
-            };
-
+            Span<FPVector2> boxCorners = stackalloc FPVector2[4];
+            boxCorners[0] = new(boxMin.X, boxMax.Y);
+            boxCorners[1] = boxMax;
+            boxCorners[2] = new(boxMax.X, boxMin.Y);
+            boxCorners[3] = boxMin;
+            
             return PointIsInsidePolygon(testPosition, boxCorners);
         }
 
@@ -1379,10 +1399,14 @@ namespace Quantum {
             return result ^ IsCounterClockWise(polygon);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsCounterClockWise(Span<FPVector2> vertices) {
-            FPVector2 fPVector = new FPVector2(vertices[1].X - vertices[0].X, vertices[1].Y - vertices[0].Y);
-            FPVector2 fPVector2 = new FPVector2(vertices[2].X - vertices[1].X, vertices[2].Y - vertices[1].Y);
-            return fPVector.X * fPVector2.Y - fPVector.Y * fPVector2.X >= 0;
+            if (vertices.Length < 3) {
+                return false;
+            }
+
+            return (vertices[1].X - vertices[0].X) * (vertices[2].Y - vertices[1].Y) 
+                - (vertices[1].Y - vertices[0].Y) * (vertices[2].X - vertices[1].X) >= 0;
         }
 
         // ------------ https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm ------------ //
@@ -1476,11 +1500,11 @@ namespace Quantum {
             return accept;
         }
 
-        private static void InsertionSortByDistance(Span<PhysicsContact> span, int count) {
-            for (int i = 1; i < count; i++) {
+        private static void InsertionSortByDistance(Span<PhysicsContact> span) {
+            for (int i = 1; i < span.Length; i++) {
                 var key = span[i];
                 int j = i - 1;
-                while (j >= 0 && span[j].Distance.RawValue > key.Distance.RawValue) {
+                while (j >= 0 && span[j].Distance > key.Distance) {
                     span[j + 1] = span[j];
                     j--;
                 }
@@ -1488,6 +1512,7 @@ namespace Quantum {
             }
         }
 
+        /*
         private static void QuickSortSpan(Span<PhysicsContact> span, int lo, int hi) {
             if (lo >= hi) {
                 return;
@@ -1512,6 +1537,7 @@ namespace Quantum {
             QuickSortSpan(span, lo, num2 - 1);
             QuickSortSpan(span, num2 + 1, hi);
         }
+        */
 
         public void OnEntityEnterExitLiquid(Frame f, EntityRef entity, EntityRef liquid, QBoolean underwater, QBoolean gravinversed) {
             if (!f.Unsafe.TryGetPointer(entity, out PhysicsObject* physicsObject)) {

@@ -411,10 +411,8 @@ MonoBehaviour:
     DisableCollision:
       Value: 0
     SlowInLiquids:
-      Value: 1
-    IsWaterSolid:
       Value: 0
-    BreakMegaObjects:
+    IsWaterSolid:
       Value: 0
     WindImmune:
       Value: 0

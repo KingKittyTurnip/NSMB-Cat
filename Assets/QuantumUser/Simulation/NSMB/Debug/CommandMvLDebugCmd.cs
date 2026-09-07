@@ -20,7 +20,8 @@ namespace Quantum {
             SpawnEntity,
             KillSelf,
             FreezeSelf,
-            TransformInto,
+            KnockbackSelf,
+            TransformInto,//what was this for
         }
     }
 }

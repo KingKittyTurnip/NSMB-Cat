@@ -78,7 +78,7 @@ namespace Photon.Realtime
         /// <summary>Client connects to the NameServer. This process includes low level connecting and setting up encryption. When done, state becomes ConnectedToNameServer.</summary>
         ConnectingToNameServer,
 
-        /// <summary>Client is connected to the NameServer and established encryption already. You should call OpGetRegions or ConnectToRegionMaster.</summary>
+        /// <summary>Client is connected to the NameServer and established encryption already. You should call OpGetRegions.</summary>
         ConnectedToNameServer,
 
         /// <summary>Clients disconnects (specifically) from the NameServer (usually to connect to the MasterServer).</summary>
@@ -195,7 +195,7 @@ namespace Photon.Realtime
         /// <remarks>
         /// Without calling Service (or SendOutgoingCommands and DispatchIncomingCommands), the network connection does not process
         /// messages and events. This can happen if apps are in the background or the main loop is paused (due to loading assets, etc).
-        /// 
+        ///
         /// ConnectionHandler.KeepAliveInBackground defines how long the connection is kept alive without calls to Service.
         /// Closing such connections prevents clients from staying connected "forever" without actually processing network updates
         /// (which would waste CCUs and connections).
@@ -272,6 +272,7 @@ namespace Photon.Realtime
 
 
     /// <summary>Used in the RoomOptionFlags parameter, this bitmask toggles options in the room.</summary>
+    [Flags]
     internal enum RoomOptionBit : int
     {
         CheckUserOnJoin = 0x01,           // toggles a check of the UserId when joining (enabling returning to a game)
@@ -567,9 +568,9 @@ namespace Photon.Realtime
         /// <summary>(223) Sent by Photon to update a token before it times out.</summary>
         public const byte AuthEvent = 223;
 
-        /// <summary>(229) Used with some first party plugins (e.g. Matchmaking Tickets and Voice Interest Management).</summary>
+        /// <summary>(220) Used with some first party plugins (e.g. Matchmaking Tickets and Voice Interest Management).</summary>
         /// <remarks>The content of a CommandEvent is of type object[] and the first entry in it a byte naming the use. Refer to CommandEventSubcode.</remarks>
-        public static byte CommandEvent = 220;
+        public const byte CommandEvent = 220;
     }
 
 
@@ -732,16 +733,16 @@ namespace Photon.Realtime
         /// <summary>(210) Used for region values in OpAuth and OpGetRegions.</summary>
         public const byte Region = (byte)210;
 
-        /// <summary>(209) Path of the WebRPC that got called. Also known as "WebRpc Name". Type: string.</summary>
+        /// <summary>Obsolete (WebRPC removed in v5). (209) Path of the WebRPC that got called. Also known as "WebRpc Name". Type: string.</summary>
         public const byte UriPath = 209;
 
-        /// <summary>(208) Parameters for a WebRPC as: Dictionary&lt;string, object&gt;. This will get serialized to JSon.</summary>
+        /// <summary>Obsolete (WebRPC removed in v5). (208) Parameters for a WebRPC as: Dictionary&lt;string, object&gt;. This will get serialized to JSon.</summary>
         public const byte WebRpcParameters = 208;
 
-        /// <summary>(207) ReturnCode for the WebRPC, as sent by the web service (not by Photon, which uses ErrorCode). Type: byte.</summary>
+        /// <summary>Obsolete (WebRPC removed in v5). (207) ReturnCode for the WebRPC, as sent by the web service (not by Photon, which uses ErrorCode). Type: byte.</summary>
         public const byte WebRpcReturnCode = 207;
 
-        /// <summary>(206) Message returned by WebRPC server. Analog to Photon's debug message. Type: string.</summary>
+        /// <summary>Obsolete (WebRPC removed in v5). (206) Message returned by WebRPC server. Analog to Photon's debug message. Type: string.</summary>
         public const byte WebRpcReturnMessage = 206;
 
         /// <summary>(205) Used to define a "slice" for cached events. Slices can easily be removed from cache. Type: int.</summary>
@@ -788,7 +789,7 @@ namespace Photon.Realtime
         /// <summary>(189) With this value in a Ticket, the server can define a party / group for matchmaking. Groups will be matched into the same game (as soon as one was found).</summary>
         /// <remarks>This is defined in tickets and not sent by the clients. Here for completeness.</remarks>
         public const byte MatchmakingGroupId = 189;
-        
+
         /// <summary>(188) Parameter key to let the server know it may queue the client in low-ccu matchmaking situations.</summary>
         public const byte AllowRepeats = 188;
     }

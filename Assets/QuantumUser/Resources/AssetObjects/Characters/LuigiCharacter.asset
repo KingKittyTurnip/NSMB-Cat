@@ -108,7 +108,9 @@ MonoBehaviour:
     PlayGlobally: 0
     AudioClips:
     - {fileID: 8300000, guid: 7ee560e475c08294689e5e364ddb843c, type: 3}
-  PropellerblockTexture: {fileID: 2800000, guid: 35bdb4e3b26cacf44b9c664816d9158c,
-    type: 3}
-  BillblockTexture: {fileID: 2800000, guid: c44d4ebccab1dc74593e3a8ac0a1ceec, type: 3}
-  CannonboxTexture: {fileID: 2800000, guid: 8ee3143e14382cb429e49f08119e1a91, type: 3}
+  - SoundEffect: 120
+    Mode: 0
+    Priority: 1
+    PlayGlobally: 0
+    AudioClips:
+    - {fileID: 8300000, guid: 38c85634a5e84b349a693e6a90106354, type: 3}

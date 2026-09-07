@@ -1,4 +1,3 @@
-using NSMB.Utilities.Extensions;
 using System;
 using TMPro;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace NSMB.UI.Game.Replay {
             } else {
                 EnableLayers(mask);
             }
-            GlobalController.Instance.sfx.PlayOneShot(SoundEffect.UI_Decide);
+            GlobalController.Instance.PlaySound(SoundEffect.UI_Decide);
             ApplyColor(index);
         }
 

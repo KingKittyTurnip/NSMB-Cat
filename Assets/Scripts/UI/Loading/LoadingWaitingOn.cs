@@ -1,5 +1,4 @@
 using NSMB.UI.Translation;
-using NSMB.Utilities;
 using NSMB.Utilities.Extensions;
 using Quantum;
 using System;
@@ -19,6 +18,7 @@ namespace NSMB.UI.Loading {
         //---Private Variables
         private GameObject playerListParent;
         private LoadingState currentLoadingState = LoadingState.None;
+        private StringBuilder loadingListBuilder = new();
 
         public void OnValidate() {
             this.SetIfNull(ref statusText);
@@ -70,7 +70,7 @@ namespace NSMB.UI.Loading {
                 int secondsUntilKick = (int) Mathf.Max(0, (f.Global->PlayerLoadFrames * f.DeltaTime).AsFloat);
                 statusText.text = secondsUntilKick <= 10 ? secondsUntilKick.ToString() : tm.GetTranslation("ui.loading.waiting");
 
-                StringBuilder loadingListBuilder = new();
+                loadingListBuilder.Clear();
                 foreach ((_, var otherPlayerData) in f.Unsafe.GetComponentBlockIterator<PlayerData>()) {
                     if (otherPlayerData->IsLoaded) {
                         continue;
@@ -84,7 +84,7 @@ namespace NSMB.UI.Loading {
                     loadingListBuilder.AppendLine(runtimePlayer.PlayerNickname.ToValidNickname(f, otherPlayerData->PlayerRef));
                 }
                 playerListParent.SetActive(true);
-                playerList.text = loadingListBuilder.ToString();
+                playerList.SetText(loadingListBuilder);
             }
         }
 

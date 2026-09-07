@@ -1,10 +1,9 @@
+using JimmysUnityUtilities;
 using NSMB.Replay;
 using NSMB.UI.Translation;
-using NSMB.Utilities;
 using NSMB.Utilities.Extensions;
 using SFB;
 using System;
-using System.Collections;
 using System.IO;
 using TMPro;
 using Unity.Profiling;
@@ -22,8 +21,8 @@ namespace NSMB.UI.MainMenu.Submenus.Replays {
 
         //---Properties
         public BinaryReplayFile ReplayFile { get; private set; }
-        public bool IsTemporary => ReplayFile.FilePath.StartsWith(Path.Combine(ReplayListManager.ReplayDirectory, "temp"));
-        public bool IsFavorited => ReplayFile.FilePath.StartsWith(Path.Combine(ReplayListManager.ReplayDirectory, "favorite"));
+        public bool IsTemporary => string.IsNullOrEmpty(ReplayFile.FilePath) || FileInFolder(ReplayListManager.TempDirectory, ReplayFile.FilePath);
+        public bool IsFavorited => !string.IsNullOrEmpty(ReplayFile.FilePath) && FileInFolder(ReplayListManager.FavoriteDirectory, ReplayFile.FilePath);
         private bool Selected => manager.Selected == this;
         public bool IsOpen { get; private set; }
 
@@ -37,7 +36,7 @@ namespace NSMB.UI.MainMenu.Submenus.Replays {
         [SerializeField] private RectTransform dropDownRectTransform;
         [SerializeField] private Color criticalColor, warningColor, favoriteColor;
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] public Button button;
+        [SerializeField] public Button button, exportButton;
         [SerializeField] private Button[] compatibleButtons;
 
         //---Private Variables
@@ -58,29 +57,6 @@ namespace NSMB.UI.MainMenu.Submenus.Replays {
         public void OnDisable() {
             TranslationManager.OnLanguageChanged -= OnLanguageChanged;
         }
-
-        /*
-        public void Update() {
-            UpdateVisibility();
-        }
-
-        private static readonly Vector3[] corners = new Vector3[4];
-        public void UpdateVisibility(Rect parentRect) {
-            if (mainPanel.activeSelf) {
-                return;
-            }
-
-            RectTransform ourRectTransform = ((RectTransform) transform);
-            ourRectTransform.GetWorldCorners(corners);
-            Vector3 topLeft = corners[1];
-            Rect ourRect = new Rect(topLeft, ourRectTransform.rect.size);
-
-            if (parentRect.Overlaps(ourRect)) {
-                mainPanel.SetActive(true);
-                buttonPanel.SetActive(true);
-            }
-        }
-        */
 
         public void UpdateNavigation(ReplayListEntry previous) {
             if (previous) {
@@ -115,6 +91,7 @@ namespace NSMB.UI.MainMenu.Submenus.Replays {
             IsOpen = false;
         }
 
+        [Preserve]
         public void OnClick() {
             manager.Select(this, true);
         }
@@ -159,21 +136,19 @@ namespace NSMB.UI.MainMenu.Submenus.Replays {
         }
         */
 
+        [Preserve]
         public void OnFavoriteClicked() {
-            string destination = ReplayListManager.ReplayDirectory;
-            string path = ReplayFile.FilePath[destination.Length..];
-            int nextSlash = path.IndexOf(Path.DirectorySeparatorChar, 1);
-            if (nextSlash != -1) {
-                path = path[(nextSlash + 1)..];
-            }
-
+            string newFolder;
             if (IsTemporary || IsFavorited) {
                 // Save / Unfavorite
-                destination = Path.Combine(destination, "saved", path);
+                newFolder = ReplayListManager.SavedDirectory;
             } else {
                 // Favorite
-                destination = Path.Combine(destination, "favorite", path);
+                newFolder = ReplayListManager.FavoriteDirectory;
             }
+
+            string filename = Path.GetFileName(ReplayFile.FilePath);
+            string destination = Path.Combine(newFolder, filename);
 
             File.Move(ReplayFile.FilePath, destination);
             ReplayFile.FilePath = destination;
@@ -181,71 +156,85 @@ namespace NSMB.UI.MainMenu.Submenus.Replays {
             canvas.PlayConfirmSound();
         }
 
+        [Preserve]
         public void OnWatchClick() {
             ActiveReplayManager.Instance.StartReplayPlayback(ReplayFile);
         }
 
+        [Preserve]
         public void OnRenameClick() {
             manager.StartRename(this);
         }
 
+        [Preserve]
         public void OnExportClick() {
 #if UNITY_WEBGL && !UNITY_EDITOR
+            static void FileDownloadedCallback() {
+                // Cool... I don't care.
+            }
+
             if (ReplayFile.LoadAllIfNeeded() == ReplayParseResult.Success) {
                 using MemoryStream stream = new((int) ReplayFile.FileSize);
                 long replaySize = ReplayFile.WriteToStream(stream);
-                DownloadFile(name, nameof(FileDownloadedCallback), ReplayFile.Header.GetDisplayName() + ".mvlreplay", stream.ToArray(), (int) replaySize);
+                DownloadFile(name, nameof(FileDownloadedCallback), $"{ReplayFile.Header.GetDisplayName()}.{ReplayListManager.ReplayFileExtension}", stream.ToArray(), (int) replaySize);
             }
 #else
+            string validDisplayName = ReplayFile.Header.GetDisplayName().ReplaceAny(Path.GetInvalidFileNameChars(), '-');
+
             TranslationManager tm = GlobalController.Instance.translationManager;
-            StandaloneFileBrowser.SaveFilePanelAsync(tm.GetTranslation("ui.extras.replays.actions.export.prompt"), null, ReplayFile.Header.GetDisplayName(), "mvlreplay", (file) => {
+            StandaloneFileBrowser.SaveFilePanelAsync(tm.GetTranslation("ui.extras.replays.actions.export.prompt"), null, validDisplayName, ReplayListManager.ReplayFileExtension, (file) => {
                 if (string.IsNullOrWhiteSpace(file)) {
                     return;
                 }
 
-                if (ReplayFile.LoadAllIfNeeded() == ReplayParseResult.Success) {
+                if (!string.IsNullOrEmpty(ReplayFile.FilePath) && File.Exists(ReplayFile.FilePath)) {
+                    // File exists on the hard drive, just copy to the destination.
+                    File.Copy(ReplayFile.FilePath, file);
+                } else if (ReplayFile.Header.IsCompatible && ReplayFile.LoadAllIfNeeded() == ReplayParseResult.Success) {
+                    // Write using export stream
                     using FileStream stream = new(file, FileMode.OpenOrCreate);
                     ReplayFile.WriteToStream(stream);
+                } else {
+                    // Incompatible and doesn't exist on drive anymore, nothing we can really do.
+                    canvas.PlaySound(SoundEffect.UI_Error);
                 }
             });
 #endif
         }
 
-        [Preserve]        
-        private void FileDownloadedCallback() {
-
-        }
-
+        [Preserve]
         public void OnDeleteClick() {
             manager.StartDeletion(this);
         }
 
-        static ProfilerMarker x = new("UpdateText");
+        private static ProfilerMarker profilerMarker = new("UpdateText");
         public void UpdateText() {
             if (ReplayFile == null) {
                 return;
             }
 
-            x.Begin(gameObject);
+            profilerMarker.Begin(gameObject);
 
             TranslationManager tm = GlobalController.Instance.translationManager;
             BinaryReplayHeader header = ReplayFile.Header;
 
             nameText.SetTextIfDifferent(header.GetDisplayName());
-            dateText.SetTextIfDifferent(ReplayListManager.DateTimeToLocalizedString(DateTime.UnixEpoch.AddSeconds(header.UnixTimestamp), false, false));
+            dateText.SetTextIfDifferent(tm.DateTimeToLocalizedString(DateTime.UnixEpoch.AddSeconds(header.UnixTimestamp), false, false));
 
             bool rtl = tm.RightToLeft;
             warningText.SetHorizontalAlignmentIfDifferent(rtl ? HorizontalAlignmentOptions.Left : HorizontalAlignmentOptions.Right);
             dateText.SetHorizontalAlignmentIfDifferent(rtl ? HorizontalAlignmentOptions.Right : HorizontalAlignmentOptions.Left);
             nameText.SetHorizontalAlignmentIfDifferent(rtl ? HorizontalAlignmentOptions.Right : HorizontalAlignmentOptions.Left);
 
+            foreach (var button in compatibleButtons) {
+                button.interactable = header.IsCompatible;
+            }
+            exportButton.interactable = header.IsCompatible || (!string.IsNullOrEmpty(ReplayFile.FilePath) && File.Exists(ReplayFile.FilePath));
+
             string finalWarningText;
             if (!header.IsCompatible) {
                 finalWarningText = tm.GetTranslationWithReplacements("ui.extras.replays.incompatible", "version", header.Version.ToStringIgnoreHotfix() + ".X");
                 warningText.color = criticalColor;
-                foreach (var button in compatibleButtons) {
-                    button.interactable = false;
-                }
             } else if (IsTemporary) {
                 /*
                 int? deletion = manager.GetReplaysUntilDeletion(this);
@@ -285,11 +274,16 @@ namespace NSMB.UI.MainMenu.Submenus.Replays {
             }
             favoriteButtonText.SetTextIfDifferent(finalFavoriteButtonText);
 
-            x.End();
+            profilerMarker.End();
         }
 
         private void OnLanguageChanged(TranslationManager tm) {
             UpdateText();
+        }
+
+        private static bool FileInFolder(string folderPath, string filePath) {
+            return !Path.GetRelativePath(Path.GetFullPath(folderPath), Path.GetFullPath(filePath))
+                .StartsWith(".." + Path.DirectorySeparatorChar);
         }
     }
 }

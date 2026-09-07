@@ -123,23 +123,27 @@ namespace NSMB.UI.Game.Results {
 
             // Initialize results screen by player star counts
             int initializeCount = 0;
-            List<PlayerInformation> infos = new();
+            List<(int, PlayerInformation)> infos = new();
             for (int i = 0; i < f.Global->RealPlayers; i++) {
-                infos.Add(f.Global->PlayerInfo[i]);
+                infos.Add((i, f.Global->PlayerInfo[i]));
             }
             infos.Sort((x, y) => {
-                int objectiveDiff = gamemode.GetObjectiveCount(f, y.PlayerRef) - gamemode.GetObjectiveCount(f, x.PlayerRef);
+                var xInfo = x.Item2;
+                var yInfo = y.Item2;
+
+                int objectiveDiff = gamemode.GetObjectiveCount(f, yInfo.PlayerRef) - gamemode.GetObjectiveCount(f, xInfo.PlayerRef);
                 if (objectiveDiff != 0) {
                     return objectiveDiff;
                 }
 
-                int xRank = teamRankings != null ? teamRankings[x.Team] : Constants.MaxPlayers;
-                int yRank = teamRankings != null ? teamRankings[y.Team] : Constants.MaxPlayers;
+                int xRank = teamRankings != null ? teamRankings[xInfo.Team] : Constants.MaxPlayers;
+                int yRank = teamRankings != null ? teamRankings[yInfo.Team] : Constants.MaxPlayers;
                 return xRank - yRank;
             });
-            foreach (var info in infos) {
+
+            foreach ((var index, var info) in infos) {
                 int rank = teamRankings != null ? teamRankings[info.Team] : Constants.MaxPlayers;
-                entries[initializeCount].Initialize(f, gamemode, info, rank, (initializeCount * delayPerEntry) + additionalDelay, gamemode.GetObjectiveCount(f, info.PlayerRef));
+                entries[initializeCount].Initialize(f, gamemode, index, rank, (initializeCount * delayPerEntry) + additionalDelay, gamemode.GetObjectiveCount(f, info.PlayerRef));
                 initializeCount++;
             }
 

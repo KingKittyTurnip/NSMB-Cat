@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Debug = UnityEngine.Debug;
 
 namespace NSMB.UI.Translation {
@@ -15,13 +17,13 @@ namespace NSMB.UI.Translation {
 
         //---Properties
         public string CurrentLocale { get; private set; }
-        public bool RightToLeft => GetTranslation("rtl").Equals("true", StringComparison.InvariantCultureIgnoreCase);
+        public bool RightToLeft => IsLocaleRTL(CurrentLocale);
 
         //---Serialized Variables
         [SerializeField] private string fallbackLocale = "en-us";
 
         //---Private Variables
-        private readonly Dictionary<string, List<ITranslationSource>> allTranslations = new();
+        private readonly Dictionary<string, List<ITranslationSource>> allTranslations = new(StringComparer.InvariantCultureIgnoreCase);
         private bool initialized;
 
         public void Start() {
@@ -38,18 +40,29 @@ namespace NSMB.UI.Translation {
             initialized = true;
         }
 
+        public void Update() {
+            if (Keyboard.current[Key.F5].wasPressedThisFrame) {
+                Reload();
+                GlobalController.Instance.PlaySound(SoundEffect.Player_Sound_PowerupCollect);
+            }
+        }
+
         public string GetTranslation(string key) {
-            _ = TryGetTranslation(key, out var result);
+            return GetTranslation(key, fixRtl: true);
+        }
+
+        public string GetTranslation(string key, bool fixRtl) {
+            _ = TryGetTranslation(key, out var result, fixRtl);
             return result;
         }
 
-        public bool TryGetTranslation(string key, out string result) {
+        public bool TryGetTranslation(string key, out string result, bool fixRtl = true) {
             Initialize();
 
-            if (TryGetTranslationForLocale(CurrentLocale, key, out result)) {
+            if (TryGetTranslationForLocale(CurrentLocale, key, out result, fixRtl)) {
                 return true;
             }
-            if (TryGetTranslationForLocale(fallbackLocale, key, out result)) {
+            if (TryGetTranslationForLocale(fallbackLocale, key, out result, fixRtl)) {
                 return true;
             }
             // Default to returning the key.
@@ -88,19 +101,24 @@ namespace NSMB.UI.Translation {
         public void Reload() {
             Initialize();
 
-            foreach (var source in allTranslations[CurrentLocale]) {
-                try {
-                    source.Reload();
-                } catch {
-                    // Something happened to this source.
-                    // It's old state still should be loaded, so it's ok...
+            foreach ((var locale, var sourceList) in allTranslations) {
+                foreach (var source in sourceList) {
+                    try {
+                        source.Reload();
+                    } catch (Exception e) {
+                        // Something happened to this source.
+                        // It's old state still should be loaded, so it's ok...
+                        // ...maybe
+                        Debug.LogWarning($"[Translation] Failed to reload translation source for locale '{locale}': {source} (priority {source.Priority})");
+                        Debug.LogWarning(e);
+                    }
                 }
             }
         }
 
         public void RegisterTranslationSource(string locale, ITranslationSource source) {
             if (!allTranslations.TryGetValue(locale, out var sourceList)) {
-                sourceList = new();
+                allTranslations[locale] = sourceList = new();
             }
 
             if (sourceList.Contains(source)) {
@@ -109,18 +127,27 @@ namespace NSMB.UI.Translation {
 
             sourceList.Add(source);
             sourceList.Sort();
-            allTranslations[locale] = sourceList;
         }
 
-        public bool TryGetTranslationForLocale(string locale, string key, out string result) {
+        public bool UnregisterTranslationSource(string locale, ITranslationSource source) {
+            if (!allTranslations.TryGetValue(locale, out var sourceList)) {
+                return false;
+            }
+
+            return sourceList.Remove(source);
+        }
+
+        public bool TryGetTranslationForLocale(string locale, string key, out string result, bool fixRtl = true) {
             key ??= "null";
             key = key.ToLowerInvariant();
 
             if (allTranslations.TryGetValue(locale, out var sources)) {
                 for (int i = sources.Count - 1; i >= 0; i--) {
-                    // No foreach, we want backwards iteration- later loaded sources have priority.
-                    var source = sources[i];
-                    if (source.TryGetTranslation(key, out result)) {
+                    // No foreach, we want backwards iteration- list is ascending sorted by priority.
+                    if (sources[i].TryGetTranslation(key, out result)) {
+                        if (IsLocaleRTL(locale) && fixRtl) {
+                            result = ArabicFixerTool.FixLine(result);
+                        }
                         return true;
                     }
                 }
@@ -131,8 +158,44 @@ namespace NSMB.UI.Translation {
             return false;
         }
 
+        public bool IsLocaleRTL(string locale) {
+            if (!allTranslations.TryGetValue(locale, out var sources)) {
+                // Default to LTR
+                return false;
+            }
+
+            // Highest priority source is trusted
+            return sources[^1].IsRTL;
+        }
+
         public ICollection<string> GetAllLocales() {
             return allTranslations.Keys;
+        }
+
+        public string DateTimeToLocalizedString(DateTime dt, bool shortDisplay, bool dateOnly) {
+            dt = dt.ToLocalTime();
+            try {
+                CultureInfo culture = new(CurrentLocale);
+                if (dateOnly) {
+                    if (shortDisplay) {
+                        return dt.ToString(culture.DateTimeFormat.ShortDatePattern);
+                    } else {
+                        return dt.ToString(culture.DateTimeFormat.LongDatePattern);
+                    }
+                } else {
+                    return dt.ToString(culture.DateTimeFormat);
+                }
+            } catch (CultureNotFoundException) {
+                if (dateOnly) {
+                    if (shortDisplay) {
+                        return dt.ToLocalTime().ToShortDateString();
+                    } else {
+                        return dt.ToLocalTime().ToLongDateString();
+                    }
+                } else {
+                    return dt.ToLocalTime().ToString();
+                }
+            }
         }
 
         private void RegisterBuiltinLocales() {
@@ -145,7 +208,7 @@ namespace NSMB.UI.Translation {
                     source.Priority = -1;
                     RegisterTranslationSource(locale, source);
                 } catch (Exception e) {
-                    Debug.LogWarning($"[Translation] Failed to load translatoin from TextAsset {textAsset.name}. Is it malformed?");
+                    Debug.LogWarning($"[Translation] Failed to load translation from TextAsset {textAsset.name}. Is it malformed?");
                     Debug.LogWarning(e);
                 }
             }

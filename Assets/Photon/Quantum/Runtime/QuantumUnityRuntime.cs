@@ -509,6 +509,7 @@ namespace Quantum {
     IPrototype Convert(QuantumEntityPrototypeConverter converter);
   }
 
+  [Serializable]
   public abstract class QuantumUnityPrototypeAdapter<PrototypeType> 
 #if QUANTUM_ENABLE_MIGRATION
 #pragma warning disable CS0618
@@ -641,6 +642,11 @@ namespace Quantum {
   public abstract partial class QuantumCallback : QuantumUnityStaticDispatcherAdapter<QuantumUnityCallbackDispatcher, CallbackBase> {
     private QuantumCallback() {
       throw new NotSupportedException();
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() {
+      Clear();
     }
 
     [RuntimeInitializeOnLoadMethod]
@@ -1458,7 +1464,7 @@ namespace Quantum {
       }
     }
 
-    static Lazy<GetAddressableScenesResult>                 _addressableScenesTask = new(() => GetAddressableScenes());
+    static readonly Lazy<GetAddressableScenesResult>        _addressableScenesTask = new(() => GetAddressableScenes());
     Dictionary<string, AsyncOperationHandle<SceneInstance>> _addressableOperations = new();
 #endif
   }
@@ -1583,6 +1589,7 @@ namespace Quantum {
 
 namespace Quantum {
   using System;
+  using UnityEngine;
 
   /// <summary>
   /// Events are a fire-and-forget mechanism to transfer information from the simulation to the view.
@@ -1598,6 +1605,11 @@ namespace Quantum {
   public abstract class QuantumEvent : QuantumUnityStaticDispatcherAdapter<QuantumUnityEventDispatcher, EventBase> {
     private QuantumEvent() {
       throw new NotSupportedException();
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() {
+      Clear();
     }
   }
 
@@ -1618,13 +1630,15 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Runtime/Dispatcher/QuantumUnityStaticDispatcherAdapter.cs
 
 namespace Quantum {
-  using System;
   using Photon.Analyzer;
   using Photon.Deterministic;
+  using System;
+  using System.Diagnostics.CodeAnalysis;
   using UnityEngine;
   using Object = UnityEngine.Object;
   
   internal sealed class QuantumUnityStaticDispatcherAdapterWorker : QuantumMonoBehaviour {
+    [NonSerialized]
     public DispatcherBase Dispatcher;
 
     private void LateUpdate() {
@@ -1648,6 +1662,7 @@ namespace Quantum {
     
     [StaticField]
     // ReSharper disable once StaticMemberInGenericType
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Is reset during QuantumCallback.ResetStatics()")]
     private static QuantumUnityStaticDispatcherAdapterWorker _worker;
 
     /// <summary>
@@ -2505,7 +2520,7 @@ namespace Quantum {
     /// </summary>
     public virtual void OnEnable() {
       if (Updater == null && UseFindUpdater) {
-        Updater = FindFirstObjectByType<QuantumEntityViewUpdater>();
+        Updater = FindAnyObjectByType<QuantumEntityViewUpdater>();
       }
 
       if (Updater != null) {
@@ -3673,6 +3688,7 @@ namespace Quantum {
     /// Invalidates the navmesh gizmos.
     /// </summary>
     [StaticFieldResetMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     public static void InvalidateGizmos() {
       _navmeshGizmoMap?.Clear();
       _meshGizmoData.Clear();
@@ -4240,9 +4256,9 @@ namespace Quantum {
 
 namespace Quantum {
 #if UNITY_EDITOR
+  using Photon.Deterministic;
   using System;
   using System.Collections.Generic;
-  using Photon.Deterministic;
   using UnityEditor;
   using UnityEngine;
 
@@ -4259,7 +4275,7 @@ namespace Quantum {
 
       FPMathUtils.LoadLookupTables();
 
-      var map = behaviour.GetAsset(false);
+      var map = behaviour.GetAsset(forEditor: true);
       if (!map) {
         return;
       }
@@ -4270,7 +4286,10 @@ namespace Quantum {
 
       foreach (var navmeshLink in map.NavMeshLinks) {
         if (navmeshLink.IsValid) {
-          navmeshList.Add(QuantumUnityDB.GetGlobalAsset(navmeshLink));
+          var navmesh = QuantumUnityDB.GetGlobalAsset(navmeshLink);
+          if (navmesh != null) {
+            navmeshList.Add(navmesh);
+          }
         }
       }
 
@@ -6298,142 +6317,142 @@ namespace Quantum {
     /// <summary>
     /// Black Gizmo color. RGBA: (0, 0, 0, 1)
     /// </summary>
-    public static Color Black = Color.black;
+    public static Color Black => Color.black;
 
     /// <summary>
     /// Yellow Gizmo color. RGBA: (1, 0.92, 0.016, 1)
     /// </summary>
-    public static Color Yellow = Color.yellow;
+    public static Color Yellow => Color.yellow;
 
     /// <summary>
     /// Magenta Gizmo color. RGBA: (1, 0, 1, 1)
     /// </summary>
-    public static Color Magenta = Color.magenta;
+    public static Color Magenta => Color.magenta;
 
     /// <summary>
     /// Blue Gizmo color. RGBA: (0, 0, 1, 1)
     /// </summary>
-    public static Color Blue = Color.blue;
+    public static Color Blue => Color.blue;
 
     /// <summary>
     /// Green Gizmo color. RGBA: (0, 1, 0, 1)
     /// </summary>
-    public static Color Green = Color.green;
+    public static Color Green => Color.green;
     
     /// <summary>
     /// White Gizmo color. RGBA: (1, 1, 1, 1)
     /// </summary>
-    public static Color White = Color.white;
+    public static Color White => Color.white;
     
     /// <summary>
     /// Red Gizmo color. RGBA: (1, 0, 0, 1)
     /// </summary>
-    public static Color Red = Color.red;
+    public static Color Red => Color.red;
     
     /// <summary>
     /// Cyan Gizmo color. RGBA: (0, 1, 1, 1)
     /// </summary>
-    public static Color Cyan = Color.cyan;
+    public static Color Cyan => Color.cyan;
     
     /// <summary>
     /// Gray Gizmo color. RGBA: (0.5, 0.5, 0.5, 1)
     /// </summary>
-    public static Color Gray = Color.gray;
+    public static Color Gray => Color.gray;
 
     /// <summary>
     /// Light Green Gizmo color. RGBA: (0.4, 1, 0.7, 1)
     /// </summary>
-    public static Color LightGreen = new Color(0.4f, 1.0f, 0.7f);
+    public static Color LightGreen => new Color(0.4f, 1.0f, 0.7f);
     
     /// <summary>
     /// Lime Green Gizmo color. RGBA: (0.4925605, 0.9176471, 0.5050631, 1)
     /// </summary>
-    public static Color LimeGreen = new Color(0.4925605f, 0.9176471f, 0.5050631f);
+    public static Color LimeGreen => new Color(0.4925605f, 0.9176471f, 0.5050631f);
     
     /// <summary>
     /// Light Blue Gizmo color. RGBA: (0, 0.75, 1, 1)
     /// </summary>
-    public static Color LightBlue = new Color(0.0f, 0.75f, 1.0f);
+    public static Color LightBlue => new Color(0.0f, 0.75f, 1.0f);
     
     /// <summary>
     /// Sky Blue Gizmo color. RGBA: (0.4705882, 0.7371198, 1, 1)
     /// </summary>
-    public static Color SkyBlue = new Color(0.4705882f, 0.7371198f, 1.0f);
+    public static Color SkyBlue => new Color(0.4705882f, 0.7371198f, 1.0f);
     
     /// <summary>
     /// Maroon Gizmo color. RGBA: (1, 0, 0.5, 0.5)
     /// </summary>
-    public static Color Maroon = new Color(1.0f, 0.0f, 0.5f, 0.5f);
+    public static Color Maroon => new Color(1.0f, 0.0f, 0.5f, 0.5f);
     
     /// <summary>
     /// Light Purple Gizmo color. RGBA: (0.5192922, 0.4622621, 0.6985294, 1)
     /// </summary>
-    public static Color LightPurple = new Color(0.5192922f, 0.4622621f, 0.6985294f);
+    public static Color LightPurple => new Color(0.5192922f, 0.4622621f, 0.6985294f);
     
     /// <summary>
     /// Transparent Magenta Gizmo color. RGBA: (1, 0, 1, 0.5)
     /// </summary>
-    public static Color TransparentMagenta = Magenta.Alpha(0.5f);
+    public static Color TransparentMagenta => Magenta.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Gray Gizmo color. RGBA: (0.5, 0.5, 0.5, 0.5)
     /// </summary>
-    public static Color TransparentGray = Gray.Alpha(0.5f);
+    public static Color TransparentGray => Gray.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Light Purple Gizmo color. RGBA: (0.5192922, 0.4622621, 0.6985294, 0.5)
     /// </summary>
-    public static Color TransparentLightPurple = LightPurple.Alpha(0.5f);
+    public static Color TransparentLightPurple => LightPurple.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Yellow Gizmo color. RGBA: (1, 0.92, 0.016, 0.5)
     /// </summary>
-    public static Color TransparentYellow = Yellow.Alpha(0.5f);
+    public static Color TransparentYellow => Yellow.Alpha(0.5f);
     
     /// <summary>
     /// Transparent White Gizmo color. RGBA: (1, 1, 1, 0.5)
     /// </summary>
-    public static Color TransparentWhite = White.Alpha(0.5f);
+    public static Color TransparentWhite => White.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Lime Green Gizmo color. RGBA: (0.4925605, 0.9176471, 0.5050631, 0.5)
     /// </summary>
-    public static Color TransparentLimeGreen = LimeGreen.Alpha(0.5f);
+    public static Color TransparentLimeGreen => LimeGreen.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Green Gizmo color. RGBA: (0, 1, 0, 0.5)
     /// </summary>
-    public static Color TransparentGreen = Green.Alpha(0.5f);
+    public static Color TransparentGreen => Green.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Sky Blue Gizmo color. RGBA: (0.4705882, 0.7371198, 1, 0.5)
     /// </summary>
-    public static Color TransparentSkyBlue = SkyBlue.Alpha(0.5f);
+    public static Color TransparentSkyBlue => SkyBlue.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Light Blue Gizmo color. RGBA: (0, 0.75, 1, 0.5)
     /// </summary>
-    public static Color TransparentLightBlue = LightBlue.Alpha(0.5f);
+    public static Color TransparentLightBlue => LightBlue.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Black Gizmo color. RGBA: (0, 0, 0, 0.5)
     /// </summary>
-    public static Color TransparentLightGreen = LightGreen.Alpha(0.5f);
+    public static Color TransparentLightGreen => LightGreen.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Blue Gizmo color. RGBA: (0, 0, 1, 0.5)
     /// </summary>
-    public static Color TransparentBlue = Blue.Alpha(0.5f);
+    public static Color TransparentBlue => Blue.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Maroon Gizmo color. RGBA: (1, 0, 0.5, 0.5)
     /// </summary>
-    public static Color TransparentMaroon = Maroon.Alpha(0.5f);
+    public static Color TransparentMaroon => Maroon.Alpha(0.5f);
     
     /// <summary>
     /// Transparent Red Gizmo color. RGBA: (1, 0, 0, 0.5)
     /// </summary>
-    public static Color TransparentRed = Red.Alpha(0.5f);
+    public static Color TransparentRed => Red.Alpha(0.5f);
 
     /// <summary>
     /// Get the selected version of a given color.
@@ -7846,6 +7865,39 @@ namespace Quantum {
 #endregion
 
 
+#region Assets/Photon/Quantum/Runtime/QuantumBackwardCompatibility.Common.cs
+
+// merged BackwardCompatibility
+
+#region Object.cs
+
+namespace Quantum {
+  static class ObjectExtensions {
+#if UNITY_6000_3_OR_NEWER
+    public static UnityEngine.EntityId GetObjectId(this UnityEngine.Object obj) {
+      return obj.GetEntityId();
+    }
+#else
+    public static int GetObjectId(this UnityEngine.Object obj) {
+      return obj.GetInstanceID();
+    }
+#endif
+  }
+  
+#if !UNITY_6000_3_OR_NEWER
+  static class EntityId {
+    public static int None => 0;
+  }
+#endif
+}
+
+#endregion
+
+
+
+#endregion
+
+
 #region Assets/Photon/Quantum/Runtime/QuantumCallbacks.cs
 
 namespace Quantum {
@@ -9076,7 +9128,7 @@ namespace Quantum {
       Debug.Assert(_rewindSnapshots != null);
       var frame = _rewindSnapshots.Find(frameNumber, DeterministicFrameSnapshotBufferFindMode.ClosestLessThanOrEqual);
       if (frame == null) {
-        throw new ArgumentOutOfRangeException(nameof(frameNumber), $"Unable to find a frame with number less or equal to {frameNumber}.");
+        throw new ArgumentOutOfRangeException(nameof(frameNumber), $"Unable to find a frame with number less or equal to {frameNumber.ToString()}.");
       }
 
       _replayRunner.Session.ResetReplay(frame);
@@ -9115,7 +9167,7 @@ namespace Quantum {
 
     private void FastForward(int frameNumber) {
       if (frameNumber < CurrentFrame) {
-        throw new ArgumentException($"Can't seek backwards to {frameNumber} from {CurrentFrame}", nameof(frameNumber));
+        throw new ArgumentException($"Can't seek backwards to {frameNumber.ToString()} from {CurrentFrame.ToString()}", nameof(frameNumber));
       } else if (frameNumber == CurrentFrame) {
         // nothing to do here
         return;
@@ -9132,16 +9184,16 @@ namespace Quantum {
 
         if (afterUpdate >= frameNumber) {
           if (afterUpdate > frameNumber) {
-            Debug.LogWarning($"Seek after the target frame {frameNumber} (from {beforeUpdate}), got to {afterUpdate}.");
+            Debug.LogWarning($"Seek after the target frame {frameNumber.ToString()} (from {beforeUpdate.ToString()}), got to {afterUpdate.ToString()}.");
           }
 
           return;
         } else {
-          Debug.LogWarning($"Failed to seek to frame {frameNumber} (from {beforeUpdate}), got to {afterUpdate}. {attemptsLeft} attempts left.");
+          Debug.LogWarning($"Failed to seek to frame {frameNumber.ToString()} (from {beforeUpdate.ToString()}), got to {afterUpdate.ToString()}. {attemptsLeft.ToString()} attempts left.");
         }
       }
 
-      throw new InvalidOperationException($"Unable to seek to frame {frameNumber}, ended up on {CurrentFrame}");
+      throw new InvalidOperationException($"Unable to seek to frame {frameNumber.ToString()}, ended up on {CurrentFrame.ToString()}");
     }
 
     private static double GetDeltaTime(int frames, int simulationRate) {
@@ -19357,13 +19409,14 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Runtime/QuantumMapDataBaker.cs
 
 namespace Quantum {
+  using Photon.Analyzer;
+  using Photon.Deterministic;
   using System;
   using System.Collections.Generic;
+  using System.Diagnostics.CodeAnalysis;
   using System.IO;
   using System.Linq;
   using System.Reflection;
-  using Photon.Analyzer;
-  using Photon.Deterministic;
   using UnityEditor;
   using UnityEngine;
   using UnityEngine.SceneManagement;
@@ -19371,6 +19424,7 @@ namespace Quantum {
 
   public class QuantumMapDataBaker {
     [StaticField(StaticFieldResetMode.None)]
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Modifications can persist")]
     public static int NavMeshSerializationBufferSize = 1024 * 1024 * 60;
 
     public enum BuildTrigger {
@@ -20012,7 +20066,7 @@ namespace Quantum {
 #endif
     }
     
-    private static Lazy<Type[]> CallbackTypes = new Lazy<Type[]>(() => {
+    private static readonly Lazy<Type[]> CallbackTypes = new Lazy<Type[]>(() => {
       List<Type> callbackTypes = new List<Type>();
 
       if (Application.isEditor) {
@@ -20033,11 +20087,22 @@ namespace Quantum {
         }
 #endif
       } else {
-        var markedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-          .Where(x => x.GetCustomAttribute<QuantumMapBakeAssemblyAttribute>()?.Ignore == false);
+        foreach (var asm in QuantumPlatform.GetLoadedAssemblies()) {
+          if (!asm.IsDefined(typeof(QuantumMapBakeAssemblyAttribute))) {
+            continue;
+          }
 
-        foreach (var asm in markedAssemblies) {
-          foreach (var t in asm.GetLoadableTypes()) {
+          Type[] types;
+          try {
+            types = asm.GetTypes();
+          } catch (ReflectionTypeLoadException ex) {
+            types = ex.Types;
+          }
+          
+          foreach (var t in types) {
+            if (t == null) {
+              continue;
+            }
             if (!t.IsSubclassOf(typeof(MapDataBakerCallback))) {
               continue;
             }
@@ -20046,6 +20111,7 @@ namespace Quantum {
           }
         }
       }
+      
       
       // remove non-instantiable types
       callbackTypes.RemoveAll(t => t.IsAbstract || t.IsGenericTypeDefinition);
@@ -20455,6 +20521,7 @@ namespace Quantum {
   using UnityEngine.Serialization;
   using Object = System.Object;
   using Plane = UnityEngine.Plane;
+  using System.Diagnostics.CodeAnalysis;
 #if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
   using UnityEngine.AI;
 #endif
@@ -20516,6 +20583,7 @@ namespace Quantum {
     /// The default minimum agent radius. Will be updated during importing the Unity navmesh.
     /// </summary>
     [StaticField(StaticFieldResetMode.None)]
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Modifications can persist")]
     public static float DefaultMinAgentRadius = 0.25f;
 
     /// <summary>
@@ -23006,12 +23074,13 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Runtime/QuantumRunnerUnityFactory.cs
 
 namespace Quantum {
-  using System;
-  using System.Threading.Tasks;
   using Photon.Analyzer;
   using Photon.Deterministic;
   using Photon.Realtime;
   using Profiling;
+  using System;
+  using System.Diagnostics.CodeAnalysis;
+  using System.Threading.Tasks;
   using UnityEngine;
 
   /// <summary>
@@ -23022,6 +23091,7 @@ namespace Quantum {
     /// Statically keep one default factory around.
     /// </summary>
     [StaticField(StaticFieldResetMode.None)]
+    [SuppressMessage("Domain reload", "UDR0002", Justification = "Modifications can persist")]
     public static IRunnerFactory DefaultFactory;
 
     /// <summary>
@@ -23622,7 +23692,7 @@ namespace Quantum {
       
       var globalEntityView = QuantumUnityDB.GetGlobalAsset(guid) as EntityView;
       if (globalEntityView == null) {
-        throw new InvalidOperationException($"Unable to resolve prefab for guid {guid}");
+        throw new InvalidOperationException($"Unable to resolve prefab for guid {guid.ToString()}");
       }
     
       return globalEntityView.Prefab;
@@ -23908,6 +23978,7 @@ namespace Quantum {
   using Photon.Analyzer;
   using Photon.Deterministic;
   using Unity.Collections.LowLevel.Unsafe;
+  using UnityEngine;
   using UnityAllocator = global::Unity.Collections.Allocator;
 
 #if ENABLE_IL2CPP
@@ -24050,13 +24121,6 @@ namespace Quantum {
     public override unsafe int Compare(void* ptr1, void* ptr2, int count) {
       return UnsafeUtility.MemCmp(ptr1, ptr2, count);
     }
-
-    /// <summary>
-    /// Reset statics. Currently does nothing.
-    /// </summary>
-    [StaticFieldResetMethod]
-    public static void ResetStatics() {
-    }
   }
 }
 
@@ -24073,6 +24137,7 @@ namespace Quantum {
 namespace Quantum {
   using System;
   using System.Collections.Generic;
+  using System.Diagnostics.CodeAnalysis;
   using System.Linq;
   using System.Reflection;
   using UnityEngine;
@@ -24083,24 +24148,18 @@ namespace Quantum {
   /// are loaded is driven by usages of <see cref="QuantumGlobalScriptableObjectSourceAttribute"/> attributes. 
   /// </summary>
   public abstract class QuantumGlobalScriptableObject : QuantumScriptableObject {
-    private static IEnumerable<T> GetAssemblyAttributes<T>() where T : Attribute {
-      foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
-        foreach (var attr in assembly.GetCustomAttributes<T>()) {
-          yield return attr;
-        }
-      }
-    }
-    
     internal static QuantumGlobalScriptableObjectSourceAttribute[] SourceAttributes => s_sourceAttributes.Value;
 
     private static readonly Lazy<QuantumGlobalScriptableObjectSourceAttribute[]> s_sourceAttributes = new Lazy<QuantumGlobalScriptableObjectSourceAttribute[]>(() => {
-      return GetAssemblyAttributes<QuantumGlobalScriptableObjectSourceAttribute>().OrderBy(x => x.Order).ToArray();
+      return QuantumPlatform.GetLoadedAssemblyAttributes<QuantumGlobalScriptableObjectSourceAttribute>().OrderBy(x => x.Order).ToArray();
     });
   }
   
   /// <inheritdoc cref="QuantumGlobalScriptableObject{T}"/>
   public abstract partial class QuantumGlobalScriptableObject<T> : QuantumGlobalScriptableObject where T : QuantumGlobalScriptableObject<T> {
-    private static T                                                s_instance;
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Is reset during UnloadGlobalInternal()")]
+    private static T s_instance;
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Is reset during UnloadGlobalInternal()")]
     private static QuantumGlobalScriptableObjectUnloadDelegate s_unloadHandler;
     
     /// <summary>
@@ -24120,10 +24179,14 @@ namespace Quantum {
     /// <param name="destroyed"></param>
     protected virtual void OnUnloadedAsGlobal(bool destroyed) {
     }
-    
+
     private static string LogPrefix => $"[Global {typeof(T).Name}]: ";
-    private static string AsId(QuantumGlobalScriptableObject<T> obj) => obj ? $"[IID:{obj.GetInstanceID()}]" : "null";
-    
+#if UNITY_6000_3_OR_NEWER
+    private static string AsId(QuantumGlobalScriptableObject<T> obj) => obj ? $"[IID:{obj.GetEntityId()}]" : "null";
+#else
+    private static string AsId(QuantumGlobalScriptableObject<T> obj) => obj ? $"[IID:{obj.GetObjectId()}]" : "null";
+#endif
+
     /// <summary>
     /// If the current instance is global, unsets <see cref="IsGlobal"/> and calls <see cref="OnUnloadedAsGlobal"/>
     /// </summary>
@@ -24155,6 +24218,7 @@ namespace Quantum {
     /// with a different name. Throws if loading an instance failed.
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "s_instance is reset during UnloadGlobalInternal()")]
     protected static T GlobalInternal {
       get {
         var instance = GetOrLoadGlobalInstance();
@@ -24734,14 +24798,14 @@ namespace Quantum {
   /// handling and integer enquotement.
   /// </summary>
   public static class JsonUtilityExtensions {
-    
+
     /// <see cref="JsonUtilityExtensions.FromJsonWithTypeAnnotation"/>
     public delegate Type TypeResolverDelegate(string typeName);
     /// <see cref="JsonUtilityExtensions.ToJsonWithTypeAnnotation(object,Quantum.JsonUtilityExtensions.InstanceIDHandlerDelegate)"/>
     public delegate string TypeSerializerDelegate(Type type);
     /// <see cref="JsonUtilityExtensions.ToJsonWithTypeAnnotation(object,Quantum.JsonUtilityExtensions.InstanceIDHandlerDelegate)"/>
     public delegate string InstanceIDHandlerDelegate(object context, int value);
-    
+
     private const string TypePropertyName = "$type";
 
     /// <summary>
@@ -24801,8 +24865,8 @@ namespace Quantum {
         ToJsonInternal(obj, writer, integerEnquoteMinDigits, typeSerializer, instanceIDHandler);
       }
     }
-    
-    
+
+
     /// <summary>
     /// Converts JSON with type annotation to an instance of <typeparamref name="T"/>. If the JSON contains type annotations, they need to match
     /// the expected result type. If there are no type annotations, use <paramref name="typeResolver"/> to return the expected type.
@@ -24843,7 +24907,7 @@ namespace Quantum {
 
         // list
         ++i;
-        for (var expectComma = false;; expectComma = true) {
+        for (var expectComma = false; ; expectComma = true) {
           i = SkipWhiteOrThrow(i);
 
           if (json[i] == ']') {
@@ -24879,7 +24943,7 @@ namespace Quantum {
       }
     }
 
-    
+
     private static object FromJsonWithTypeAnnotationInternal(string json, TypeResolverDelegate typeResolver = null, IList targetList = null) {
       Assert.Check(json != null);
 
@@ -24889,7 +24953,7 @@ namespace Quantum {
 
         // list
         ++i;
-        for (var expectComma = false;; expectComma = true) {
+        for (var expectComma = false; ; expectComma = true) {
           i = SkipWhiteOrThrow(i);
 
           if (json[i] == ']') {
@@ -24930,7 +24994,7 @@ namespace Quantum {
       }
     }
 
-    private static void ToJsonInternal(object obj, TextWriter writer, 
+    private static void ToJsonInternal(object obj, TextWriter writer,
       int? integerEnquoteMinDigits = null,
       TypeSerializerDelegate typeResolver = null,
       InstanceIDHandlerDelegate instanceIDHandler = null) {
@@ -24941,7 +25005,7 @@ namespace Quantum {
       if (integerEnquoteMinDigits.HasValue) {
         json = EnquoteIntegers(json, integerEnquoteMinDigits.Value);
       }
-      
+
       var type = obj.GetType();
 
       writer.Write("{\"");
@@ -24958,29 +25022,29 @@ namespace Quantum {
         Assert.Check('{' == json[0]);
         Assert.Check('}' == json[^1]);
         writer.Write(',');
-        
+
         if (instanceIDHandler != null) {
           int i = 1;
-          
-          for (;;) {
+
+          for (; ; ) {
             const string prefix = "{\"instanceID\":";
-            
+
             var nextInstanceId = json.IndexOf(prefix, i, StringComparison.Ordinal);
             if (nextInstanceId < 0) {
               break;
             }
-            
+
             // parse the number that follows; may be negative
             var start = nextInstanceId + prefix.Length;
             var end = json.IndexOf('}', start);
             var instanceId = int.Parse(json.AsSpan(start, end - start));
-            
+
             // append that part
             writer.Write(json.AsSpan(i, nextInstanceId - i));
             writer.Write(instanceIDHandler(obj, instanceId));
             i = end + 1;
           }
-          
+
           writer.Write(json.AsSpan(i, json.Length - i));
         } else {
           writer.Write(json.AsSpan(1, json.Length - 1));
@@ -24994,7 +25058,7 @@ namespace Quantum {
         if (endIndex < 0) {
           throw new InvalidOperationException($"Unable to find end of object's end (starting at {i})");
         }
-        
+
         Assert.Check(endIndex > i);
         Assert.Check(json[endIndex] == '}');
 
@@ -25015,7 +25079,7 @@ namespace Quantum {
           Assert.Check(!string.IsNullOrEmpty(typeInfo?.__TypeName));
           type = Type.GetType(typeInfo.__TypeName, true);
         }
-        
+
         if (type.IsSubclassOf(typeof(ScriptableObject))) {
           var instance = ScriptableObject.CreateInstance(type);
           JsonUtility.FromJsonOverwrite(part, instance);
@@ -25034,14 +25098,14 @@ namespace Quantum {
 
       throw new InvalidOperationException($"Malformed at {i}: expected {{ or null");
     }
-    
+
     internal static int FindObjectEnd(string json, int start = 0) {
       return FindScopeEnd(json, start, '{', '}');
     }
-    
+
     private static int FindScopeEnd(string json, int start, char cstart = '{', char cend = '}') {
       var depth = 0;
-      
+
       if (json[start] != cstart) {
         return -1;
       }
@@ -25053,7 +25117,7 @@ namespace Quantum {
           // now skip until the first unescaped quote
           while (i < json.Length) {
             if (json[++i] == '"')
-              // are we escaped?
+            // are we escaped?
             {
               if (json[i - 1] != '\\') {
                 break;
@@ -25072,7 +25136,7 @@ namespace Quantum {
 
       return -1;
     }
-    
+
     [Serializable]
     private class TypeNameWrapper {
 #pragma warning disable CS0649 // Set by serialization
@@ -25222,7 +25286,7 @@ namespace Quantum {
       isDark = UnityEditor.EditorGUIUtility.isProSkin;
       QuantumEditorLog.Initialize(isDark);
 #endif
-      
+
       LogLevel logLevel = QuantumLogConstants.DefinedLogLevel;
       TraceChannels traceChannels = QuantumLogConstants.DefinedTraceChannels;
       InitializeUser(ref logLevel, ref traceChannels);
@@ -25248,7 +25312,6 @@ namespace Quantum {
 namespace Quantum {
   using System;
   using System.Diagnostics;
-  using System.Runtime.CompilerServices;
   using JetBrains.Annotations;
 #if QUANTUM_ENABLE_MPPM
   using System.Collections.Generic;
@@ -25263,7 +25326,7 @@ namespace Quantum {
   using UnityEngine;
   using Debug = UnityEngine.Debug;
 #endif
-  
+
   // ReSharper disable once IdentifierTypo
   /// <summary>
   /// The current status of MPPM. If the package is not enabled, this will always be <see cref="QuantumMppmStatus.Disabled"/>.
@@ -25282,7 +25345,7 @@ namespace Quantum {
     /// </summary>
     VirtualInstance
   }
-  
+
   /// <summary>
   /// Support for Multiplayer Play Mode (MPPM). It uses named pipes
   /// to communicate between the main Unity instance and virtual instances.
@@ -25292,12 +25355,12 @@ namespace Quantum {
 #endif
   // ReSharper disable once IdentifierTypo
   public partial class QuantumMppm {
-    
+
     /// <summary>
     /// The current status of MPPM.
     /// </summary>
     public static readonly QuantumMppmStatus Status = QuantumMppmStatus.Disabled;
-    
+
     /// <summary>
     /// If <see cref="Status"/> is <see cref="QuantumMppmStatus.MainInstance"/>, this static field can be used to send commands.
     /// </summary>
@@ -25318,7 +25381,7 @@ namespace Quantum {
 #endif
     }
 
-    
+
     /// <summary>
     /// Broadcasts a command to all virtual instances.
     /// </summary>
@@ -25335,59 +25398,59 @@ namespace Quantum {
     }
 
     private QuantumMppm() {
-      
+
     }
-    
+
 #if QUANTUM_ENABLE_MPPM && UNITY_EDITOR
     private static readonly string s_mainInstancePath = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
-    
+
     private const string PersistentCommandsFolderPath = "Temp/QuantumMppm";
     private const string MpeChannelName = "QuantumMppm";
-    
+
     private readonly int _mpeChannelId = ChannelService.ChannelNameToId(MpeChannelName);
     private readonly List<(int connectionId, string guid)> _acks = new List<(int, string)>();
     private readonly Regex _invalidFileCharactersRegex = new Regex(string.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(new string(Path.GetInvalidFileNameChars()))));
-    
+
     static QuantumMppm() {
-      
+
       var indexOfMppmPrefix = Application.dataPath.LastIndexOf("/Library/VP/mppm", StringComparison.OrdinalIgnoreCase);
       Status = indexOfMppmPrefix < 0 ? QuantumMppmStatus.MainInstance : QuantumMppmStatus.VirtualInstance;
-    
+
       // start MPE (this check is canonical)
       if (!ChannelService.IsRunning()) {
         ChannelService.Start();
       }
-      
+
       QuantumEditorLog.TraceMppm($"Status: {Status}, MainInstancePath: {s_mainInstancePath}");
-      
+
       if (Status == QuantumMppmStatus.MainInstance) {
-        
+
         MainEditor = new QuantumMppm();
         // set up MPE channel
         var disconnect = ChannelService.GetOrCreateChannel(MpeChannelName, MainEditor.ReceiveAck);
         Debug.Assert(disconnect != null);
-        
+
         // ... but since new instances need to e.g. receive all the dependency hashes, set up a folder;
         // it needs to be cleared on every Unity start but survive between domain reloads
         string folderOwnedKey = $"Owns_{PersistentCommandsFolderPath}";
-        
+
         if (Directory.Exists(PersistentCommandsFolderPath) && !SessionState.GetBool(folderOwnedKey, false)) {
           QuantumEditorLog.TraceMppm($"Deleting leftover files from {PersistentCommandsFolderPath}");
           foreach (var file in Directory.GetFiles(PersistentCommandsFolderPath)) {
             File.Delete(file);
           }
         }
-        
+
         if (!Directory.Exists(PersistentCommandsFolderPath)) {
           QuantumEditorLog.TraceMppm($"Creating command folder {PersistentCommandsFolderPath}");
           Directory.CreateDirectory(PersistentCommandsFolderPath);
         }
         SessionState.SetBool(folderOwnedKey, true);
-        
+
       } else {
         // where is the main instance located?
         s_mainInstancePath = Application.dataPath.Substring(0, indexOfMppmPrefix);
-        
+
         // start the MPE client to await commands
         var client = ChannelClient.GetOrCreateClient(MpeChannelName);
         client.Start(true);
@@ -25395,7 +25458,7 @@ namespace Quantum {
         var disconnect = client.RegisterMessageHandler(async (byte[] data) => {
           var json = System.Text.Encoding.UTF8.GetString(data);
           var message = JsonUtility.FromJson<CommandWrapper>(json);
-          
+
           QuantumEditorLog.TraceMppm($"Received command {message.Data}");
           try {
             await message.Data.ExecuteAsync();
@@ -25407,7 +25470,7 @@ namespace Quantum {
           if (!message.Data.NeedsAck) {
             return;
           }
-          
+
           var ack = new AckMessage() {
             Guid = message.Guid
           };
@@ -25417,7 +25480,7 @@ namespace Quantum {
           client.Send(ackBytes);
         });
         Debug.Assert(disconnect != null);
-        
+
         // read persistent commands from the main instance
         var mainInstanceCommandsFolderPath = Path.Combine(s_mainInstancePath, PersistentCommandsFolderPath);
         Debug.Assert(Directory.Exists(mainInstanceCommandsFolderPath));
@@ -25433,19 +25496,19 @@ namespace Quantum {
         }
       }
     }
-    
+
     private void BroadcastInternal<T>(T data) where T : QuantumMppmCommand {
       Assert.Check(Status == QuantumMppmStatus.MainInstance, "Only the main instance can send commands");
-      
+
       var guid = Guid.NewGuid().ToString();
       var wrapper = new CommandWrapper() {
         Guid = guid,
         Data = data
       };
-      
-      var str   = JsonUtility.ToJson(wrapper);
+
+      var str = JsonUtility.ToJson(wrapper);
       var bytes = System.Text.Encoding.UTF8.GetBytes(str);
-      
+
       QuantumEditorLog.TraceMppm($"Broadcasting command {str}");
       ChannelService.BroadcastBinary(_mpeChannelId, bytes);
 
@@ -25456,7 +25519,7 @@ namespace Quantum {
         QuantumEditorLog.TraceMppm($"Saving persistent command to {filePath}");
         File.WriteAllText(filePath, str);
       }
-      
+
       if (data.NeedsAck) {
         // well, we need to wait
         var channels = ChannelService.GetChannelClientList();
@@ -25465,29 +25528,29 @@ namespace Quantum {
         WaitForAcks(numAcks, guid);
       }
     }
-    
+
     private void ReceiveAck(int connectionId, byte[] data) {
-      var json    = System.Text.Encoding.UTF8.GetString(data);
+      var json = System.Text.Encoding.UTF8.GetString(data);
       var message = JsonUtility.FromJson<AckMessage>(json);
       lock (_acks) {
         _acks.Add((connectionId, message.Guid));
       }
       QuantumEditorLog.TraceMppm($"Received ack {json}");
     }
-    
+
     private void WaitForAcks(int numAcks, string guid) {
-      var timer   = Stopwatch.StartNew();
+      var timer = Stopwatch.StartNew();
       var timeout = TimeSpan.FromSeconds(2);
-      
+
       QuantumEditorLog.TraceMppm($"Waiting for {numAcks} acks for {guid}");
-      
+
       while (timer.Elapsed < timeout) {
         for (int i = 0; numAcks > 0 && i < _acks.Count; i++) {
           var ack = _acks[i];
           if (ack.guid == guid) {
             _acks.RemoveAt(i);
             numAcks--;
-              
+
             QuantumEditorLog.TraceMppm($"Received ack for {guid} from {ack.connectionId}, {numAcks} left");
           }
         }
@@ -25496,15 +25559,15 @@ namespace Quantum {
           QuantumEditorLog.TraceMppm($"All acks received");
           return;
         }
-          
+
         QuantumEditorLog.TraceMppm($"Waiting for {numAcks} acks");
         ChannelService.DispatchMessages();
         Thread.Sleep(10);
       }
-      
+
       QuantumEditorLog.TraceMppm($"Timeout waiting for acks ({numAcks} left)");
     }
-    
+
     [Serializable]
     private class CommandWrapper {
       public string Guid;
@@ -25517,7 +25580,7 @@ namespace Quantum {
     }
 #endif
   }
-  
+
   /// <summary>
   /// The base class for all Quantum MPPM commands.
   /// </summary>
@@ -25536,13 +25599,13 @@ namespace Quantum {
     public virtual System.Threading.Tasks.Task ExecuteAsync() {
       Execute();
       return System.Threading.Tasks.Task.CompletedTask;
-    } 
-    
+    }
+
     /// <summary>
     /// Does the main instance need to wait for an ack?
     /// </summary>
     public virtual bool NeedsAck => false;
-    
+
     /// <summary>
     /// If the command is persistent (i.e. needs to be executed on each domain reload), this key is used to store it.
     /// </summary>
@@ -25573,13 +25636,13 @@ namespace Quantum {
     /// Hash of the custom dependency.
     /// </summary>
     public string Hash;
-      
+
     /// <inheritdoc cref="QuantumMppmCommand.NeedsAck"/>
     public override bool NeedsAck => true;
 
     /// <inheritdoc cref="QuantumMppmCommand.PersistentKey"/>
     public override string PersistentKey => $"Dependency_{DependencyName}";
-      
+
     /// <summary>
     /// Registers a custom dependency with the given name and hash.
     /// </summary>
@@ -25620,7 +25683,7 @@ namespace Quantum {
 #region QuantumUnityExtensions.cs
 
 namespace Quantum {
-#if UNITY_2022_1_OR_NEWER && !UNITY_2022_2_OR_NEWER
+#if !UNITY_6000_4_OR_NEWER
   using UnityEngine;
 #endif
 
@@ -25628,10 +25691,10 @@ namespace Quantum {
   /// Provides backwards compatibility for Unity API.
   /// </summary>
   public static class QuantumUnityExtensions {
-    
+
     #region New Find API
 
-#if UNITY_2022_1_OR_NEWER && !UNITY_2022_2_OR_NEWER 
+#if UNITY_2022_1_OR_NEWER && !UNITY_2022_2_OR_NEWER
     public enum FindObjectsInactive {
       Exclude,
       Include,
@@ -25693,8 +25756,27 @@ namespace Quantum {
         objArray[index] = (T)rawObjects[index];
       return objArray;
     }
-
 #endif
+    
+#if !UNITY_6000_4_OR_NEWER
+    public static T[] FindObjectsByType<T>() where T : Object {
+      return Object.FindObjectsByType<T>(FindObjectsSortMode.None);
+    }
+
+    public static T[] FindObjectsByType<T>(FindObjectsInactive findObjectsInactive) where T : Object {
+      return Object.FindObjectsByType<T>(findObjectsInactive, FindObjectsSortMode.None);
+    }
+    
+    public static Object[] FindObjectsByType(System.Type type) {
+      return Object.FindObjectsByType(type, FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+    }
+    
+    public static Object[] FindObjectsByType(System.Type type, FindObjectsInactive findObjectsInactive) {
+      return Object.FindObjectsByType(type, findObjectsInactive, FindObjectsSortMode.None);
+    }
+#endif
+    
+    
 
     #endregion
   }
@@ -25710,9 +25792,7 @@ namespace Quantum {
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
-  using System.Threading.Tasks;
   using UnityEditor;
-  using UnityEngine;
   using UnityEngine.SceneManagement;
 
   /// <summary>
@@ -25731,12 +25811,12 @@ namespace Quantum {
         return x.handle == y.handle;
       }
 
-      
+
       /// <summary>
       /// Returns <see cref="Scene.handle"/>
       /// </summary>
       public int GetHashCode(Scene obj) {
-        return obj.handle;
+        return obj.handle.GetHashCode();
       }
     }
 
@@ -25783,7 +25863,7 @@ namespace Quantum {
       if (!scene.isLoaded) {
         return false;
       }
-      
+
       for (int i = 0; i < SceneManager.sceneCount; ++i) {
         var s = SceneManager.GetSceneAt(i);
         if (s != scene && s.isLoaded) {
@@ -25800,7 +25880,7 @@ namespace Quantum {
       StringBuilder result = new StringBuilder();
 
       result.Append("[UnityScene:");
-      
+
       if (scene.IsValid()) {
         result.Append(scene.name);
         result.Append(", isLoaded:").Append(scene.isLoaded);
@@ -25813,7 +25893,7 @@ namespace Quantum {
         result.Append("<Invalid>");
       }
 
-      result.Append(", handle:").Append(scene.handle);
+      result.Append(", handle:").Append(scene.handle.ToString());
       result.Append("]");
       return result.ToString();
     }
@@ -25824,7 +25904,7 @@ namespace Quantum {
     public static string Dump(this LoadSceneParameters loadSceneParameters) {
       return $"[LoadSceneParameters: {loadSceneParameters.loadSceneMode}, localPhysicsMode:{loadSceneParameters.localPhysicsMode}]";
     }
-    
+
     /// <summary>
     /// Gets scene's build index based on its name or path.
     /// </summary>
@@ -26056,6 +26136,8 @@ namespace Quantum {
   /// Can be globally toggled of by using <see cref="IsEnabled"/>.
   /// </summary>
   public static class DebugDraw {
+#pragma warning disable UDR0002
+
     /// <summary>
     /// Globally toggle on/off any simulation debug shape drawing.
     /// </summary>
@@ -26074,15 +26156,15 @@ namespace Quantum {
       set => _textStyle = value;
     }
 
-    [StaticField] static Queue<Draw.DebugRay> _rays = new Queue<Draw.DebugRay>();
-    [StaticField] static Queue<Draw.DebugLine> _lines = new Queue<Draw.DebugLine>();
-    [StaticField] static Queue<Draw.DebugCircle> _circles = new Queue<Draw.DebugCircle>();
-    [StaticField] static Queue<Draw.DebugSphere> _spheres = new Queue<Draw.DebugSphere>();
-    [StaticField] static Queue<Draw.DebugRectangle> _rectangles = new Queue<Draw.DebugRectangle>();
-    [StaticField] static Queue<Draw.DebugBox> _boxes = new Queue<Draw.DebugBox>();
-    [StaticField] static Queue<Draw.DebugCapsule> _capsules = new Queue<Draw.DebugCapsule>();
-    [StaticField] static Queue<Draw.DebugText> _texts = new Queue<Draw.DebugText>();
-    [StaticField] static Dictionary<DebugMaterial, Material> _materials = new Dictionary<DebugMaterial, Material>(DebugMaterial.Comparer);
+    [StaticField] static readonly Queue<Draw.DebugRay> _rays = new Queue<Draw.DebugRay>();
+    [StaticField] static readonly Queue<Draw.DebugLine> _lines = new Queue<Draw.DebugLine>();
+    [StaticField] static readonly Queue<Draw.DebugCircle> _circles = new Queue<Draw.DebugCircle>();
+    [StaticField] static readonly Queue<Draw.DebugSphere> _spheres = new Queue<Draw.DebugSphere>();
+    [StaticField] static readonly Queue<Draw.DebugRectangle> _rectangles = new Queue<Draw.DebugRectangle>();
+    [StaticField] static readonly Queue<Draw.DebugBox> _boxes = new Queue<Draw.DebugBox>();
+    [StaticField] static readonly Queue<Draw.DebugCapsule> _capsules = new Queue<Draw.DebugCapsule>();
+    [StaticField] static readonly Queue<Draw.DebugText> _texts = new Queue<Draw.DebugText>();
+    [StaticField] static readonly Dictionary<DebugMaterial, Material> _materials = new Dictionary<DebugMaterial, Material>(DebugMaterial.Comparer);
     [StaticField] static Draw.DebugRay[] _raysArray = new Draw.DebugRay[64];
     [StaticField] static Draw.DebugLine[] _linesArray = new Draw.DebugLine[64];
     [StaticField] static Draw.DebugCircle[] _circlesArray = new Draw.DebugCircle[64];
@@ -26099,10 +26181,12 @@ namespace Quantum {
     [StaticField] static int _boxesCount;
     [StaticField] static int _capsuleCount;
     [StaticField] static int _textsCount;
-    [StaticField] static Vector3[] _circlePoints;
     [StaticField] private static readonly GUIContent _guiContent = new GUIContent();
+    [StaticField] static Vector3[] _circlePoints;
     [StaticField] private static GUIStyle _textStyle = new GUIStyle { normal = new GUIStyleState { } };
     [StaticField] private static readonly GUIStyle _bgStyle = new GUIStyle { normal = new GUIStyleState { background = Texture2D.whiteTexture } };
+
+#pragma warning restore UDR0002
 
     private static readonly int ColorProperty = Shader.PropertyToID("_Color");
     private static readonly int UseShadingProperty = Shader.PropertyToID("_UseShading");
@@ -26266,6 +26350,7 @@ namespace Quantum {
     /// Clear everything still in the queues.
     /// </summary>
     [StaticFieldResetMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     public static void Clear() {
       TakeAllFromQueueAndClearLocked(_rays, ref _raysArray);
       TakeAllFromQueueAndClearLocked(_lines, ref _linesArray);
@@ -26842,6 +26927,7 @@ namespace Quantum {
   /// </summary>
   [Obsolete("Use QuantumMeshCollection.Global instead")]
   public static class DebugMesh {
+#pragma warning disable UDR0001
     [StaticField(StaticFieldResetMode.None)]
     private static Mesh _circleMesh;
 
@@ -26963,6 +27049,7 @@ namespace Quantum {
         _debugMaterial = value;
       }
     }
+#pragma warning restore UDR0001
   }
 }
 
@@ -28473,6 +28560,7 @@ namespace Quantum {
 namespace Quantum {
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Diagnostics.CodeAnalysis;
 #if UNITY_EDITOR
   using UnityEditor;
 #endif
@@ -28500,10 +28588,12 @@ namespace Quantum {
     /// <summary>
     /// Set to disable the Unity progress bar.
     /// </summary>
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Modifications can persist")]
     public static bool EnableProgressBar = true;
     /// <summary>
     /// Set to disable the result log.
     /// </summary>
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Modifications can persist")]
     public static bool EnableResultLog = true;
 
     private readonly List<BakeSection> _bakeSections = new List<BakeSection>();
@@ -28696,7 +28786,7 @@ namespace Quantum {
 
     private void DisplayStopwatch() {
       if (_sw != null && !string.IsNullOrEmpty(_info)) {
-        Debug.LogFormat("'{0}' took {1} ms", _info, _sw.ElapsedMilliseconds);
+        Debug.LogFormat("'{0}' took {1} ms", _info, _sw.ElapsedMilliseconds.ToString());
         _sw.Reset();
         _sw.Start();
       }
@@ -28739,6 +28829,7 @@ namespace Quantum {
 
 namespace Quantum {
   using System;
+  using System.Diagnostics.CodeAnalysis;
 
   partial class QuantumGlobalScriptableObject<T> {
     /// <summary>
@@ -28750,11 +28841,12 @@ namespace Quantum {
     /// <summary>
     /// Get or set the Global instance of the scriptable object.
     /// </summary>
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Wraps another property")]
     public static T Global {
       get => GlobalInternal;
       protected set => GlobalInternal = value;
-    } 
-    
+    }
+
     /// <summary>
     /// Try get or load the global instance.
     /// </summary>
@@ -29834,7 +29926,7 @@ namespace Quantum {
         default:
           switch (sp.propertyType) {
             case SerializedPropertyType.ObjectReference:
-              return sp.objectReferenceInstanceIDValue;
+              return sp.GetObjectReferenceValueAsLong();
           }
 
           return 0;
@@ -29917,6 +30009,16 @@ namespace Quantum {
       return copy;
     }
 
+#if UNITY_6000_4_OR_NEWER
+    public static long GetObjectReferenceValueAsLong(this SerializedProperty sp) {
+      return unchecked((long)UnityEngine.EntityId.ToULong(sp.objectReferenceEntityIdValue));
+    }
+#else
+    public static long GetObjectReferenceValueAsLong(this SerializedProperty sp) {
+      return sp.objectReferenceInstanceIDValue;
+    }
+#endif
+    
     public struct SerializedPropertyEnumerable : IEnumerable<SerializedProperty> {
       private SerializedProperty property;
       private bool               visible;
@@ -30022,7 +30124,7 @@ namespace Quantum {
             hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.colorValue.GetHashCode());
             break;
           case SerializedPropertyType.ObjectReference:
-            hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.objectReferenceInstanceIDValue);
+            hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.GetObjectReferenceValueAsLong().GetHashCode());
             break;
           case SerializedPropertyType.LayerMask:
             hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.intValue);

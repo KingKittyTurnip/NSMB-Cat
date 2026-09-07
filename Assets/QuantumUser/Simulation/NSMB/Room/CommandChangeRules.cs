@@ -14,9 +14,17 @@ namespace Quantum {
         public int Lives;
         public int TimerMinutes;
         public bool TeamsEnabled;
+
+        public int StarFountain;
+        public int CoinDeathPenalty;
+        public StageChooseMode ChooseMode;
+        public int TeamAttack;
         /*
         public bool CustomPowerupsEnabled;
-        public bool DrawOnTimeUp;
+        public int StarFountain;
+        public int CoinDeathPenalty;
+        public StageChooseMode ChooseMode;
+        public int TeamAttack;
         */
         public byte StarFrequency;
         //TODO: add the rest of the settings (also note the buttons don't seem to work, might be lack of a label)
@@ -39,13 +47,21 @@ namespace Quantum {
             stream.Serialize(ref Gamemode);
             stream.Serialize(ref StarsToWin);
             stream.Serialize(ref CoinsForPowerup);
-            stream.Serialize(ref Lives);
             stream.Serialize(ref TimerMinutes);
             stream.Serialize(ref TeamsEnabled);
             /*
             stream.Serialize(ref CustomPowerupsEnabled);
             stream.Serialize(ref DrawOnTimeUp);
             */
+            stream.Serialize(ref StarFountain);
+            stream.Serialize(ref CoinDeathPenalty);
+
+            if (stream.Writing) {
+                stream.WriteByte((byte) ChooseMode);
+            } else {
+                ChooseMode = (StageChooseMode) stream.ReadByte();
+            }
+
             //KKT Mod
             stream.Serialize(ref StarFrequency);
 
@@ -57,8 +73,12 @@ namespace Quantum {
             stream.Serialize(ref ExtrasEnabled);
         }
 
+            stream.Serialize(ref TeamAttack);
+        }
+
         public unsafe void Execute(Frame f, PlayerRef sender, PlayerData* playerData) {
-            if (f.Global->GameState != GameState.PreGameRoom || !playerData->IsRoomHost) {
+            if (f.Global->GameState != GameState.PreGameRoom
+                || !playerData->IsRoomHost(f)) {
                 // Only the host can change rules.
                 return;
             }
@@ -70,9 +90,22 @@ namespace Quantum {
 
             var DefaultRules = f.FindAsset(f.SimulationConfig.BaseRules).Rules.BaseRulesList[0].DefaultRules;
 
-            
             if (rulesChanges.HasFlag(Rules.Gamemode)) {
                 gamemodeChanged = rules.Gamemode != Gamemode;
+                GameRules newRules = default;
+                f.FindAsset(Gamemode).DefaultRules.Materialize(f, ref newRules);
+                newRules.Stage = rules.Stage;
+                newRules.ChooseMode = rules.ChooseMode;
+                newRules.RandomDisabledStages = rules.RandomDisabledStages;
+                GameRules tempRules = default;
+                f.FindAsset(Gamemode).DefaultRules.Materialize(f, ref tempRules);
+                tempRules.Stage = rules.Stage;
+
+                rules.StarFrequency = DefaultRules.StarFrequency;
+
+                rules = newRules;
+                /*
+                                gamemodeChanged = rules.Gamemode != Gamemode;
 
                 GameRules tempRules = default;
                 //f.FindAsset(Gamemode).DefaultRules.Materialize(f, ref tempRules);
@@ -90,8 +123,9 @@ namespace Quantum {
                 tempRules.Stage = rules.Stage;
 
                 rules = tempRules;
+                */
             }
-            
+
             if (rulesChanges.HasFlag(Rules.Stage)) {
                 levelChanged = rules.Stage != Stage;
                 rules.Stage = Stage;
@@ -115,10 +149,21 @@ namespace Quantum {
             if (rulesChanges.HasFlag(Rules.CustomPowerupsEnabled)) {
                 rules.CustomPowerupsEnabled = CustomPowerupsEnabled;
             }
-            if (rulesChanges.HasFlag(Rules.DrawOnTimeUp)) {
-                rules.DrawOnTimeUp = DrawOnTimeUp;
-            }
+
             */
+            if (rulesChanges.HasFlag(Rules.StarFountain)) {
+                rules.StarFountain = StarFountain;
+            }
+            if (rulesChanges.HasFlag(Rules.CoinDeathPenalty)) {
+                rules.CoinDeathPenalty = CoinDeathPenalty;
+            }
+            if (rulesChanges.HasFlag(Rules.StageChooseMode)) {
+                rules.ChooseMode = ChooseMode;
+            }
+            if (rulesChanges.HasFlag(Rules.TeamAttack)) {
+                rules.TeamAttack = (TeamAttackOptions)TeamAttack;
+            }
+
             //KKT Mod Toggle Rules
             if (rulesChanges.HasFlag(Rules.ToggleCoins)) {
                 UnityEngine.Debug.Log("Toggle coins: " + CoinsEnabled);
@@ -210,38 +255,43 @@ namespace Quantum {
             if (rulesChanges.HasFlag(Rules.StarFreq)) {
                 rules.StarFrequency = StarFrequency;
             }
+            if (rulesChanges.HasFlag(Rules.DrawOnTimeUp)) {
+                rules.DrawOnTimeUp = DrawOnTimeUp;
+            }
 
             f.Global->Rules = rules;
             f.Events.RulesChanged(gamemodeChanged, levelChanged);
-
-            if (f.Global->GameStartFrames > 0 && !QuantumUtils.IsGameStartable(f)) {
-                GameLogicSystem.StopCountdown(f);
-            }
         }
 
         [Flags]
-        public enum Rules : int {
-            None = 0,
-            Stage = 1 << 0,
-            Gamemode = 1 << 1,
-            StarsToWin = 1 << 2,
-            CoinsForPowerup = 1 << 3,
-            Lives = 1 << 4,
-            TimerMinutes = 1 << 5,
-            TeamsEnabled = 1 << 6,
-            CustomPowerupsEnabled = 1 << 7, //deprecated
-            DrawOnTimeUp = 1 << 8, //deprecated
-            //KKT Mod enable rules
-            ToggleCoins = 1 << 9,
-            ToggleHazards = 1 << 10,
-            ToggleLives = 1 << 11,
-            ToggleTimer = 1 << 12,
-            ToggleTeams = 1 << 13,
-            ToggleBulb = 1 << 14,
-            ToggleExtras = 1 << 15,
-            //KKT Mod rules
-            StarFreq = 1 << 16,
-            //StarCoinFreq = 1 << 17,
-        }
+    public enum Rules : int
+    {
+        None = 0,
+        Stage = 1 << 0,
+        Gamemode = 1 << 1,
+        StarsToWin = 1 << 2,
+        CoinsForPowerup = 1 << 3,
+        Lives = 1 << 4,
+        TimerMinutes = 1 << 5,
+        TeamsEnabled = 1 << 6,
+        //deprecated
+        CustomPowerupsEnabled = 1 << 7,
+        //deprecated
+        DrawOnTimeUp = 1 << 8,
+        StarFountain = 1 << 9, // only for Star Chasers
+        CoinDeathPenalty = 1 << 10, // only for Coin Runners
+        StageChooseMode = 1 << 11,
+        TeamAttack = 1 << 12,
+        //KKT Mod enable rules
+        ToggleCoins = 1 << 13,
+        ToggleHazards = 1 << 14,
+        ToggleLives = 1 << 15,
+        ToggleTimer = 1 << 16,
+        ToggleTeams = 1 << 17,
+        ToggleBulb = 1 << 18,
+        ToggleExtras = 1 << 19,
+        //KKT Mod rules
+        StarFreq = 1 << 20,
+        //StarCoinFreq = 1 << 17,
     }
 }
