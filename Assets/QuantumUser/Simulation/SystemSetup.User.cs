@@ -20,6 +20,7 @@ namespace Quantum {
                     new SpinnerSystem(),
                     new DonutBlockSystem(),
                     new MovingPlatformPhysicsQuerySystem(),
+                    new FerrisWheelSystem(),
                     new PhysicsSystem2D(),
                     new EnemySystem(),
                     new InteractionSystem(),
