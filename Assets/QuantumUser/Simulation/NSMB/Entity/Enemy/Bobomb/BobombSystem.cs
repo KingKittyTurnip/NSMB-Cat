@@ -1,5 +1,6 @@
 using Photon.Deterministic;
 using Quantum.Physics2D;
+using Quantum.Collections;
 
 namespace Quantum {
     public unsafe class BobombSystem : SystemMainThreadEntityFilter<Bobomb, BobombSystem.Filter>, ISignalOnEntityBumped, ISignalOnEnemyRespawned, ISignalOnThrowHoldable,
@@ -144,7 +145,7 @@ namespace Quantum {
                         continue;
                     }
 
-                    f.Signals.OnBobombExplodeEntity(entity, hit.Entity);
+                    f.Signals.OnBobombExplodeEntity(entity, hit.Entity, ExplosionType.Bomb);
                 }
             }
         }

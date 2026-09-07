@@ -112,7 +112,7 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
         private unsafe void UpdateButtonInteractable(QuantumGame game) {
             Frame f = game.Frames.Predicted;
 
-            if (f.Global->Rules.ModifierTeamsEnabled) {
+            if (f.Global->Rules.TeamsEnabled) {
                 var teams = f.Context.GetAllAssets<TeamAsset>();
                 TeamAsset team = teams[selected % teams.Count];
                 flag.sprite = Settings.Instance.GraphicsColorblind ? team.spriteColorblind : team.spriteNormal;
@@ -139,7 +139,7 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
             }
 
             Frame f = game.Frames.Predicted;
-            if (f.Global->Rules.ModifierTeamsEnabled) {
+            if (f.Global->Rules.TeamsEnabled) {
                 var teams = f.Context.GetAllAssets<TeamAsset>();
                 TeamAsset team = teams[selected % teams.Count];
                 flag.sprite = Settings.Instance.GraphicsColorblind ? team.spriteColorblind : team.spriteNormal;
@@ -175,7 +175,7 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
             var playerData = QuantumUtils.GetPlayerData(f, e.Player);
             selected = playerData->RequestedTeam;
 
-            if (f.Global->Rules.ModifierTeamsEnabled) {
+            if (f.Global->Rules.TeamsEnabled) {
                 var teams = f.Context.GetAllAssets<TeamAsset>();
                 TeamAsset team = teams[selected % teams.Count];
                 flag.sprite = Settings.Instance.GraphicsColorblind ? team.spriteColorblind : team.spriteNormal;

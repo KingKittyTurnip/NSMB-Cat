@@ -39,23 +39,14 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
                 cmd.TeamsEnabled = (bool) value;
                 break;
             //KKT Mod
-            case CommandChangeRules.Rules.ToggleCoins:
-                cmd.CoinsEnabled = (bool) value;
+            case CommandChangeRules.Rules.Roulette:
+                cmd.RouletteEnabled = (bool) value;
                 break;
             case CommandChangeRules.Rules.ToggleHazards:
                 cmd.HazardEnabled = (bool) value;
                 break;
-            case CommandChangeRules.Rules.ToggleLives:
-                cmd.LivesEnabled = (bool) value;
-                break;
-            case CommandChangeRules.Rules.ToggleTimer:
-                cmd.TimerEnabled = (bool) value;
-                break;
             case CommandChangeRules.Rules.ToggleBulb:
                 cmd.BulbEnabled = (bool) value;
-                break;
-            case CommandChangeRules.Rules.ToggleExtras:
-                cmd.ExtrasEnabled = (bool) value;
                 break;
             }
 

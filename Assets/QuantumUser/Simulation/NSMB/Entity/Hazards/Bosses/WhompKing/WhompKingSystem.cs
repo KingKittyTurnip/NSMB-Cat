@@ -1,7 +1,5 @@
 using Photon.Deterministic;
 using Quantum.Collections;
-using UnityEngine;
-using static IInteractableTile;
 
 namespace Quantum {
     
@@ -326,7 +324,7 @@ namespace Quantum {
                 mario->IsDrilling = false;
                 marioPhysicsObject->Velocity.X = FPMath.Clamp(marioPhysicsObject->Velocity.X + (((theirPos - ourPos) * 10).Normalized.X * 3), -5, 5);
 
-            } else if (mario->IsDamageable && mario->DoKnockback(f, marioEntity, damageDirection.X < 0, slamming ? 2 : 1, slamming ? KnockbackStrength.Groundpound : KnockbackStrength.CollisionBump, boss->ControllerPlayer != EntityRef.None ? boss->ControllerPlayer : thisEntity)) {
+            } else if (mario->IsDamageable(f) && mario->DoKnockback(f, marioEntity, damageDirection.X < 0, slamming ? 2 : 1, slamming ? KnockbackStrength.Groundpound : KnockbackStrength.CollisionBump, boss->ControllerPlayer != EntityRef.None ? boss->ControllerPlayer : thisEntity)) {
                 whompking->HitATarget = true;
                 if (damageDirection.Y < 0)
                     physicsObject->Velocity.Y = 6;

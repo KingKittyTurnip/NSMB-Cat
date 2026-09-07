@@ -334,7 +334,7 @@ namespace Quantum {
             } else if (chainchomp->State == ChainChompState.Lunge || chainchomp->State == ChainChompState.Chomp || !PartOfPost) {
                 if (mario->DoKnockback(f, otherEntity, FromRight, PartOfPost ? 2 : 1, KnockbackStrength.CollisionBump, thisEntity)) {
                     FPVector2 particlePos = (theirPos + ourPos) / 2;
-                    f.Events.PlayKnockbackEffect(otherEntity, thisEntity, KnockbackStrength.CollisionBump, particlePos);
+                    f.Events.PlayKnockbackEffect(otherEntity, thisEntity, KnockbackStrength.CollisionBump, particlePos, true);
                     TryReturnAfterAttack(f, thisEntity, otherEntity);
                     chainchomp->LastBumped = otherEntity;
                     chainchomp->LastBumpedTimer = 1;
@@ -350,7 +350,7 @@ namespace Quantum {
                     mario->DoEntityBounce = true;
                 } else {
                     FPVector2 particlePos = (theirPos + ourPos) / 2;
-                    f.Events.PlayKnockbackEffect(otherEntity, thisEntity, KnockbackStrength.CollisionBump, particlePos);
+                    f.Events.PlayKnockbackEffect(otherEntity, thisEntity, KnockbackStrength.CollisionBump, particlePos, true);
                 }
             }
         }
@@ -416,7 +416,7 @@ namespace Quantum {
 
                 boss->BossBump(f, bossEntity, !FromRight, KnockbackStrength.FireballBump);
                 FPVector2 particlePos = (theirPos + ourPos) / 2;
-                f.Events.PlayKnockbackEffect(bossEntity, chompEntity, KnockbackStrength.CollisionBump, particlePos);
+                f.Events.PlayKnockbackEffect(bossEntity, chompEntity, KnockbackStrength.CollisionBump, particlePos, true);
             }
         }
         #endregion

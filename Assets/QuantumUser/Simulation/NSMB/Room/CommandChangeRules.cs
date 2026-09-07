@@ -1,6 +1,5 @@
 using Photon.Deterministic;
 using System;
-using System.Runtime.Remoting.Contexts;
 
 namespace Quantum {
     public class CommandChangeRules : DeterministicCommand, ILobbyCommand {
@@ -14,27 +13,21 @@ namespace Quantum {
         public int Lives;
         public int TimerMinutes;
         public bool TeamsEnabled;
-
-        public int StarFountain;
-        public int CoinDeathPenalty;
-        public StageChooseMode ChooseMode;
-        public int TeamAttack;
         /*
         public bool CustomPowerupsEnabled;
+        */
+
         public int StarFountain;
         public int CoinDeathPenalty;
         public StageChooseMode ChooseMode;
         public int TeamAttack;
-        */
-        public byte StarFrequency;
-        //TODO: add the rest of the settings (also note the buttons don't seem to work, might be lack of a label)
 
-        public bool CoinsEnabled;
+        //KKT Mod
         public bool HazardEnabled;
-        public bool LivesEnabled;
-        public bool TimerEnabled;
         public bool BulbEnabled;
-        public bool ExtrasEnabled;
+
+        public byte StarFrequency;
+        public bool RouletteEnabled;
 
         public override void Serialize(BitStream stream) {
             if (stream.Writing) {
@@ -62,18 +55,14 @@ namespace Quantum {
                 ChooseMode = (StageChooseMode) stream.ReadByte();
             }
 
-            //KKT Mod
-            stream.Serialize(ref StarFrequency);
-
-            stream.Serialize(ref CoinsEnabled);
-            stream.Serialize(ref HazardEnabled);
-            stream.Serialize(ref LivesEnabled);
-            stream.Serialize(ref TimerEnabled);
-            stream.Serialize(ref BulbEnabled);
-            stream.Serialize(ref ExtrasEnabled);
-        }
-
             stream.Serialize(ref TeamAttack);
+
+            //KKT Mod
+            stream.Serialize(ref HazardEnabled);
+            stream.Serialize(ref BulbEnabled);
+
+            stream.Serialize(ref StarFrequency);
+            stream.Serialize(ref RouletteEnabled);
         }
 
         public unsafe void Execute(Frame f, PlayerRef sender, PlayerData* playerData) {
@@ -143,13 +132,14 @@ namespace Quantum {
                 rules.TimerMinutes = TimerMinutes;
             }
             if (rulesChanges.HasFlag(Rules.TeamsEnabled)) {
-                rules.ModifierTeamsEnabled = TeamsEnabled;
+                rules.TeamsEnabled = TeamsEnabled;
             }
             /*
             if (rulesChanges.HasFlag(Rules.CustomPowerupsEnabled)) {
                 rules.CustomPowerupsEnabled = CustomPowerupsEnabled;
+            }if (rulesChanges.HasFlag(Rules.DrawOnTimeUp)) {
+                rules.DrawOnTimeUp = DrawOnTimeUp;
             }
-
             */
             if (rulesChanges.HasFlag(Rules.StarFountain)) {
                 rules.StarFountain = StarFountain;
@@ -161,35 +151,10 @@ namespace Quantum {
                 rules.ChooseMode = ChooseMode;
             }
             if (rulesChanges.HasFlag(Rules.TeamAttack)) {
-                rules.TeamAttack = (TeamAttackOptions)TeamAttack;
+                rules.TeamAttack = (TeamAttackOptions) TeamAttack;
             }
 
             //KKT Mod Toggle Rules
-            if (rulesChanges.HasFlag(Rules.ToggleCoins)) {
-                UnityEngine.Debug.Log("Toggle coins: " + CoinsEnabled);
-                if (CoinsEnabled) {
-                    rules.ModifierCoinsEnabled = true;
-                    rules.CoinsForPowerup = DefaultRules.CoinsForPowerup;
-                    rules.RouletteBlocksEnabled = DefaultRules.RouletteBlocksEnabled;
-                } else {
-                    rules.ModifierCoinsEnabled = false;
-                    rules.CoinsForPowerup = 0;
-                    rules.RouletteBlocksEnabled = false;
-
-                    //i coppied this from the CodeGen.Prototypes script idk if it works
-                    if (DefaultRules.Items.Length == 0) {
-                        rules.Items = default;
-                    } else {
-                        var list = f.AllocateList(out rules.Items, DefaultRules.Items.Length);
-                        for (int i = 0; i < DefaultRules.Items.Length; ++i) {
-                            Quantum.ItemList tmp = default;
-                            DefaultRules.Items[i].Materialize(f, ref tmp);
-                            list.Add(tmp);
-                        }
-                    }
-                }
-                UnityEngine.Debug.Log("Toggled!: " + rules.ModifierCoinsEnabled);
-            }
             if (rulesChanges.HasFlag(Rules.ToggleHazards)) {
                 if (HazardEnabled) {
                     rules.ModifierHazardsEnabled = true;
@@ -217,24 +182,6 @@ namespace Quantum {
                     }
                 }
             }
-            if (rulesChanges.HasFlag(Rules.ToggleLives)) {
-                if (LivesEnabled) {
-                    rules.ModifierLivesEnabled = true;
-                    rules.Lives = DefaultRules.Lives;
-                } else {
-                    rules.ModifierLivesEnabled = false;
-                    rules.Lives = 0;
-                }
-            }
-            if (rulesChanges.HasFlag(Rules.ToggleTimer)) {
-                if (TimerEnabled) {
-                    rules.ModifierTimerEnabled = true;
-                    rules.TimerMinutes = 8; //Forced Default
-                } else {
-                    rules.ModifierTimerEnabled = false;
-                    rules.TimerMinutes = 0;
-                }
-            }
             if (rulesChanges.HasFlag(Rules.ToggleBulb)) {
                 if (BulbEnabled) {
                     rules.ModifierBulbEnabled = true;
@@ -244,19 +191,12 @@ namespace Quantum {
                     rules.BulbAbilityCount = 0;
                 }
             }
-            if (rulesChanges.HasFlag(Rules.ToggleTeams)) {
-                if (TeamsEnabled) {
-                    rules.ModifierTeamsEnabled = true;
-                } else {
-                    rules.ModifierTeamsEnabled = false;
-                }
-            }
             //KKT Mod
             if (rulesChanges.HasFlag(Rules.StarFreq)) {
                 rules.StarFrequency = StarFrequency;
             }
-            if (rulesChanges.HasFlag(Rules.DrawOnTimeUp)) {
-                rules.DrawOnTimeUp = DrawOnTimeUp;
+            if (rulesChanges.HasFlag(Rules.Roulette)) {
+                rules.RouletteBlocksEnabled = RouletteEnabled;
             }
 
             f.Global->Rules = rules;
@@ -264,34 +204,28 @@ namespace Quantum {
         }
 
         [Flags]
-    public enum Rules : int
-    {
-        None = 0,
-        Stage = 1 << 0,
-        Gamemode = 1 << 1,
-        StarsToWin = 1 << 2,
-        CoinsForPowerup = 1 << 3,
-        Lives = 1 << 4,
-        TimerMinutes = 1 << 5,
-        TeamsEnabled = 1 << 6,
-        //deprecated
-        CustomPowerupsEnabled = 1 << 7,
-        //deprecated
-        DrawOnTimeUp = 1 << 8,
-        StarFountain = 1 << 9, // only for Star Chasers
-        CoinDeathPenalty = 1 << 10, // only for Coin Runners
-        StageChooseMode = 1 << 11,
-        TeamAttack = 1 << 12,
-        //KKT Mod enable rules
-        ToggleCoins = 1 << 13,
-        ToggleHazards = 1 << 14,
-        ToggleLives = 1 << 15,
-        ToggleTimer = 1 << 16,
-        ToggleTeams = 1 << 17,
-        ToggleBulb = 1 << 18,
-        ToggleExtras = 1 << 19,
-        //KKT Mod rules
-        StarFreq = 1 << 20,
-        //StarCoinFreq = 1 << 17,
+        public enum Rules : int {
+            None = 0,
+            Stage = 1 << 0,
+            Gamemode = 1 << 1,
+            StarsToWin = 1 << 2,
+            CoinsForPowerup = 1 << 3,
+            Lives = 1 << 4,
+            TimerMinutes = 1 << 5,
+            TeamsEnabled = 1 << 6,
+            //CustomPowerupsEnabled = 1 << 7,
+            //DrawOnTimeUp = 1 << 8,
+            StarFountain = 1 << 7, // only for Star Chasers
+            CoinDeathPenalty = 1 << 8, // only for Coin Runners
+            StageChooseMode = 1 << 9,
+            TeamAttack = 1 << 10,
+
+            //KKT Mod enable rules
+            ToggleHazards = 1 << 12,
+            ToggleBulb = 1 << 13,
+            //KKT Mod rules
+            StarFreq = 1 << 14,
+            Roulette = 1 << 15,
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace NSMB.Sound {
             }
 
             Frame f = PredictedFrame;
-            if (f.Global->Rules.ModifierTimerEnabled && f.Global->GameState == GameState.Playing) {
+            if (f.Global->Rules.IsTimerEnabled && f.Global->GameState == GameState.Playing) {
                 FP timer = f.Global->Timer;
 
                 if (!playedHurryUp && timer <= 60) {
@@ -84,7 +84,7 @@ namespace NSMB.Sound {
 
         private void OnGameResynced(CallbackGameResynced e) {
             Frame f = PredictedFrame;
-            if (f.Global->Rules.ModifierTimerEnabled && f.Global->Timer < 60) {
+            if (f.Global->Rules.IsTimerEnabled && f.Global->Timer < 60) {
                 playedHurryUp = true;
             }
             previousTimer = 0;

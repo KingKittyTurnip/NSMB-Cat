@@ -144,7 +144,7 @@ namespace Quantum {
 
             FPVector2 center = transform->Position + collider->Shape.Centroid;
 
-            if (f.Global->Rules.ModifierCoinsEnabled) {
+            if (reason.ShouldSpawnCoin() && f.Global->Rules.IsCoinsEnabled) {
                 // Spawn coin
                 var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
                 gamemode.SpawnLooseCoin(f, center);

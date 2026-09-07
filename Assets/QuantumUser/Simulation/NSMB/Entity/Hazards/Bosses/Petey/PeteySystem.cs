@@ -1,6 +1,5 @@
 using Photon.Deterministic;
 using Quantum.Collections;
-using static IInteractableTile;
 
 namespace Quantum {
     

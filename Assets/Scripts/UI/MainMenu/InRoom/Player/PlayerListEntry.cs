@@ -164,7 +164,7 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
             builder.Append(character.UiString);
 
             if (Settings.Instance.GraphicsColorblind && !playerData->ManualSpectator) {
-                if (f.Global->Rules.ModifierTeamsEnabled) {
+                if (f.Global->Rules.TeamsEnabled) {
                     var teams = f.Context.GetAllAssets<TeamAsset>();
                     TeamAsset team = teams[playerData->RequestedTeam % teams.Count];
                     builder.Append(team.textSpriteColorblindBig);
@@ -219,7 +219,7 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
                 }
             }
 
-            if (!f.Global->Rules.ModifierTeamsEnabled) {
+            if (!f.Global->Rules.TeamsEnabled) {
                 foreach (var optionButton in teamsOnlyOptions) {
                     optionButton.gameObject.SetActive(false);
                 }

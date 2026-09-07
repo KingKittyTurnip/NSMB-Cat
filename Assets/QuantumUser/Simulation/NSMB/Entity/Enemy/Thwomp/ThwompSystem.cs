@@ -1,9 +1,6 @@
 using Photon.Deterministic;
 using Quantum.Collections;
-using static BreakableBrickTile;
-using static IInteractableTile;
 using UnityEngine;
-using System.Security.Principal;
 
 namespace Quantum {
     public unsafe class ThwompSystem : SystemMainThreadEntityFilter<Thwomp, ThwompSystem.Filter>, ISignalOnEntityBumped,
@@ -139,8 +136,8 @@ namespace Quantum {
 
                     //If The Thing in Front Is Breakable By Bombs Or Shells, Push Through (do note he can break mega breakabled he will just be bumped)
                     if (!((tile is BreakableBrickTile uh) 
-                        || (tile is CoinTile uhh && !uhh.BreakingRules.HasFlag(BreakableBy.Shells) && !uhh.BreakingRules.HasFlag(BreakableBy.Bombs))
-                        || (tile is PowerupTileBase uhhh && !uhhh.BreakingRules.HasFlag(BreakableBy.Shells) && !uhhh.BreakingRules.HasFlag(BreakableBy.Bombs))))
+                        || (tile is CoinTile uhh && !uhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Shells) && !uhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Bombs))
+                        || (tile is PowerupTileBase uhhh && !uhhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Shells) && !uhhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Bombs))))
                         BrickBroken = true;
                 }
             }
@@ -203,7 +200,7 @@ namespace Quantum {
             if (mario->IsCrouchedInShell) {
                 mario->FacingRight = damageDirection.X < 0;
                 marioPhysicsObject->Velocity.X = 0;
-            } else if (mario->IsDamageable) {
+            } else if (mario->IsDamageable(f)) {
                 mario->Powerdown(f, marioEntity, false, thwompEntity);
             }
         }

@@ -1,8 +1,5 @@
 using Photon.Deterministic;
 using Quantum.Collections;
-using static BreakableBrickTile;
-using static IInteractableTile;
-using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 namespace Quantum {
     
@@ -181,9 +178,9 @@ namespace Quantum {
                        new IntVector2(contact.Tile.X, contact.Tile.Y), tileInstance, out bool tempPlayBumpSound);
 
                     //If The Thing in Front Is Breakable By Bombs Or Shells, Push Through (do note he can break mega breakabled he will just be bumped)
-                    if (!((tile is BreakableBrickTile uh && !uh.BreakingRules.HasFlag(BreakableBy.Shells) && !uh.BreakingRules.HasFlag(BreakableBy.Bombs))
-                        || (tile is CoinTile uhh && !uhh.BreakingRules.HasFlag(BreakableBy.Shells) && !uhh.BreakingRules.HasFlag(BreakableBy.Bombs))
-                        || (tile is PowerupTileBase uhhh && !uhhh.BreakingRules.HasFlag(BreakableBy.Shells) && !uhhh.BreakingRules.HasFlag(BreakableBy.Bombs))))
+                    if (!((tile is BreakableBrickTile uh && !uh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Shells) && !uh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Bombs))
+                        || (tile is CoinTile uhh && !uhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Shells) && !uhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Bombs))
+                        || (tile is PowerupTileBase uhhh && !uhhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Shells) && !uhhh.BreakingRules.HasFlag(BreakableBrickTile.BreakableBy.Bombs))))
                         BrickBroken = true;
                 }
             }
@@ -262,7 +259,7 @@ namespace Quantum {
             }
             if (FPVector2.Dot(damageDirection, FPVector2.Down) > FP._0_25) {
                 mario->DoEntityBounce = true;
-            } else if (mario->IsDamageable) {
+            } else if (mario->IsDamageable(f)) {
                 mario->DoKnockback(f, marioEntity, damageDirection.X >= 0, 1, attackFromAbove ? KnockbackStrength.Groundpound : KnockbackStrength.Normal, thisEntity, false);
             }
             return true;

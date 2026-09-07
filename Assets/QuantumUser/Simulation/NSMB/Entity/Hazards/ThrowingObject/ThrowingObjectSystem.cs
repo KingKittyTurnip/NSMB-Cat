@@ -1,13 +1,7 @@
 using Photon.Deterministic;
 using Quantum.Collections;
 using System;
-using System.Drawing.Drawing2D;
 using UnityEngine;
-using static IInteractableTile;
-using static Quantum.CommandChangeRules;
-using static Quantum.RulesBaser;
-using static UnityEngine.EventSystems.EventTrigger;
-using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 namespace Quantum {
     
@@ -778,7 +772,7 @@ namespace Quantum {
             
             //Try To Hit
             if ((Dis->Thrown || (!physicsObject->IsTouchingGround && Dis->Type == ThrowingObjectType.Stone)) && !IsOwned) {
-                if (!mario->IsDamageable) {
+                if (!mario->IsDamageable(f)) {
                     return true;
                 }
                 // Hit Player (Unless Not)
@@ -796,7 +790,7 @@ namespace Quantum {
                             mario->Powerdown(f, marioEntity, false, thisEntity);
                             f.Unsafe.GetPointer<PhysicsObject>(marioEntity)->Velocity.Y = 5;
                             f.Events.PlayKnockbackEffect(marioEntity, thisEntity, KnockbackStrength.FireballBump,
-                                (f.Unsafe.GetPointer<Transform2D>(marioEntity)->Position + f.Unsafe.GetPointer<Transform2D>(thisEntity)->Position) / 2);
+                                (f.Unsafe.GetPointer<Transform2D>(marioEntity)->Position + f.Unsafe.GetPointer<Transform2D>(thisEntity)->Position) / 2, true);
                         }
                     } else if (Dis->Type == ThrowingObjectType.Freezie) {
                         Dis->HitSomething = true;
@@ -804,7 +798,7 @@ namespace Quantum {
                     } else {
                         if (mario->DoKnockback(f, marioEntity, hitRight, Dis->StarsToDrop, /*TeamateItem*/ Dis->StarsToDrop > 2 ? KnockbackStrength.Groundpound : KnockbackStrength.FireballBump, thisEntity)) {
                             f.Events.PlayKnockbackEffect(marioEntity, thisEntity, KnockbackStrength.FireballBump,
-                                (f.Unsafe.GetPointer<Transform2D>(marioEntity)->Position + f.Unsafe.GetPointer<Transform2D>(thisEntity)->Position) / 2);
+                                (f.Unsafe.GetPointer<Transform2D>(marioEntity)->Position + f.Unsafe.GetPointer<Transform2D>(thisEntity)->Position) / 2, true);
                         }
                     }
                 }
@@ -1012,7 +1006,7 @@ namespace Quantum {
                         Dis->BounceTimes = 1;
 
                     f.Events.PlayKnockbackEffect(bossEntity, thisEntity, KnockbackStrength.FireballBump,
-                        (f.Unsafe.GetPointer<Transform2D>(bossEntity)->Position + f.Unsafe.GetPointer<Transform2D>(thisEntity)->Position) / 2);
+                        (f.Unsafe.GetPointer<Transform2D>(bossEntity)->Position + f.Unsafe.GetPointer<Transform2D>(thisEntity)->Position) / 2, true);
 
                     var strength = Dis->StarsToDrop == 3 ? KnockbackStrength.Groundpound : 
                         Dis->StarsToDrop == 1 ? KnockbackStrength.FireballBump : 

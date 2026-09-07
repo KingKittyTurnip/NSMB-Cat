@@ -2,6 +2,7 @@ using Quantum;
 using UnityEngine;
 using static NSMB.Utilities.QuantumViewUtils;
 using Photon.Deterministic;
+using NSMB.Utilities;
 
 public unsafe class TornadoAnimator : QuantumEntityViewComponent {
 

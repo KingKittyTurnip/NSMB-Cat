@@ -106,7 +106,7 @@ public unsafe class CoinItemAsset : AssetObject {
             return false;
         }
         */
-        if (Flags.HasFlag(TypeFlags.LivesEnabledOnly) && !f.Global->Rules.ModifierLivesEnabled) {
+        if (Flags.HasFlag(TypeFlags.LivesEnabledOnly) && !f.Global->Rules.IsLivesEnabled) {
             return false;
         }
         FP secondsSinceStart = (FP) (f.Number - f.Global->StartFrame) * f.DeltaTime;

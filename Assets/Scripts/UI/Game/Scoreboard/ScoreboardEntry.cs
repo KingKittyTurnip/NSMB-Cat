@@ -94,7 +94,7 @@ namespace NSMB.UI.Game.Scoreboard {
             background.color = backgroundColor;
             
             if (Settings.Instance.GraphicsColorblind) {
-                if (f.Global->Rules.ModifierTeamsEnabled) {
+                if (f.Global->Rules.TeamsEnabled) {
                     var teams = f.Context.GetAllAssets<TeamAsset>();
                     if (info.Team < teams.Count) {
                         var team = teams[info.Team];

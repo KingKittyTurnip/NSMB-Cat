@@ -2045,7 +2045,7 @@ namespace Quantum {
             FP newHeight;
             bool blueShellHitbox = mario->IsCrouchedInShell || mario->IsInShell;
             bool crouchHitbox = mario->CurrentPowerupState >= PowerupState.Mushroom && mario->CurrentPowerupState != PowerupState.MegaMushroom && !f.Exists(mario->CurrentPipe) && ((mario->IsCrouching && !mario->IsCrouchedInShell && !mario->IsGroundpounding) || mario->IsSliding);
-            bool smallHitbox = mario->CurrentPowerupState != PowerupState.MegaMushroom && ((mario->IsStarmanInvincible && !physicsObject->IsTouchingGround && !crouchHitbox && !mario->IsSliding && !mario->IsSpinnerFlying && !mario->IsPropellerFlying) || mario->IsGroundpounding || (mario->RidingStarball && !physicsObject->IsTouchingGround && !crouchHitbox)));
+            bool smallHitbox = mario->CurrentPowerupState != PowerupState.MegaMushroom && ((mario->IsStarmanInvincible && !physicsObject->IsTouchingGround && !crouchHitbox && !mario->IsSliding && !mario->IsSpinnerFlying && !mario->IsPropellerFlying) || mario->IsGroundpounding || (mario->RidingStarball && !physicsObject->IsTouchingGround && !crouchHitbox));
             if (blueShellHitbox) {
                 newHeight = physics.BlueShellHitboxHeight;
             } else if (mario->CurrentPowerupState <= PowerupState.MiniMushroom || smallHitbox) {

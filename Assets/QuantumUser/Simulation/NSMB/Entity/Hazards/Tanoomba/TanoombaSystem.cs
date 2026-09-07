@@ -588,7 +588,7 @@ namespace Quantum {
             //if (f.Global->Rules.HazardsEnabled && thing.SpawnType == TanoombaTransformationAsset.TanoombaFormSpawnType.SpawnsAtHazardSpawn) {
             //    return true;
             //}
-            if (f.Global->Rules.ModifierCoinsEnabled && 
+            if (f.Global->Rules.IsCoinsEnabled && 
                 (thing.SpawnType == TanoombaTransformationAsset.TanoombaFormSpawnType.SpawnsAtCoinAndReplace || thing.SpawnType == TanoombaTransformationAsset.TanoombaFormSpawnType.AwayAndCoinsEnabled)) {
                 return true;
             }
@@ -726,7 +726,7 @@ namespace Quantum {
             if (doKnockback) {
                 KnockbackStrength strength = groundpounded ? KnockbackStrength.Groundpound : KnockbackStrength.Normal;
                 FPVector2 avgPosition = (ourPos + theirPos) / 2;
-                f.Events.PlayKnockbackEffect(marioEntity, thisEntity, strength, avgPosition);
+                f.Events.PlayKnockbackEffect(marioEntity, thisEntity, strength, avgPosition, true);
             }
             return;
         }

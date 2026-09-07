@@ -57,7 +57,7 @@ namespace Quantum {
             }
 
             // End Condition: timer expires
-            if (f.Global->Rules.ModifierTimerEnabled && f.Global->Timer <= 0) {
+            if (f.Global->Rules.IsTimerEnabled && f.Global->Timer <= 0) {
                 /* TODO: add end timer functionalities
                 if (f.Global->Rules.DrawOnTimeUp) {
                     // It's a draw

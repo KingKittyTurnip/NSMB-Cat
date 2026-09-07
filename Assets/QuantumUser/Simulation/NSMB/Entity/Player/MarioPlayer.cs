@@ -1,5 +1,6 @@
 using Photon.Deterministic;
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Quantum {
@@ -98,6 +99,7 @@ namespace Quantum {
         public readonly bool CanCollectOwnTeamsObjectiveCoins => !IsInKnockback && DamageInvincibilityFrames == 0;
         public readonly bool IsStarmanOrMega => IsStarmanInvincible || CurrentPowerupState == PowerupState.MegaMushroom;
         public readonly bool IsValid(Frame f) => !Disconnected && !(f.Global->Rules.IsLivesEnabled && Lives == 0);
+        public readonly bool IsDamageable(Frame f) => !IsStarmanInvincible && DamageInvincibilityFrames == 0 && !TryGetCurrentPowerTransition(f, out _);
         /**
          * <summary>Outputs a pointer to the current transition animation Mario is in, if he is in one.</summary>
          * <returns><strong>true</strong> if in a transition otherwise <strong>false</strong>.</returns>
@@ -128,8 +130,6 @@ namespace Quantum {
             }
             return false;
         }
-
-        public readonly bool IsValid(Frame f) => !Disconnected && !(f.Global->Rules.IsLivesEnabled && Lives == 0);
 
         public readonly byte? GetTeam(Frame f) {
             var data = QuantumUtils.GetPlayerData(f, PlayerRef);
@@ -323,10 +323,10 @@ namespace Quantum {
             if (IsDead) {
                 return;
             }
-            /*
+            
             var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
             int oldObjectiveCount = gamemode.GetObjectiveCount(f, f.Unsafe.GetPointer<MarioPlayer>(entity));
-            */
+            
 
             f.ResolveList(PowerupTransitionQueue).Clear();
 
@@ -548,6 +548,7 @@ namespace Quantum {
 
             if (IsInKnockback) {
                 ResetKnockback(f, entity);
+            }
 
             /* is this code needed?
             if (CurrentPowerupState == PowerupState.MiniMushroom && strength >= KnockbackStrength.Groundpound) {

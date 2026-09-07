@@ -16,7 +16,7 @@ namespace NSMB.Entities.World {
         [SerializeField] private GameObject StarModel, TransparentModel;
 
         //---Serialized Variables
-        [SerializeField] private float pulseAmount = 0.2f, pulseSpeed = 0.2f, rotationSpeed = 30f;
+        [SerializeField] private float pulseAmount = 0.2f, pulseSpeed = 0.2f, rotationSpeed = 30f, blinkingSpeed = 0.5f;
         [SerializeField] private Transform graphicTransform;
         [SerializeField] private ParticleSystem particles;
         [SerializeField] private GameObject starCollectPrefab;

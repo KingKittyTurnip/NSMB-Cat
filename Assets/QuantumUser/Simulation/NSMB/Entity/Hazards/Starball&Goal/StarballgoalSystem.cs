@@ -1,10 +1,6 @@
 using Photon.Deterministic;
 using System;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using UnityEditor;
 using UnityEngine;
-using static IInteractableTile;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Quantum {
     

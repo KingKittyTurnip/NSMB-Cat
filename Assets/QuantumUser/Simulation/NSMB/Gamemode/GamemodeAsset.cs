@@ -17,9 +17,9 @@ namespace Quantum {
         public AssetRef<CoinItemAsset> FallbackCoinItem;
         public AssetRef<EntityPrototype> LooseCoinPrototype;
         public int Order;
-        /*
+        
         public GameRulesPrototype DefaultRules;
-        */
+        
 
         public abstract void EnableGamemode(Frame f);
 
@@ -46,12 +46,12 @@ namespace Quantum {
         public virtual bool IsFastMusicEnabled(Frame f) {
             ref var rules = ref f.Global->Rules;
 
-            if (rules.ModifierTimerEnabled && f.Global->Timer <= 60) {
+            if (rules.IsTimerEnabled && f.Global->Timer <= 60) {
                 // Timer expiring, panic music
                 return true;
             }
 
-            if (rules.ModifierLivesEnabled) {
+            if (rules.IsLivesEnabled) {
                 // Low on lives. Two cases:
                 // A: two players left, at least one has one life
                 // B: three+ players left, all have one life

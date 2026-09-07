@@ -219,7 +219,7 @@ namespace Quantum {
                 marioPhysicsObject->Velocity.X = 0;
                 dryEnemy->ChangeFacingRight(f, dryEntity, ourPos.X > theirPos.X);
 
-            } else if (mario->IsDamageable && dryEnemy->IntangibilityFrames == 0) {
+            } else if (mario->IsDamageable(f) && dryEnemy->IntangibilityFrames == 0) {
                 mario->Powerdown(f, marioEntity, false, dryEntity);
                 dryEnemy->ChangeFacingRight(f, dryEntity, damageDirection.X > 0);
             }

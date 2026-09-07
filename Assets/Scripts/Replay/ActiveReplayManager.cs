@@ -162,45 +162,42 @@ namespace NSMB.Replay {
                     ReplayLengthInFrames = jsonReplay.LastTick - jsonReplay.InitialTick,
 
                     Rules = new GameRulesPrototype {
-                        AdvancedLobby = rules.AdvancedLobby,
                         Stage = rules.Stage,
-                        Stage = f.MapAssetRef,
+                        //Stage = f.MapAssetRef,
                         Gamemode = rules.Gamemode,
                         StarsToWin = rules.StarsToWin,
                         CoinsForPowerup = rules.CoinsForPowerup,
                         Lives = rules.Lives,
                         TimerMinutes = rules.TimerMinutes,
+                        TeamsEnabled = rules.TeamsEnabled,
                         /*
                         CustomPowerupsEnabled = rules.CustomPowerupsEnabled,
                         */
-                        ModifierTeamsEnabled = rules.ModifierTeamsEnabled,
-                        //KKT Mod
-                        StarFrequency = rules.StarFrequency,
-                        //KKT Mod
-                        ModifierCoinsEnabled = rules.ModifierCoinsEnabled,
-                        RouletteBlocksEnabled = rules.RouletteBlocksEnabled,
+                        //ModifierTeamsEnabled = rules.ModifierTeamsEnabled,
                         //Items = rules.Items,//bruh
-                        ModifierHazardsEnabled = rules.ModifierHazardsEnabled,
-                        MaxHazards = rules.MaxHazards,
-                        HazardFrequency = rules.HazardFrequency,
-                        HeftyPercentage = rules.HeftyPercentage,
-                        HazardLifetime = rules.HazardLifetime,
                         //Hazards = rules.Hazards,//bruh
-                        ModifierLivesEnabled = rules.ModifierLivesEnabled,
-                        ModifierTimerEnabled = rules.ModifierTimerEnabled,
-                        ModifierBulbEnabled = rules.ModifierBulbEnabled,
-                        BulbAbilityCount = rules.BulbAbilityCount,
-                        HostControl = rules.HostControl,
-                        ModifierExtrasEnabled = rules.ModifierExtrasEnabled,
-                        DisableComplexStageRestrictions = rules.DisableComplexStageRestrictions,
-                        DisableStageRestrictions = rules.DisableStageRestrictions,
-                        EveryItemHasTheSameChance = rules.EveryItemHasTheSameChance,
-
-                        //TeamsEnabled = rules.TeamsEnabled,
                         StarFountain = rules.StarFountain,
                         CoinDeathPenalty = rules.CoinDeathPenalty,
                         TeamAttack = rules.TeamAttack,
                         CoinItemCustomSpawnWeights = customSpawnWeights,
+
+                        HostControl = rules.HostControl,
+
+                        //KKT Mod
+                        StarFrequency = rules.StarFrequency,
+
+                        RouletteBlocksEnabled = rules.RouletteBlocksEnabled,
+
+                        ModifierHazardsEnabled = rules.ModifierHazardsEnabled,
+                        MaxHazards = rules.MaxHazards,
+                        HazardFrequency = rules.HazardFrequency,
+                        HeftyPercentage = rules.HeftyPercentage,
+                        ModifierBulbEnabled = rules.ModifierBulbEnabled,
+                        BulbAbilityCount = rules.BulbAbilityCount,
+
+                        DisableComplexStageRestrictions = rules.DisableComplexStageRestrictions,
+                        DisableStageRestrictions = rules.DisableStageRestrictions,
+                        EveryItemHasTheSameChance = rules.EveryItemHasTheSameChance,
                     },
                     PlayerInformation = playerInformation,
                     WinningTeam = winner,

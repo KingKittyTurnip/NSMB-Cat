@@ -1,5 +1,6 @@
 using NSMB.Particles;
 using NSMB.UI.Game;
+using NSMB.Utilities;
 using Quantum;
 using System.Security.Policy;
 using UnityEngine;
