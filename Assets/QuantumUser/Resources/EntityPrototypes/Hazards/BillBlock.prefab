@@ -523,6 +523,8 @@ MonoBehaviour:
       Value: 1
     CanCrushEntities:
       Value: 0
+    RotatingPlatform:
+      Value: 0
 --- !u!114 &2210952625023297629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,7 +667,7 @@ MonoBehaviour:
   - {fileID: 3826713913705069345}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 4
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

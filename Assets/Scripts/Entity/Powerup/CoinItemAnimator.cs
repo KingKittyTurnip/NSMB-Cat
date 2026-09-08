@@ -15,7 +15,7 @@ namespace NSMB.Entities.CoinItems {
         [SerializeField] private List<Renderer> renderers;
         [SerializeField] private Animator childAnimator;
         [SerializeField] private Animation childAnimation;
-        [SerializeField] private float blinkingRate = 4, scaleRate = 0.1333f, scaleSize = 0.3f, actualscale = 1;
+        [SerializeField] private float blinkinRate = 12, scaleRate = 0.1333f, scaleSize = 0.3f, actualscale = 1;
         [SerializeField] private AudioSource sfx;
         [SerializeField] private ParticleSystem koopaSpawnParticles;
 
@@ -171,8 +171,8 @@ namespace NSMB.Entities.CoinItems {
 
         private void HandleDespawningBlinking(float lifetime) {
             bool newlyEnabled = false;
-            if (lifetime <= 180f && lifetime != 0 && blinkingRate != -1) {
-                newlyEnabled = ((lifetime / 180f * blinkingRate) % 1) > 0.5f;
+            if (lifetime <= 180f && lifetime != 0 && blinkinRate != -1) {
+                newlyEnabled = ((lifetime / 180f * blinkinRate) % 1) > 0.5f;
             } else {
                 newlyEnabled = true;
             }

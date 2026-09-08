@@ -1,0 +1,936 @@
+fileFormatVersion: 2
+guid: 2f4f47ae4250b634183395248163fde8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8911578194424808594
+    second: mario_big_0
+  - first:
+      213: -4548617664844547555
+    second: mario_big_1
+  - first:
+      213: 9154317766691078367
+    second: mario_big_2
+  - first:
+      213: 7326561420531055460
+    second: mario_big_3
+  - first:
+      213: 6922155045553270658
+    second: mario_big_4
+  - first:
+      213: 6552898105769514144
+    second: mario_big_5
+  - first:
+      213: -4031801077948644122
+    second: mario_big_6
+  - first:
+      213: 713228293095070551
+    second: mario_big_7
+  - first:
+      213: -4839398857409460857
+    second: mario_big_8
+  - first:
+      213: 1774096390183263062
+    second: mario_big_9
+  - first:
+      213: -766481930828202537
+    second: mario_big_10
+  - first:
+      213: -3967455081401129792
+    second: mario_big_11
+  - first:
+      213: -6778270619731410114
+    second: mario_big_12
+  - first:
+      213: 9055909106083831945
+    second: mario_big_13
+  - first:
+      213: 6094648901639130209
+    second: mario_big_14
+  - first:
+      213: -4884983521217176052
+    second: mario_big_15
+  - first:
+      213: -7995617987030597187
+    second: mario_big_16
+  - first:
+      213: -2220033281013362595
+    second: mario_big_17
+  - first:
+      213: -9107159110345690201
+    second: mario_big_18
+  - first:
+      213: -409826703396578606
+    second: mario_big_19
+  - first:
+      213: -873569085534264786
+    second: mario_big_20
+  - first:
+      213: -1712803728623851484
+    second: mario_big_21
+  - first:
+      213: -2259601977467015946
+    second: mario_big_22
+  - first:
+      213: -1698869159675740114
+    second: mario_big_23
+  - first:
+      213: -5997461173085542661
+    second: mario_big_24
+  - first:
+      213: 9216603056571965997
+    second: mario_big_25
+  - first:
+      213: 8168384871770559204
+    second: mario_big_26
+  - first:
+      213: -8076103629790257745
+    second: mario_big_27
+  - first:
+      213: -7289068278738988906
+    second: mario_big_28
+  - first:
+      213: 7112783610237994813
+    second: mario_big_29
+  - first:
+      213: 1724639243806294899
+    second: mario_big_30
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: mario_big_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1615
+        width: 128
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 294cecaf6294cab70800000000000000
+      internalID: 8911578194424808594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1551
+        width: 21
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1abfdb555010e0c0800000000000000
+      internalID: -4548617664844547555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_2
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 1571
+        width: 9
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd04ba4d18baa0f70800000000000000
+      internalID: 9154317766691078367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_3
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 1581
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46bb5df4bcc2da560800000000000000
+      internalID: 7326561420531055460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_4
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 1572
+        width: 19
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28f616ab65f601060800000000000000
+      internalID: 6922155045553270658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_5
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 1566
+        width: 49
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a4d8b3cb1290fa50800000000000000
+      internalID: 6552898105769514144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1471
+        width: 128
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e485dfe74a2c08c0800000000000000
+      internalID: -4031801077948644122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_7
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 1541
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75b90bd8a55e5e900800000000000000
+      internalID: 713228293095070551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1390
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7858da1216007dcb0800000000000000
+      internalID: -4839398857409460857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_9
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 1359
+        width: 91
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65b1d2e644bde9810800000000000000
+      internalID: 1774096390183263062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1279
+        width: 128
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ddba32beb8ec55f0800000000000000
+      internalID: -766481930828202537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1167
+        width: 21
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c464cabf94c0f8c0800000000000000
+      internalID: -3967455081401129792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_12
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 1165
+        width: 91
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e33417fb8cebee1a0800000000000000
+      internalID: -6778270619731410114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1087
+        width: 128
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9802a5a0a5d0dad70800000000000000
+      internalID: 9055909106083831945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_14
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 1157
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16cccec92ea849450800000000000000
+      internalID: 6094648901639130209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1006
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0e96348e5d053cb0800000000000000
+      internalID: -4884983521217176052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_16
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 975
+        width: 91
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db1415badcbd90190800000000000000
+      internalID: -7995617987030597187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 895
+        width: 128
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5057af3e7bd031e0800000000000000
+      internalID: -2220033281013362595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_18
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 783
+        width: 91
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a3f1ea7a0fdc9180800000000000000
+      internalID: -9107159110345690201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 703
+        width: 128
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dad39cd8c0005af0800000000000000
+      internalID: -409826703396578606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_20
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 639
+        width: 22
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e22a7f98b8570e3f0800000000000000
+      internalID: -873569085534264786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 622
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42829696516ea38e0800000000000000
+      internalID: -1712803728623851484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 511
+        width: 128
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fcee4f29f744a0e0800000000000000
+      internalID: -2259601977467015946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 430
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2049a110876c68e0800000000000000
+      internalID: -1698869159675740114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_24
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 399
+        width: 91
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf6e908c6dcb4cca0800000000000000
+      internalID: -5997461173085542661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 319
+        width: 128
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2260c6f5a3f7ef70800000000000000
+      internalID: 9216603056571965997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_26
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 238
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e21f8e43ceeb5170800000000000000
+      internalID: 8168384871770559204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_27
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 207
+        width: 91
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faddb19a98aebef80800000000000000
+      internalID: -8076103629790257745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 127
+        width: 128
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 690d136050708da90800000000000000
+      internalID: -7289068278738988906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 46
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d37c474220fa5b260800000000000000
+      internalID: 7112783610237994813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_big_30
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 0
+        width: 91
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 373c5c431462fe710800000000000000
+      internalID: 1724639243806294899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      mario_big_0: 8911578194424808594
+      mario_big_1: -4548617664844547555
+      mario_big_10: -766481930828202537
+      mario_big_11: -3967455081401129792
+      mario_big_12: -6778270619731410114
+      mario_big_13: 9055909106083831945
+      mario_big_14: 6094648901639130209
+      mario_big_15: -4884983521217176052
+      mario_big_16: -7995617987030597187
+      mario_big_17: -2220033281013362595
+      mario_big_18: -9107159110345690201
+      mario_big_19: -409826703396578606
+      mario_big_2: 9154317766691078367
+      mario_big_20: -873569085534264786
+      mario_big_21: -1712803728623851484
+      mario_big_22: -2259601977467015946
+      mario_big_23: -1698869159675740114
+      mario_big_24: -5997461173085542661
+      mario_big_25: 9216603056571965997
+      mario_big_26: 8168384871770559204
+      mario_big_27: -8076103629790257745
+      mario_big_28: -7289068278738988906
+      mario_big_29: 7112783610237994813
+      mario_big_3: 7326561420531055460
+      mario_big_30: 1724639243806294899
+      mario_big_4: 6922155045553270658
+      mario_big_5: 6552898105769514144
+      mario_big_6: -4031801077948644122
+      mario_big_7: 713228293095070551
+      mario_big_8: -4839398857409460857
+      mario_big_9: 1774096390183263062
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1496,7 +1496,7 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -40
+      scalar: -10
       minScalar: 30
       maxCurve:
         serializedVersion: 2
@@ -5313,6 +5313,8 @@ MonoBehaviour:
       Value: 0
     IsWaterSolid:
       Value: 0
+    SinksInQuickSandAndGoo:
+      Value: 0
     BreakMegaObjects:
       Value: 0
     WindImmune:
@@ -5329,7 +5331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2d9d61899704141827176a3e537665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enabled: 1
   IntensityModifier: 1
   Particle: {fileID: 6062451340480796212}
 --- !u!114 &-4455576844753479187
@@ -5353,6 +5354,8 @@ MonoBehaviour:
     IgnoreMovement:
       Value: 0
     CanCrushEntities:
+      Value: 0
+    RotatingPlatform:
       Value: 0
 --- !u!114 &2210952625023297629
 MonoBehaviour:
@@ -5944,7 +5947,7 @@ MonoBehaviour:
   - {fileID: 5074398470944070231}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 4
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

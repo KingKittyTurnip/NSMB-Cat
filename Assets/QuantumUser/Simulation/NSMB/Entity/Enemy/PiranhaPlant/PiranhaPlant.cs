@@ -22,7 +22,7 @@ namespace Quantum {
             var piranhaPlantCollider = f.Unsafe.GetPointer<PhysicsCollider2D>(piranhaPlantEntity);
             FPVector2 center = piranhaPlantTransform->Position + piranhaPlantCollider->Shape.Centroid;
 
-            if (reason.ShouldSpawnCoin()) {
+            if (reason.ShouldSpawnCoin() && f.Global->Rules.IsCoinsEnabled) {
                 // Spawn coin
                 var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
                 gamemode.SpawnLooseCoin(f, center);

@@ -417,11 +417,21 @@ namespace Quantum {
                 f.Signals.OnMarioPlayerDropObjective(entity, 1, attacker);
                 break;
             }
+            case PowerupState.Doneflower: {
+                //doneflower doesn't change state
+                f.Signals.OnMarioPlayerDropObjective(entity, 1, attacker);
+                break;
+            }
             case PowerupState.HammerSuit:
             case PowerupState.FireFlower:
             case PowerupState.IceFlower:
             case PowerupState.PropellerMushroom:
-            case PowerupState.BlueShell: {
+            case PowerupState.BlueShell:
+            case PowerupState.BubbleFlower:
+            case PowerupState.Bombro:
+            case PowerupState.Bioflower:
+            case PowerupState.Jumpsuit:
+            default: {
                 CurrentPowerupState = PowerupState.Mushroom;
                 f.Signals.OnMarioPlayerDropObjective(entity, 1, attacker);
                 break;

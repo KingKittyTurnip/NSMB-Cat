@@ -1648,7 +1648,9 @@ namespace Quantum {
             switch (mario->CurrentPowerupState) {
             case PowerupState.IceFlower:
             case PowerupState.FireFlower:
-            case PowerupState.HammerSuit: {
+            case PowerupState.HammerSuit:
+            case PowerupState.BubbleFlower:
+            case PowerupState.Doneflower: {
 
                 if (mario->ProjectileDelayFrames > 0 || mario->IsWallsliding || (mario->JumpState == JumpState.TripleJump && !physicsObject->IsTouchingGround)
                     || mario->IsSpinnerFlying || mario->IsDrilling || mario->IsSkidding || mario->IsTurnaround) {
@@ -1676,8 +1678,10 @@ namespace Quantum {
                 mario->ProjectileVolleyFrames = physics.ProjectileVolleyFrames;
 
                 Projectile* projectile;
-                if (mario->CurrentPowerupState == PowerupState.HammerSuit) {
-                    projectile = ShootHammerProjectile(f, ref filter, physics);
+                if (mario->CurrentPowerupState == PowerupState.BubbleFlower) {
+                    projectile = ShootBubbleProjectile(f, ref filter, physics, stage);
+                } else if (mario->CurrentPowerupState == PowerupState.HammerSuit) {
+                    projectile = ShootHammerProjectile(f, ref filter, physics, inputs.Up.IsDown);
                 } else {
                     projectile = ShootNormalProjectile(f, ref filter, physics);
                 }
@@ -1685,6 +1689,12 @@ namespace Quantum {
 
                 // Weird interaction in the main game...
                 mario->WalljumpFrames = 0;
+                break;
+            }
+            case PowerupState.Bombro: {
+                break;
+            }
+            case PowerupState.Bioflower: {
                 break;
             }
             case PowerupState.PropellerMushroom: {
@@ -1753,7 +1763,7 @@ namespace Quantum {
             }
         }
 
-        private Projectile* ShootHammerProjectile(Frame f, ref Filter filter, MarioPlayerPhysicsInfo physics) {
+        private Projectile* ShootHammerProjectile(Frame f, ref Filter filter, MarioPlayerPhysicsInfo physics, bool UpAim) {
             var mario = filter.MarioPlayer;
             var physicsObject = filter.PhysicsObject;
 
@@ -1761,7 +1771,7 @@ namespace Quantum {
             EntityRef newEntity = f.Create(f.SimulationConfig.HammerPrototype);
 
             var projectile = f.Unsafe.GetPointer<Projectile>(newEntity);
-            projectile->InitializeHammer(f, newEntity, filter.Entity, spawnPos, mario->FacingRight, true, false /* filter.Inputs.Up.IsDown */);
+            projectile->InitializeHammer(f, newEntity, filter.Entity, spawnPos, mario->FacingRight, true, UpAim);
             return projectile;
         }
 
@@ -1772,12 +1782,27 @@ namespace Quantum {
 
             FPVector2 spawnPos = filter.Transform->Position + new FPVector2(mario->FacingRight ? FP._0_25 : -FP._0_25, physicsObject->IsGravityInversed ? -Constants._0_40 : Constants._0_40);
 
-            EntityRef newEntity = f.Create(mario->CurrentPowerupState == PowerupState.IceFlower
+            EntityRef newEntity = f.Create(mario->CurrentPowerupState == PowerupState.Doneflower
+                ? f.SimulationConfig.DoneballPrototype :
+                mario->CurrentPowerupState == PowerupState.IceFlower
                 ? f.SimulationConfig.IceballPrototype
                 : f.SimulationConfig.FireballPrototype);
 
             var projectile = f.Unsafe.GetPointer<Projectile>(newEntity);
             projectile->Initialize(f, newEntity, filter.Entity, spawnPos, mario->FacingRight, true);
+            return projectile;
+        }
+
+        private Projectile* ShootBubbleProjectile(Frame f, ref Filter filter, MarioPlayerPhysicsInfo physics, VersusStageData stage) {
+            var mario = filter.MarioPlayer;
+            var physicsObject = filter.PhysicsObject;
+
+            FPVector2 spawnPos = filter.Transform->Position + new FPVector2(mario->FacingRight ? Constants._0_40 : -Constants._0_40, physicsObject->IsGravityInversed ? -Constants._0_40 : Constants._0_40);
+
+            EntityRef newEntity = f.Create(f.SimulationConfig.BubbleProrotype);
+
+            var projectile = f.Unsafe.GetPointer<Projectile>(newEntity);
+            projectile->InitializeBubble(f, stage, newEntity, filter.Entity, spawnPos, mario->FacingRight, true);
             return projectile;
         }
 
@@ -2404,12 +2429,35 @@ namespace Quantum {
             }
 
             var projectile = f.Unsafe.GetPointer<Projectile>(projectileEntity);
-            if (projectile->Owner == marioEntity) {
+            var mario = f.Unsafe.GetPointer<MarioPlayer>(marioEntity);
+            var marioPhysics = f.Unsafe.GetPointer<PhysicsObject>(marioEntity);
+
+            //check to bounce off
+            if (projectile->BounceOff && marioPhysics->Velocity.Y <= 0 && !(projectile->Owner == marioEntity && projectile->HitDelay > 0)) { //other players can jump off it anytime
+                var projectileTransform = f.Unsafe.GetPointer<Transform2D>(projectileEntity);
+                var marioTransform = f.Unsafe.GetPointer<Transform2D>(marioEntity);
+
+                QuantumUtils.UnwrapWorldLocations(f, projectileTransform->Position, marioTransform->Position, out FPVector2 ourPos, out FPVector2 theirPos);
+                FPVector2 damageDirection = (theirPos - ourPos).Normalized;
+                bool attackedFromAbove = FPVector2.Dot(damageDirection, FPVector2.Up) > FP._0_25;
+
+                if (attackedFromAbove) {
+                    mario->JumpState = JumpState.None;
+                    mario->BubbleJumps++;
+                    if (mario->IsGroundpounding) {
+                        mario->CoyoteTimeFrames = 60;
+                    } else {
+                        mario->DoEntityBounce = true;
+                    }
+                    f.Signals.OnProjectileHitEntity(projectileEntity, marioEntity);
+                    return;
+                }
+            }
+
+            if (projectile->Owner == marioEntity || projectile->HitDelay > 0) {
                 return;
             }
 
-            var mario = f.Unsafe.GetPointer<MarioPlayer>(marioEntity);
-            var marioPhysics = f.Unsafe.GetPointer<PhysicsObject>(marioEntity);
             var projectileAsset = f.FindAsset(projectile->Asset);
 
             bool dropStars = false;
@@ -2464,6 +2512,20 @@ namespace Quantum {
 
                     FPVector2 avgPosition = (marioPos + projectilePos) / 2;
                     f.Events.PlayKnockbackEffect(marioEntity, projectileEntity, KnockbackStrength.FireballBump, avgPosition, true);
+
+                    //swap powerups
+                    if (projectile->DoneSwap) {
+                        var ownerMario = f.Unsafe.GetPointer<MarioPlayer>(projectile->Owner);
+
+                        mario->PreviousPowerupState = mario->CurrentPowerupState;
+                        ownerMario->PreviousPowerupState = ownerMario->CurrentPowerupState;
+
+                        mario->CurrentPowerupState = ownerMario->PreviousPowerupState;
+                        ownerMario->CurrentPowerupState = mario->PreviousPowerupState;
+
+                        mario->QueuePowerupAnim(f, marioEntity, mario->PreviousPowerupState, mario->CurrentPowerupState, false);
+                        ownerMario->QueuePowerupAnim(f, marioEntity, mario->PreviousPowerupState, mario->CurrentPowerupState, false);
+                    }
                 }
             }
 
@@ -3011,7 +3073,7 @@ namespace Quantum {
                     //Hit Player if red shockwave, if grounded shockwave hit them only when grounded, and ignore iframes
                     if (Dis->StarsToDrop != 0 && (type == ExplosionType.Shockwave || f.Unsafe.GetPointer<PhysicsObject>(entity)->IsTouchingGround)) {
                         mario->CurrentKnockback = KnockbackStrength.None;
-                        mario->DoKnockback(f, entity, fromRight, Dis->StarsToDrop, KnockbackStrength.CollisionBump, bobomb, type == ExplosionType.GroundedShockwave);
+                        mario->DoKnockback(f, entity, fromRight, Dis->StarsToDrop, KnockbackStrength.Normal, bobomb, type == ExplosionType.GroundedShockwave);
                     }
                     break;
                 }

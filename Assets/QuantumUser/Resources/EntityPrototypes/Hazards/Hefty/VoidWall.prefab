@@ -449,6 +449,7 @@ MonoBehaviour:
     IgnoreTeamates:
       Value: 1
     Varient: 0
+    ConnectedObject: {fileID: 0}
 --- !u!114 &6989136294608042370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +477,8 @@ MonoBehaviour:
     SlowInLiquids:
       Value: 1
     IsWaterSolid:
+      Value: 0
+    SinksInQuickSandAndGoo:
       Value: 0
     BreakMegaObjects:
       Value: 0
@@ -654,7 +657,7 @@ MonoBehaviour:
   - {fileID: 1829226047858453289}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 4
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

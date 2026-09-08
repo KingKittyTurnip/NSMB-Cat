@@ -375,6 +375,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "928552b0144c44e2b6286bda1fd404fd"
+                },
+                "m_SlotId": 7
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "35c74944cab041048f7975cc51e31e0e"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "97d19b0a44064d9ea87059d774bddc96"
                 },
                 "m_SlotId": 0
@@ -780,7 +794,7 @@
     "m_ObjectId": "17751287c29f4fa9980522129d3328a8",
     "m_Title": "Overalls",
     "m_Position": {
-        "x": -1243.9996337890625,
+        "x": -1244.0,
         "y": -2145.333251953125
     }
 }
@@ -1840,7 +1854,7 @@
     "m_ObjectId": "4ef8620a9e8a4d17ba05e6fceb6e557b",
     "m_Title": "Shirt",
     "m_Position": {
-        "x": -783.3333129882813,
+        "x": -783.3338012695313,
         "y": -2144.0
     }
 }
@@ -2039,7 +2053,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Smoothness",
     "m_StageCapability": 2,
-    "m_Value": 0.6000000238418579,
+    "m_Value": 0.4000000059604645,
     "m_DefaultValue": 0.5,
     "m_Labels": [],
     "m_LiteralMode": false
@@ -2123,7 +2137,7 @@
         "m_Id": "84845c1d020b464da2cfd7460d1da933"
     },
     "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 0,
+    "m_SurfaceType": 1,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 1,
     "m_AlphaMode": 0,
@@ -3149,7 +3163,7 @@
     "m_ObjectId": "a58929416252421d867488bb228ed99e",
     "m_Title": "Cap",
     "m_Position": {
-        "x": -367.9999084472656,
+        "x": -368.0000915527344,
         "y": -2145.333251953125
     }
 }
@@ -3228,7 +3242,7 @@
     "m_ObjectId": "ab2eed6b8c52469196bbfccd3239e277",
     "m_Title": "Base",
     "m_Position": {
-        "x": -1647.333251953125,
+        "x": -1647.333740234375,
         "y": -2145.333251953125
     }
 }

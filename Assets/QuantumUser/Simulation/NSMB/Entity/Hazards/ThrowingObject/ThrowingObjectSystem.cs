@@ -796,7 +796,7 @@ namespace Quantum {
                         Dis->HitSomething = true;
                         f.Unsafe.GetPointer<IceBlock>(IceBlockSystem.Freeze(f, marioEntity))->AutoBreakFrames = 360;
                     } else {
-                        if (mario->DoKnockback(f, marioEntity, hitRight, Dis->StarsToDrop, /*TeamateItem*/ Dis->StarsToDrop > 2 ? KnockbackStrength.Groundpound : KnockbackStrength.FireballBump, thisEntity)) {
+                        if (mario->DoKnockback(f, marioEntity, hitRight, Dis->StarsToDrop, /*TeamateItem*/ Dis->StarsToDrop > 2 ? KnockbackStrength.Normal : Dis->StarsToDrop > 2 ? KnockbackStrength.Groundpound : KnockbackStrength.FireballBump, thisEntity)) {
                             f.Events.PlayKnockbackEffect(marioEntity, thisEntity, KnockbackStrength.FireballBump,
                                 (f.Unsafe.GetPointer<Transform2D>(marioEntity)->Position + f.Unsafe.GetPointer<Transform2D>(thisEntity)->Position) / 2, true);
                         }

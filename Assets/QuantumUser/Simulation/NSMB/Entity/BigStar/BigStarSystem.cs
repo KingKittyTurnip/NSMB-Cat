@@ -1,6 +1,7 @@
 using Photon.Deterministic;
 using Quantum.Collections;
 using Quantum.Physics2D;
+using UnityEngine;
 
 namespace Quantum {
     public unsafe class BigStarSystem : SystemMainThread, ISignalOnMarioPlayerDropObjective {
@@ -169,6 +170,11 @@ namespace Quantum {
 
         public void OnMarioPlayerDropObjective(Frame f, EntityRef entity, int amount, EntityRef attacker) {
             if (f.Unsafe.TryGetPointer(entity, out MarioPlayer* mario)) {
+                if (mario->CurrentPowerupState == PowerupState.Doneflower) {//double damage
+                    amount = amount * 2;
+                    if (amount > 4)
+                        amount = 4;
+                }
                 SpawnStarsFromPlayer(f, entity, mario, amount);
             }
         }

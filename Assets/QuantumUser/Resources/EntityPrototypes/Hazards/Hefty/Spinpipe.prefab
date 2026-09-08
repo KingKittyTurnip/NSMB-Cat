@@ -518,6 +518,8 @@ MonoBehaviour:
       Value: 0
     IsWaterSolid:
       Value: 0
+    SinksInQuickSandAndGoo:
+      Value: 0
     BreakMegaObjects:
       Value: 1
     WindImmune:
@@ -560,6 +562,8 @@ MonoBehaviour:
     IgnoreMovement:
       Value: 0
     CanCrushEntities:
+      Value: 0
+    RotatingPlatform:
       Value: 0
 --- !u!114 &2210952625023297629
 MonoBehaviour:
@@ -708,7 +712,7 @@ MonoBehaviour:
   - {fileID: 8131463546934365591}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: -1
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

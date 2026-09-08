@@ -17,8 +17,6 @@ public class ProjectileAsset : AssetObject, ISoundOverrideProvider {
     public bool HasCollision = true;
     public bool DoesntEffectBlueShell = true;
 
-    public bool IsMelee = false;
-
     public ParticleEffect DestroyParticleEffect = ParticleEffect.None;
     public SoundEffect ShootSound = SoundEffect.Powerup_Fireball_Shoot;
 

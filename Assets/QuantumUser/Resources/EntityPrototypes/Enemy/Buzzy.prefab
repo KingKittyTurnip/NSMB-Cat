@@ -610,6 +610,8 @@ MonoBehaviour:
       Value: 0
     IsBuzzy:
       Value: 1
+    IsTurnip:
+      Value: 0
     Speed:
       RawValue: 57344
     KickSpeed:
@@ -668,6 +670,8 @@ MonoBehaviour:
     SlowInLiquids:
       Value: 1
     IsWaterSolid:
+      Value: 0
+    SinksInQuickSandAndGoo:
       Value: 0
     BreakMegaObjects:
       Value: 0
@@ -880,7 +884,7 @@ MonoBehaviour:
   - {fileID: 8133877121043965814}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 4
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

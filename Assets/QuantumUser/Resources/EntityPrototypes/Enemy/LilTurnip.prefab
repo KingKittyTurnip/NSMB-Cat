@@ -131,6 +131,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -876546973899608171, guid: 0888e994dea9f624bbb8a661b2560106,
         type: 3}
+    - target: {fileID: 8332169329391601838, guid: 4f50cb5e806289d43bf820de1f1347bb,
+        type: 3}
+      propertyPath: blinkingRate
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8786985841086654504, guid: 4f50cb5e806289d43bf820de1f1347bb,
         type: 3}
       propertyPath: interpolate

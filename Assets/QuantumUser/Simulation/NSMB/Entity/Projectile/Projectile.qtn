@@ -4,8 +4,11 @@ component Projectile {
 	AssetRef<ProjectileAsset> Asset;
 	FP Speed;
 	byte Lifetime;
+	bool BounceOff;
+	bool DoneSwap;
+    byte HitDelay;
 
-	[ExcludeFromPrototype] EntityRef Owner;
+    [ExcludeFromPrototype] EntityRef Owner;
 	[ExcludeFromPrototype] bool FacingRight;
 	[ExcludeFromPrototype] bool HasBounced;
 	[ExcludeFromPrototype] bool CheckedCollision;

@@ -1517,6 +1517,9 @@ namespace Quantum.Prototypes {
   public unsafe partial class ProjectilePrototype : ComponentPrototype<Quantum.Projectile> {
     public AssetRef<ProjectileAsset> Asset;
     public FP Speed;
+    public QBoolean BounceOff;
+    public QBoolean DoneSwap;
+    public Byte HitDelay;
     partial void MaterializeUser(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Projectile component = default;
@@ -1526,6 +1529,9 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context = default) {
         result.Asset = this.Asset;
         result.Speed = this.Speed;
+        result.BounceOff = this.BounceOff;
+        result.DoneSwap = this.DoneSwap;
+        result.HitDelay = this.HitDelay;
         MaterializeUser(frame, ref result, in context);
     }
   }

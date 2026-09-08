@@ -308,7 +308,7 @@ namespace NSMB.Cameras {
         }
 
         private float PrevMax = 0;
-        public AnimationCurve Smoother;
+        public AnimationCurve Smoother; //
         private void HandleRotation(CallbackUpdateView e) {
             QuantumGame game = e.Game;
             Frame f = game.Frames.Predicted;

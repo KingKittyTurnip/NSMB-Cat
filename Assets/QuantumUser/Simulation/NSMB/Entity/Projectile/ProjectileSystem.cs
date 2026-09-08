@@ -1,4 +1,5 @@
 using Photon.Deterministic;
+using UnityEngine;
 
 namespace Quantum {
     public unsafe class ProjectileSystem : SystemMainThreadEntityFilter<Projectile, ProjectileSystem.Filter>, ISignalOnProjectileHitEntity {
@@ -26,15 +27,12 @@ namespace Quantum {
             var projectile = filter.Projectile;
             var asset = f.FindAsset(projectile->Asset);
 
-            if (asset.IsMelee) {
-                //place to owner location
-                transform->Position = f.Unsafe.GetPointer<Transform2D>(projectile->Owner)->Position + projectile->SpawnOffset;
-            }
-
             if (projectile->Lifetime > 0 && QuantumUtils.Decrement(ref projectile->Lifetime)) {
                 // Despawn via timer
                 Destroy(f, filter.Entity, asset.DestroyParticleEffect);
             }
+
+            QuantumUtils.Decrement(ref projectile->HitDelay);
 
             var physicsObject = filter.PhysicsObject;
             // Check to instant-despawn if spawned inside a wall
@@ -48,7 +46,14 @@ namespace Quantum {
 
             HandleTileCollision(f, ref filter, asset);
 
-            physicsObject->Velocity.X = projectile->Speed * (projectile->FacingRight ? 1 : -1);
+            if (projectile->BounceOff) { //this is bad code
+                var newcap = FPMath.Max(FPMath.Abs(physicsObject->Velocity.X) - FP._0_10, FP._1_50);
+                physicsObject->Velocity.X = FPMath.Clamp(physicsObject->Velocity.X, -newcap, newcap);
+
+                physicsObject->TerminalVelocity = FPMath.Min(physicsObject->TerminalVelocity + FP._0_03, -FP._0_10);
+            } else {
+                physicsObject->Velocity.X = projectile->Speed * (projectile->FacingRight ? 1 : -1);
+            }
 
             if (asset.LockTo45Degrees) {
                 physicsObject->TerminalVelocity = -projectile->Speed;
@@ -95,6 +100,35 @@ namespace Quantum {
 
             var projectileAssetA = f.FindAsset(projectileA->Asset);
             var projectileAssetB = f.FindAsset(projectileB->Asset);
+
+            //bubble.... 
+            if (projectileA->BounceOff) {
+                switch (projectileAssetB.Effect) {
+                case ProjectileEffectType.Fire:
+                case ProjectileEffectType.Freeze: {
+                    Destroy(f, projectileEntityB, projectileAssetB.DestroyParticleEffect);
+                    return;
+                }
+                case ProjectileEffectType.KillEnemiesAndSoftKnockbackPlayers: {
+                    Destroy(f, projectileEntityA, projectileAssetA.DestroyParticleEffect);
+                    f.Signals.OnProjectileHitEntity(projectileEntityB, projectileEntityA);
+                    return;
+                }
+                }
+            } else if (projectileB->BounceOff) {
+                switch (projectileAssetA.Effect) {
+                case ProjectileEffectType.Fire:
+                case ProjectileEffectType.Freeze: {
+                    Destroy(f, projectileEntityA, projectileAssetA.DestroyParticleEffect);
+                    return;
+                }
+                case ProjectileEffectType.KillEnemiesAndSoftKnockbackPlayers: {
+                    Destroy(f, projectileEntityB, projectileAssetB.DestroyParticleEffect);
+                    f.Signals.OnProjectileHitEntity(projectileEntityA, projectileEntityB);
+                    return;
+                }
+                }
+            }
 
             if ((projectileAssetA.Effect == ProjectileEffectType.Fire && projectileAssetB.Effect == ProjectileEffectType.Freeze)
                 || (projectileAssetB.Effect == ProjectileEffectType.Fire && projectileAssetA.Effect == ProjectileEffectType.Freeze)) {

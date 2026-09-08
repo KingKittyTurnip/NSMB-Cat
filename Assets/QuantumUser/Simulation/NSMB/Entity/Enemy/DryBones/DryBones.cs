@@ -62,7 +62,7 @@ namespace Quantum {
             var dryCollider = f.Unsafe.GetPointer<PhysicsCollider2D>(dryEntity);
             FPVector2 center = dryTransform->Position + dryCollider->Shape.Centroid;
 
-            if (reason.ShouldSpawnCoin()) {
+            if (reason.ShouldSpawnCoin() && f.Global->Rules.IsCoinsEnabled) {
                 // Spawn coin
                 var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
                 gamemode.SpawnLooseCoin(f, center);

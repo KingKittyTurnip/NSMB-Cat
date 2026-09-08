@@ -23,7 +23,7 @@ namespace Quantum {
             var duckCollider = f.Unsafe.GetPointer<PhysicsCollider2D>(duckEntity);
             FPVector2 center = duckTransform->Position + duckCollider->Shape.Centroid;
 
-            if (reason.ShouldSpawnCoin()) {
+            if (reason.ShouldSpawnCoin() && f.Global->Rules.IsCoinsEnabled) {
                 // Spawn coin
                 var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
                 gamemode.SpawnLooseCoin(f, center);

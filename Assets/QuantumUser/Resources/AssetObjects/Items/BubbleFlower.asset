@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BubbleFlower
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/Items/KKT/BubbleFlower
+    Path: QuantumUser/Resources/AssetObjects/Items/BubbleFlower
     Guid:
       Value: 444609547890211768
   Prefab:
@@ -57,38 +57,38 @@ MonoBehaviour:
   AnimationCurveX:
     Samples:
     - RawValue: 0
-    - RawValue: 5168
-    - RawValue: 10977
-    - RawValue: 17398
-    - RawValue: 24401
-    - RawValue: 31958
-    - RawValue: 40038
-    - RawValue: 48613
-    - RawValue: 57653
-    - RawValue: 67129
-    - RawValue: 77012
-    - RawValue: 87273
-    - RawValue: 97883
-    - RawValue: 108811
-    - RawValue: 120030
-    - RawValue: 131509
-    - RawValue: 143220
-    - RawValue: 155132
-    - RawValue: 167218
-    - RawValue: 179448
-    - RawValue: 191792
-    - RawValue: 204222
-    - RawValue: 216707
-    - RawValue: 229220
-    - RawValue: 241729
-    - RawValue: 254208
-    - RawValue: 266625
-    - RawValue: 278952
-    - RawValue: 291160
-    - RawValue: 303219
-    - RawValue: 315101
-    - RawValue: 326775
-    - RawValue: 338213
+    - RawValue: 13979
+    - RawValue: 28774
+    - RawValue: 44345
+    - RawValue: 60653
+    - RawValue: 77658
+    - RawValue: 95320
+    - RawValue: 113598
+    - RawValue: 132454
+    - RawValue: 151847
+    - RawValue: 171739
+    - RawValue: 192087
+    - RawValue: 212854
+    - RawValue: 233999
+    - RawValue: 255483
+    - RawValue: 277265
+    - RawValue: 299306
+    - RawValue: 321566
+    - RawValue: 344005
+    - RawValue: 366583
+    - RawValue: 389261
+    - RawValue: 411998
+    - RawValue: 434756
+    - RawValue: 457494
+    - RawValue: 480171
+    - RawValue: 502750
+    - RawValue: 525189
+    - RawValue: 547449
+    - RawValue: 569490
+    - RawValue: 591272
+    - RawValue: 612756
+    - RawValue: 633901
+    - RawValue: 654668
     PreWrapMode: 0
     PostWrapMode: 0
     StartTime:
@@ -104,9 +104,9 @@ MonoBehaviour:
       Value:
         RawValue: 0
       InTangent:
-        RawValue: 10321
+        RawValue: 28923
       OutTangent:
-        RawValue: 10321
+        RawValue: 28923
       TangentMode: 0
       TangentModeLeft: 0
       TangentModeRight: 0
@@ -114,11 +114,11 @@ MonoBehaviour:
     - Time:
         RawValue: 983040
       Value:
-        RawValue: 338213
+        RawValue: 654668
       InTangent:
-        RawValue: 24127
+        RawValue: 43871
       OutTangent:
-        RawValue: 24127
+        RawValue: 43871
       TangentMode: 0
       TangentModeLeft: 0
       TangentModeRight: 0
@@ -126,38 +126,38 @@ MonoBehaviour:
   AnimationCurveY:
     Samples:
     - RawValue: 0
-    - RawValue: 2271
-    - RawValue: 4056
-    - RawValue: 5345
-    - RawValue: 6133
-    - RawValue: 6407
-    - RawValue: 5852
-    - RawValue: 4499
-    - RawValue: 2656
-    - RawValue: 631
-    - RawValue: -1270
-    - RawValue: -2740
-    - RawValue: -3471
-    - RawValue: -2953
-    - RawValue: -714
-    - RawValue: 2640
-    - RawValue: 6448
-    - RawValue: 10045
-    - RawValue: 12768
-    - RawValue: 13953
-    - RawValue: 13419
-    - RawValue: 11826
-    - RawValue: 9617
-    - RawValue: 7231
-    - RawValue: 5113
-    - RawValue: 3701
-    - RawValue: 3483
-    - RawValue: 5285
-    - RawValue: 8771
-    - RawValue: 13273
-    - RawValue: 18126
-    - RawValue: 22662
-    - RawValue: 26214
+    - RawValue: 5366
+    - RawValue: 13573
+    - RawValue: 20315
+    - RawValue: 21524
+    - RawValue: 17350
+    - RawValue: 9989
+    - RawValue: 1371
+    - RawValue: -6572
+    - RawValue: -11913
+    - RawValue: -12213
+    - RawValue: -1189
+    - RawValue: 17597
+    - RawValue: 37842
+    - RawValue: 53243
+    - RawValue: 57612
+    - RawValue: 50848
+    - RawValue: 37861
+    - RawValue: 22945
+    - RawValue: 10395
+    - RawValue: 4506
+    - RawValue: 13415
+    - RawValue: 37860
+    - RawValue: 66929
+    - RawValue: 89636
+    - RawValue: 95545
+    - RawValue: 90081
+    - RawValue: 81975
+    - RawValue: 76485
+    - RawValue: 78254
+    - RawValue: 90519
+    - RawValue: 119178
+    - RawValue: 170393
     PreWrapMode: 0
     PostWrapMode: 0
     StartTime:
@@ -181,9 +181,9 @@ MonoBehaviour:
       TangentModeRight: 0
       WeightedMode: 0
     - Time:
-        RawValue: 149747
+        RawValue: 111524
       Value:
-        RawValue: 6405
+        RawValue: 21875
       InTangent:
         RawValue: 185
       OutTangent:
@@ -193,9 +193,9 @@ MonoBehaviour:
       TangentModeRight: 0
       WeightedMode: 0
     - Time:
-        RawValue: 378340
+        RawValue: 297117
       Value:
-        RawValue: -3500
+        RawValue: -13074
       InTangent:
         RawValue: 183
       OutTangent:
@@ -205,9 +205,9 @@ MonoBehaviour:
       TangentModeRight: 0
       WeightedMode: 0
     - Time:
-        RawValue: 585868
+        RawValue: 454478
       Value:
-        RawValue: 13961
+        RawValue: 57840
       InTangent:
         RawValue: 75
       OutTangent:
@@ -217,13 +217,37 @@ MonoBehaviour:
       TangentModeRight: 0
       WeightedMode: 0
     - Time:
-        RawValue: 789510
+        RawValue: 617508
       Value:
-        RawValue: 3371
+        RawValue: 4449
       InTangent:
         RawValue: 5
       OutTangent:
         RawValue: 5
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 760345
+      Value:
+        RawValue: 95881
+      InTangent:
+        RawValue: -551
+      OutTangent:
+        RawValue: -551
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 872015
+      Value:
+        RawValue: 76185
+      InTangent:
+        RawValue: 2137
+      OutTangent:
+        RawValue: 2137
       TangentMode: 0
       TangentModeLeft: 0
       TangentModeRight: 0
@@ -231,11 +255,11 @@ MonoBehaviour:
     - Time:
         RawValue: 983040
       Value:
-        RawValue: 26214
+        RawValue: 170393
       InTangent:
-        RawValue: 6053
+        RawValue: 137699
       OutTangent:
-        RawValue: 6053
+        RawValue: 137699
       TangentMode: 0
       TangentModeLeft: 0
       TangentModeRight: 0

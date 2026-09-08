@@ -223,6 +223,18 @@ MonoBehaviour:
   CannonBoxBulletPrototype:
     Id:
       Value: 1401386289927863402
+  BubbleProrotype:
+    Id:
+      Value: 1279369688980366028
+  BombudPrototype:
+    Id:
+      Value: 0
+  BiovinePrototype:
+    Id:
+      Value: 0
+  DoneballPrototype:
+    Id:
+      Value: 1527644659768632872
   MainSpawn:
     Id:
       Value: 0
@@ -243,24 +255,9 @@ MonoBehaviour:
       Value: 359915131242169269
   - Id:
       Value: 517553602319409099
-  StarChasers:
-    Id:
-      Value: 326486899682662279
-  CoinRunners:
-    Id:
-      Value: 394255533064620237
-  BalloonBattle:
-    Id:
-      Value: 0
-  BombChasers:
-    Id:
-      Value: 0
   BaseRules:
     Id:
       Value: 425424764972781941
-  CurrentHazards:
-    Id:
-      Value: 357552766163820663
 --- !u!114 &-100545808229499591
 MonoBehaviour:
   m_ObjectHideFlags: 0

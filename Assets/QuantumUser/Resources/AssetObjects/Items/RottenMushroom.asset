@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RottenMushroom
   m_EditorClassIdentifier: Quantum.Simulation::DamagePowerupAsset
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/Items/KKT/RottenMushroom
+    Path: QuantumUser/Resources/AssetObjects/Items/RottenMushroom
     Guid:
       Value: 303611879426237237
   Prefab:
@@ -28,6 +28,9 @@ MonoBehaviour:
   BlockSpawnSoundEffect: 69
   Flags: 19
   MaxNumberOfItems: 0
+  CanSpawnAfterSeconds:
+    RawValue: 0
+  TranslationKey: 
   CameraSpawnOffset:
     X:
       RawValue: 0
@@ -77,4 +80,5 @@ MonoBehaviour:
   StatePriority: -1
   ItemPriority: -1
   EnterReserveIfOverridden: 0
+  Instant: 0
   SfxOverrides: []

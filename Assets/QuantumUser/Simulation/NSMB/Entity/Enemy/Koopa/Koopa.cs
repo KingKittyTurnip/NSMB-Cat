@@ -72,7 +72,7 @@ namespace Quantum {
 
             FPVector2 center = koopaTransform->Position + koopaCollider->Shape.Centroid;
 
-            if (reason.ShouldSpawnCoin()) {
+            if (reason.ShouldSpawnCoin() && f.Global->Rules.IsCoinsEnabled) {
                 // Spawn coin
                 var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
                 gamemode.SpawnLooseCoin(f, center);

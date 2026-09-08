@@ -655,6 +655,8 @@ MonoBehaviour:
       Value: 0
     IsWaterSolid:
       Value: 0
+    SinksInQuickSandAndGoo:
+      Value: 0
     BreakMegaObjects:
       Value: 0
     WindImmune:
@@ -799,7 +801,7 @@ MonoBehaviour:
   - {fileID: 9060028654145293945}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 4
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

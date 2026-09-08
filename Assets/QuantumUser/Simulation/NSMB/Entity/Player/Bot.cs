@@ -215,12 +215,11 @@ namespace Quantum {
 
             //Projectile Powerups
             QuantumUtils.Decrement(ref BotAtkCooldown);
+            bool firedownwards = mario->CurrentPowerupState == PowerupState.FireFlower || mario->CurrentPowerupState == PowerupState.BubbleFlower || mario->CurrentPowerupState == PowerupState.Doneflower;
             if (Attack && BotAtkCooldown <= 0
-              && ((mario->CurrentPowerupState == PowerupState.FireFlower && Diffrence.Y > -2)
-              || (mario->CurrentPowerupState == PowerupState.IceFlower && Diffrence.Y > -2)
+              && ((firedownwards && Diffrence.Y > -2)
               || (mario->CurrentPowerupState == PowerupState.HammerSuit && Diffrence.Y < 2)
-              || (mario->CurrentPowerupState == PowerupState.PropellerMushroom && Diffrence.Y < 0)
-              || (mario->CurrentPowerupState == PowerupState.FireFlower && Diffrence.Y > -2))) {
+              || (mario->CurrentPowerupState == PowerupState.PropellerMushroom && Diffrence.Y < 0))) {
                 inputs.PowerupAction = true;
                 BotAtkCooldown = (byte) f.RNG->Next(3, 45);
             }
@@ -232,7 +231,7 @@ namespace Quantum {
             //TODO: Get Rid Of Bad Powerups (Ex: Mini & Jumpsuit)
             if (mario->CurrentPowerupState <= PowerupState.Mushroom
               || (Personality == 2 && (mario->CurrentPowerupState == PowerupState.BlueShell || mario->CurrentPowerupState == PowerupState.PropellerMushroom))
-              || (Personality == 3 && (mario->CurrentPowerupState == PowerupState.FireFlower || mario->CurrentPowerupState == PowerupState.IceFlower)))
+              || (Personality == 3 && (firedownwards)))
                 if (Reserve != null)
                     MarioPlayerSystem.BotReserve(f, marioEntity);
 

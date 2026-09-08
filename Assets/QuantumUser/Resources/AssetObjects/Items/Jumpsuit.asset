@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Jumpsuit
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/Items/KKT/Jumpsuit
+    Path: QuantumUser/Resources/AssetObjects/Items/Jumpsuit
     Guid:
       Value: 509006582452441388
   Prefab:
     Id:
-      Value: 1268531089014898302
+      Value: 1490579344614088993
   SpawnChance:
     RawValue: 98304
   AboveAverageBonus:
@@ -28,6 +28,9 @@ MonoBehaviour:
   BlockSpawnSoundEffect: 69
   Flags: 19
   MaxNumberOfItems: 0
+  CanSpawnAfterSeconds:
+    RawValue: 0
+  TranslationKey: 
   CameraSpawnOffset:
     X:
       RawValue: 0
@@ -35,7 +38,7 @@ MonoBehaviour:
       RawValue: 110100
   MaxMatchingPowerStates: 0
   MaxMatchingReserveState: 0
-  State: 2
+  State: 15
   SoundPlaysEverywhere: 0
   SoundEffect: 16
   ReserveSprite: {fileID: 5709720548119103520, guid: a87d3b028baa82640b06b88398a8c4f0,
@@ -77,5 +80,6 @@ MonoBehaviour:
     Keys: []
   StatePriority: 1
   ItemPriority: 1
-  EnterReserveIfOverridden: 0
+  EnterReserveIfOverridden: 1
+  Instant: 0
   SfxOverrides: []

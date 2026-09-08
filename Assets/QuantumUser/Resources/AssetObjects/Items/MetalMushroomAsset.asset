@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MetalMushroomAsset
   m_EditorClassIdentifier: Quantum.Simulation::MetalPowerupAsset
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/Items/KKT/MetalMushroomAsset
+    Path: QuantumUser/Resources/AssetObjects/Items/MetalMushroomAsset
     Guid:
       Value: 536263258462308378
   Prefab:
@@ -28,6 +28,9 @@ MonoBehaviour:
   BlockSpawnSoundEffect: 69
   Flags: 19
   MaxNumberOfItems: 0
+  CanSpawnAfterSeconds:
+    RawValue: 0
+  TranslationKey: 
   CameraSpawnOffset:
     X:
       RawValue: 0
@@ -77,6 +80,7 @@ MonoBehaviour:
   StatePriority: -1
   ItemPriority: -1
   EnterReserveIfOverridden: 1
+  Instant: 0
   SfxOverrides: []
   MetalDuration:
     RawValue: 1310720

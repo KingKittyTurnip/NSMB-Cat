@@ -5476,9 +5476,6 @@ MonoBehaviour:
       RawValue: 98304
     DespawnRadius:
       RawValue: 524288
-    Cloud:
-      Id:
-        Value: 0
 --- !u!114 &1099637356932663032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5706,7 +5703,7 @@ MonoBehaviour:
   - {fileID: 4540435544182297773}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 4
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

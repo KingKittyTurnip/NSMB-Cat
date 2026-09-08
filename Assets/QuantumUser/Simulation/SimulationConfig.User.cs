@@ -13,7 +13,7 @@ namespace Quantum {
         //public AssetRef<TeamAsset>[] Teams;
         [Header("Projectiles")]
         public AssetRef<EntityPrototype> FireballPrototype;
-        public AssetRef<EntityPrototype> IceballPrototype, HammerPrototype, BlockBumpPrototype, IceBlockPrototype, CannonBoxBulletPrototype;
+        public AssetRef<EntityPrototype> IceballPrototype, HammerPrototype, BlockBumpPrototype, IceBlockPrototype, CannonBoxBulletPrototype, BubbleProrotype, BombudPrototype, BiovinePrototype, DoneballPrototype;
         [Header("Technical")]
         public AssetRef<EntityPrototype> MainSpawn;
         public AssetRef<EntityPrototype> HazardSpawn;

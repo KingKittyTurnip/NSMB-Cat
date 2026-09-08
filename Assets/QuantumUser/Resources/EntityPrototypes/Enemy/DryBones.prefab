@@ -682,7 +682,7 @@ MonoBehaviour:
   - {fileID: 2609838027494029268}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 4
+  blinkingRate: 8
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

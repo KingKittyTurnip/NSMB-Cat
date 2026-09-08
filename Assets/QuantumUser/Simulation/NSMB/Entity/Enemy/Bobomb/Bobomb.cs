@@ -45,7 +45,7 @@ namespace Quantum {
 
             FPVector2 position = bobombTransform->Position;
 
-            if (reason.ShouldSpawnCoin()) {
+            if (reason.ShouldSpawnCoin() && f.Global->Rules.IsCoinsEnabled) {
                 // Spawn coin
                 var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
                 gamemode.SpawnLooseCoin(f, position);

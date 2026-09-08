@@ -31,7 +31,7 @@ namespace Quantum {
             );
             physicsObject->Gravity = new FPVector2(0, -Constants._14_75);
 
-            if (reason.ShouldSpawnCoin()) {
+            if (reason.ShouldSpawnCoin() && f.Global->Rules.IsCoinsEnabled) {
                 // Spawn coin
                 var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
                 gamemode.SpawnLooseCoin(f, center);
