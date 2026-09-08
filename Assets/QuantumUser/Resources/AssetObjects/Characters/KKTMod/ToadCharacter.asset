@@ -19,22 +19,18 @@ MonoBehaviour:
   Prototype:
     Id:
       Value: 1321228786849069544
-  UiString: <sprite name=hud_mario>
+  UiString: <sprite name=hud_toad>
   TranslationString: Toad
   LoadingSmallSprite: {fileID: -8022604906182508380, guid: ccda1bcdf9b065742a9aad726d15c3cf,
     type: 3}
   LoadingLargeSprite: {fileID: 4163073632970182796, guid: ccda1bcdf9b065742a9aad726d15c3cf,
     type: 3}
-  ReadySprite: {fileID: 7263181891274304025, guid: 70672da71d9d71a4daaf5f3fc58531e6,
-    type: 3}
+  ReadySprite: {fileID: 892951617, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
   SilhouetteSprite: {fileID: -3763668094994174049, guid: 48a5e760b4eb1394f859ec7f219dd691,
     type: 3}
   SelectionSprite: {fileID: -5126700462995827203, guid: f9058fc3dbd9d6846bacf70193d0a05f,
     type: 3}
   SelectionColor: {r: 0, g: 0.5543151, b: 1, a: 1}
-  SelectionOrder: -999
-  SmallOverrides: {fileID: 22100000, guid: 996c66ad20b17dc4a91d97f7e78e0014, type: 2}
-  LargeOverrides: {fileID: 22100000, guid: 996c66ad20b17dc4a91d97f7e78e0014, type: 2}
   Order: 2
   SfxOverrides:
   - SoundEffect: 33

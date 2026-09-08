@@ -21,7 +21,7 @@ MonoBehaviour:
   MusicComposer: Nintendo
   TranslationKey: levels.custom.Starball Test
   StageDescription: A map KKT used to test starball goal spawning
-  GroupingTranslationKey: '- Test -'
+  GroupingTranslationKey: 
   DiscordStageImage: 
   SortOrder: 0
   Icon: {fileID: 0}

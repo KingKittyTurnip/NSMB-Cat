@@ -21,7 +21,7 @@ MonoBehaviour:
   MusicComposer: Nintendo
   TranslationKey: KKTTestCastle
   StageDescription: A map KKT used to test the many mechanics of the mod
-  GroupingTranslationKey: '- Test -'
+  GroupingTranslationKey: 
   DiscordStageImage: 
   SortOrder: 0
   Icon: {fileID: 0}

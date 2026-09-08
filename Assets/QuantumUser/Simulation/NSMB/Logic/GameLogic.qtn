@@ -46,7 +46,7 @@ struct GameRules {
     StageChooseMode ChooseMode;
     hash_set<AssetRef<Map>> RandomDisabledStages;
 
-    AssetRef<GamemodeAsset> Gamemode;
+    AssetRef<GamemodeAsset> Gamemode;//
 	int StarsToWin; //coinrunner's coins, balloon battle's balloons
 	  byte StarFrequency; //coinrunner's starcoin frequency
 

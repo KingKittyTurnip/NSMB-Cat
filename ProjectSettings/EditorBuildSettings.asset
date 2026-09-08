@@ -62,9 +62,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/KKTMod/CliffsideSlide.unity
     guid: 005f77c413f765743b109e2d902148a1
-  - enabled: 0
-    path: Assets/Scenes/Levels/DesertSpikes.unity
-    guid: 24cef5d8a46be774caa48d56d0911aba
   - enabled: 1
     path: Assets/Scenes/Levels/KKTMod/Pillar.unity
     guid: c777e1150a22f4146883d801e12e3843
@@ -107,6 +104,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/KKTMod/Freezing Pond.unity
     guid: 0fdfa237db6b8294884223311fcf15b4
+  - enabled: 1
+    path: Assets/Scenes/Levels/KKTMod/BamboozlingJungle.unity
+    guid: eaceff65885b55047b1985b939d83d48
+  - enabled: 1
+    path: Assets/Scenes/Levels/KKTMod/DesertSpikes.unity
+    guid: d0bb1444b9231574e8dc3305f8a7946a
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 089c0b7845b45284db115d78b78a26c4,
       type: 2}

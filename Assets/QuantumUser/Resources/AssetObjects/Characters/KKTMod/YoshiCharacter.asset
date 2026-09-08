@@ -19,21 +19,17 @@ MonoBehaviour:
   Prototype:
     Id:
       Value: 1305993759148241386
-  UiString: <sprite name=hud_mario>
+  UiString: <sprite name=hud_yoshi>
   TranslationString: Yoshi
   LoadingSmallSprite: {fileID: -4097912066183620314, guid: ccda1bcdf9b065742a9aad726d15c3cf,
     type: 3}
   LoadingLargeSprite: {fileID: -8037831641191831761, guid: ccda1bcdf9b065742a9aad726d15c3cf,
     type: 3}
-  ReadySprite: {fileID: 7263181891274304025, guid: 70672da71d9d71a4daaf5f3fc58531e6,
-    type: 3}
+  ReadySprite: {fileID: -2027274939, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
   SilhouetteSprite: {fileID: -1972081901, guid: 48a5e760b4eb1394f859ec7f219dd691,
     type: 3}
   SelectionSprite: {fileID: -217524917, guid: f9058fc3dbd9d6846bacf70193d0a05f, type: 3}
   SelectionColor: {r: 0, g: 0.8553459, b: 0.057023823, a: 1}
-  SelectionOrder: -995
-  SmallOverrides: {fileID: 22100000, guid: 2c287afd602e3d540aeb874af72cb2f1, type: 2}
-  LargeOverrides: {fileID: 22100000, guid: 2c287afd602e3d540aeb874af72cb2f1, type: 2}
   Order: 4
   SfxOverrides:
   - SoundEffect: 33

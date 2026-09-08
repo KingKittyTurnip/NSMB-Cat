@@ -2586,6 +2586,116 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: hud_toad
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 1
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8005d72c6d45f904bb46c92f8b294664
+      internalID: 892951617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_toadette
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 0
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39be5029c13917b4a99749b87003ef9e
+      internalID: 1097075702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_yoshi
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 2
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c00b7db7f45f3d4a8058243c81038e0
+      internalID: -2027274939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_wario
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 2
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2950112c82b69dd458f01120d05ba90a
+      internalID: -140848162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_shyguy
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 2
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8daddf9afef22fc45b037c320b8ad005
+      internalID: -1253153738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -2632,8 +2742,13 @@ TextureImporter:
       hud_arrow: 1388684475
       hud_luigi: -7975249404588759376
       hud_mario: 7263181891274304025
+      hud_shyguy: -1253153738
       hud_star: 1346584908
       hud_starcoin: -1029622304
+      hud_toad: 892951617
+      hud_toadette: 1097075702
+      hud_wario: -140848162
+      hud_yoshi: -2027274939
       hudnumber_0: -56961979
       hudnumber_1: -146918758
       hudnumber_2: -1355574207

@@ -1,0 +1,247 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77651c98eb177748a49241e377f4457, type: 3}
+  m_Name: BubbleFlower
+  m_EditorClassIdentifier: 
+  Identifier:
+    Path: QuantumUser/Resources/AssetObjects/Items/KKT/BubbleFlower
+    Guid:
+      Value: 444609547890211768
+  Prefab:
+    Id:
+      Value: 1437294020411531186
+  SpawnChance:
+    RawValue: 196608
+  AboveAverageBonus:
+    RawValue: -139264
+  BelowAverageBonus:
+    RawValue: 8192
+  BlockSpawnSoundEffect: 69
+  Flags: 19
+  MaxNumberOfItems: 0
+  CanSpawnAfterSeconds:
+    RawValue: 0
+  TranslationKey: Bubble Flower
+  CameraSpawnOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 110100
+  MaxMatchingPowerStates: 0
+  MaxMatchingReserveState: 0
+  State: 9
+  SoundPlaysEverywhere: 0
+  SoundEffect: 16
+  ReserveSprite: {fileID: 2690215448161037315, guid: a87d3b028baa82640b06b88398a8c4f0,
+    type: 3}
+  IsSmart: 0
+  AvoidPlayers: 0
+  Speed:
+    RawValue: 0
+  BounceStrength:
+    RawValue: 0
+  TerminalVelocity:
+    RawValue: -524288
+  BumpedFromBelowVelocity:
+    RawValue: 360448
+  FollowAnimationCurve: 1
+  AnimationCurveX:
+    Samples:
+    - RawValue: 0
+    - RawValue: 5168
+    - RawValue: 10977
+    - RawValue: 17398
+    - RawValue: 24401
+    - RawValue: 31958
+    - RawValue: 40038
+    - RawValue: 48613
+    - RawValue: 57653
+    - RawValue: 67129
+    - RawValue: 77012
+    - RawValue: 87273
+    - RawValue: 97883
+    - RawValue: 108811
+    - RawValue: 120030
+    - RawValue: 131509
+    - RawValue: 143220
+    - RawValue: 155132
+    - RawValue: 167218
+    - RawValue: 179448
+    - RawValue: 191792
+    - RawValue: 204222
+    - RawValue: 216707
+    - RawValue: 229220
+    - RawValue: 241729
+    - RawValue: 254208
+    - RawValue: 266625
+    - RawValue: 278952
+    - RawValue: 291160
+    - RawValue: 303219
+    - RawValue: 315101
+    - RawValue: 326775
+    - RawValue: 338213
+    PreWrapMode: 0
+    PostWrapMode: 0
+    StartTime:
+      RawValue: 0
+    EndTime:
+      RawValue: 983040
+    Resolution: 32
+    OriginalPreWrapMode: 8
+    OriginalPostWrapMode: 8
+    Keys:
+    - Time:
+        RawValue: 0
+      Value:
+        RawValue: 0
+      InTangent:
+        RawValue: 10321
+      OutTangent:
+        RawValue: 10321
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 983040
+      Value:
+        RawValue: 338213
+      InTangent:
+        RawValue: 24127
+      OutTangent:
+        RawValue: 24127
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+  AnimationCurveY:
+    Samples:
+    - RawValue: 0
+    - RawValue: 2271
+    - RawValue: 4056
+    - RawValue: 5345
+    - RawValue: 6133
+    - RawValue: 6407
+    - RawValue: 5852
+    - RawValue: 4499
+    - RawValue: 2656
+    - RawValue: 631
+    - RawValue: -1270
+    - RawValue: -2740
+    - RawValue: -3471
+    - RawValue: -2953
+    - RawValue: -714
+    - RawValue: 2640
+    - RawValue: 6448
+    - RawValue: 10045
+    - RawValue: 12768
+    - RawValue: 13953
+    - RawValue: 13419
+    - RawValue: 11826
+    - RawValue: 9617
+    - RawValue: 7231
+    - RawValue: 5113
+    - RawValue: 3701
+    - RawValue: 3483
+    - RawValue: 5285
+    - RawValue: 8771
+    - RawValue: 13273
+    - RawValue: 18126
+    - RawValue: 22662
+    - RawValue: 26214
+    PreWrapMode: 0
+    PostWrapMode: 0
+    StartTime:
+      RawValue: 0
+    EndTime:
+      RawValue: 983040
+    Resolution: 32
+    OriginalPreWrapMode: 8
+    OriginalPostWrapMode: 8
+    Keys:
+    - Time:
+        RawValue: 0
+      Value:
+        RawValue: 0
+      InTangent:
+        RawValue: 5361
+      OutTangent:
+        RawValue: 5361
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 149747
+      Value:
+        RawValue: 6405
+      InTangent:
+        RawValue: 185
+      OutTangent:
+        RawValue: 185
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 378340
+      Value:
+        RawValue: -3500
+      InTangent:
+        RawValue: 183
+      OutTangent:
+        RawValue: 183
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 585868
+      Value:
+        RawValue: 13961
+      InTangent:
+        RawValue: 75
+      OutTangent:
+        RawValue: 75
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 789510
+      Value:
+        RawValue: 3371
+      InTangent:
+        RawValue: 5
+      OutTangent:
+        RawValue: 5
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+    - Time:
+        RawValue: 983040
+      Value:
+        RawValue: 26214
+      InTangent:
+        RawValue: 6053
+      OutTangent:
+        RawValue: 6053
+      TangentMode: 0
+      TangentModeLeft: 0
+      TangentModeRight: 0
+      WeightedMode: 0
+  StatePriority: 2
+  ItemPriority: 2
+  EnterReserveIfOverridden: 1
+  Instant: 0
+  SfxOverrides: []

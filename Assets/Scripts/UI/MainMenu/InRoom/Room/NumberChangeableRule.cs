@@ -1,4 +1,5 @@
 using NSMB.UI.Translation;
+using Photon.Deterministic;
 using Quantum;
 using System;
 using System.Linq;
@@ -62,6 +63,19 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
                 break;
             case CommandChangeRules.Rules.TeamAttack:
                 cmd.TeamAttack = (int) value;
+                break;
+
+            case CommandChangeRules.Rules.MaxHazards:
+                cmd.MaxHazards = (byte) value;
+                break;
+            case CommandChangeRules.Rules.HazardFrequency:
+                cmd.HazardFrequency = (byte) value;
+                break;
+            case CommandChangeRules.Rules.HeftyPercentage:
+                cmd.HeftyPercentage = (FP) value;
+                break;
+            case CommandChangeRules.Rules.HazardLifetime:
+                cmd.HazardLifetime = (int) value;
                 break;
             }
 

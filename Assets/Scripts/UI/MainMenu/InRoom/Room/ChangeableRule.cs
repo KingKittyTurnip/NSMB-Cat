@@ -208,14 +208,20 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
                 //CommandChangeRules.Rules.DrawOnTimeUp => rules.DrawOnTimeUp,
                 //CommandChangeRules.Rules.CustomPowerupsEnabled => (bool) rules.CustomPowerupsEnabled,
                 CommandChangeRules.Rules.TeamsEnabled => (bool) rules.TeamsEnabled,
+
                 CommandChangeRules.Rules.StarFountain => rules.StarFountain,
                 CommandChangeRules.Rules.CoinDeathPenalty => rules.CoinDeathPenalty,
                 CommandChangeRules.Rules.TeamAttack => (int) rules.TeamAttack,
                 CommandChangeRules.Rules.StageChooseMode => (byte) rules.ChooseMode,
-                
+
                 //KKT Mod
+                CommandChangeRules.Rules.ToggleHazards => (bool) rules.ModifierHazardsEnabled,
                 CommandChangeRules.Rules.StarFreq => rules.StarFrequency,
-                //CommandChangeRules.Rules.Hazards => rules.HazardsEnabled,
+                CommandChangeRules.Rules.Roulette => (bool) rules.RouletteBlocksEnabled,
+                CommandChangeRules.Rules.MaxHazards => rules.MaxHazards,
+                CommandChangeRules.Rules.HazardFrequency => rules.HazardFrequency,
+                CommandChangeRules.Rules.HeftyPercentage => rules.HeftyPercentage,
+                CommandChangeRules.Rules.HazardLifetime => rules.HazardLifetime,
                 _ => null
             };
 

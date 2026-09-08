@@ -120,28 +120,18 @@ namespace Quantum {
     }
     public enum HefPercent : int {
         zero = 0,
-        five = 5,
-        twelve = 12,
-        twentyfive = 25,
-        fifty = 50,
-        sevendyfive = 75,
-        onehundred = 100,
-        onefifty = 150,
-        twohundred = 200,
-        threehundred = 300,
-        fivehundred = 500,
-        thousand = 1000,
-        heftyOnly = -1, //only hefty hazards spawn
-    }
-
-    public enum Frequency : byte {
-        instant = 0,
-        faster = 2,
-        fast = 6,
-        normal = 10,
-        lung = 20,
-        longer = 30,
-        minute = 60,
+        five = 1,
+        twelve = 2,
+        twentyfive = 3,
+        fifty = 4,
+        sevendyfive = 5,
+        onehundred = 6,
+        onefifty = 7,
+        twohundred = 8,
+        threehundred = 9,
+        fivehundred = 10,
+        thousand = 11,
+        heftyOnly = 12, //only hefty hazards spawn
     }
 
     public enum DespawnTime : int {

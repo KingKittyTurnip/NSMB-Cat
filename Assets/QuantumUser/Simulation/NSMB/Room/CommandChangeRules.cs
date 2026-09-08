@@ -28,6 +28,10 @@ namespace Quantum {
 
         public byte StarFrequency;
         public bool RouletteEnabled;
+        public byte MaxHazards;
+        public byte HazardFrequency;
+        public FP HeftyPercentage;
+        public int HazardLifetime;
 
         public override void Serialize(BitStream stream) {
             if (stream.Writing) {
@@ -48,13 +52,6 @@ namespace Quantum {
             */
             stream.Serialize(ref StarFountain);
             stream.Serialize(ref CoinDeathPenalty);
-
-            if (stream.Writing) {
-                stream.WriteByte((byte) ChooseMode);
-            } else {
-                ChooseMode = (StageChooseMode) stream.ReadByte();
-            }
-
             stream.Serialize(ref TeamAttack);
 
             //KKT Mod
@@ -63,6 +60,17 @@ namespace Quantum {
 
             stream.Serialize(ref StarFrequency);
             stream.Serialize(ref RouletteEnabled);
+
+            stream.Serialize(ref MaxHazards);
+            stream.Serialize(ref HazardFrequency);
+            stream.Serialize(ref HeftyPercentage);
+            stream.Serialize(ref HazardLifetime);
+
+            if (stream.Writing) {
+                stream.WriteByte((byte) ChooseMode);
+            } else {
+                ChooseMode = (StageChooseMode) stream.ReadByte();
+            }
         }
 
         public unsafe void Execute(Frame f, PlayerRef sender, PlayerData* playerData) {
@@ -137,7 +145,8 @@ namespace Quantum {
             /*
             if (rulesChanges.HasFlag(Rules.CustomPowerupsEnabled)) {
                 rules.CustomPowerupsEnabled = CustomPowerupsEnabled;
-            }if (rulesChanges.HasFlag(Rules.DrawOnTimeUp)) {
+            }
+            if (rulesChanges.HasFlag(Rules.DrawOnTimeUp)) {
                 rules.DrawOnTimeUp = DrawOnTimeUp;
             }
             */
@@ -198,6 +207,18 @@ namespace Quantum {
             if (rulesChanges.HasFlag(Rules.Roulette)) {
                 rules.RouletteBlocksEnabled = RouletteEnabled;
             }
+            if (rulesChanges.HasFlag(Rules.MaxHazards)) {
+                rules.MaxHazards = MaxHazards;
+            }
+            if (rulesChanges.HasFlag(Rules.HazardFrequency)) {
+                rules.HazardFrequency = HazardFrequency;
+            }
+            if (rulesChanges.HasFlag(Rules.HeftyPercentage)) {
+                rules.HeftyPercentage = HeftyPercentage;//modify
+            }
+            if (rulesChanges.HasFlag(Rules.HazardLifetime)) {
+                rules.HazardLifetime = HazardLifetime;
+            }
 
             f.Global->Rules = rules;
             f.Events.RulesChanged(gamemodeChanged, levelChanged);
@@ -226,6 +247,11 @@ namespace Quantum {
             //KKT Mod rules
             StarFreq = 1 << 14,
             Roulette = 1 << 15,
+
+            MaxHazards = 1 << 16,
+            HazardFrequency = 1 << 17,
+            HeftyPercentage = 1 << 18,
+            HazardLifetime = 1 << 19,
         }
     }
 }
