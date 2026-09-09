@@ -58,6 +58,7 @@ public unsafe class VersusStageData : AssetObject, ISoundOverrideProvider {
     public List<AssetRef<CoinItemAsset>> BannedCoinItems;
     //KKT Mod, in this stage specific hazards don't spawn
     public List<AssetRef<EntityPrototype>> BannedHazards;
+    public PowerupTile mainPowerupTile;
 
     [Header("---Sound Overrides")]
     public SoundEffectOverride[] SfxOverrides;

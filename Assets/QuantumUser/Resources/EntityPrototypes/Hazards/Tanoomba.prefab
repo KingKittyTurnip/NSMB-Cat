@@ -1684,7 +1684,7 @@ MonoBehaviour:
         Value: 328877894917160747
     BubbleAsset:
       Id:
-        Value: 0
+        Value: 444609547890211768
 --- !u!114 &6594219812404515847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1899,7 +1899,7 @@ MonoBehaviour:
   - {fileID: 5132219992262107231}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 8
+  blinkinRate: 12
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

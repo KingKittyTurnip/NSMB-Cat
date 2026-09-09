@@ -465,6 +465,8 @@ MonoBehaviour:
   Prototype:
     HoldAboveHead:
       Value: 1
+    IsSolidCarryable:
+      Value: 1
 --- !u!114 &8312176800940008094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,6 +494,12 @@ MonoBehaviour:
     SlowInLiquids:
       Value: 0
     IsWaterSolid:
+      Value: 0
+    SinksInQuickSandAndGoo:
+      Value: 1
+    BreakMegaObjects:
+      Value: 0
+    WindImmune:
       Value: 0
 --- !u!114 &6061536990872593317
 MonoBehaviour:
@@ -544,6 +552,8 @@ MonoBehaviour:
     IgnoreMovement:
       Value: 1
     CanCrushEntities:
+      Value: 0
+    RotatingPlatform:
       Value: 0
 --- !u!114 &-1116452901013867628
 MonoBehaviour:

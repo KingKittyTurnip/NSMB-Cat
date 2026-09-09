@@ -152,6 +152,7 @@ component MarioPlayer {
 	[ExcludeFromPrototype] FP MetalBoost;
 	[ExcludeFromPrototype] FP MetalSlowdownDelay;
 	[ExcludeFromPrototype] byte BubbleJumps;
+	[ExcludeFromPrototype] byte TimesWithoutAJoke;
 
 	// Carryables
 	[ExcludeFromPrototype] bool StoneBux;

@@ -1009,7 +1009,7 @@ MonoBehaviour:
     ChanceWeight:
       RawValue: 49152
     MoveData:
-      MovementType: 2
+      MovementType: 3
       Gravity:
         X:
           RawValue: 0

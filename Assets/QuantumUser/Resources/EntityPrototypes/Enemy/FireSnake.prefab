@@ -18,6 +18,10 @@ GameObject:
   - component: {fileID: 7955808855270409447}
   - component: {fileID: 1704443835217925839}
   - component: {fileID: -8421006057071950448}
+  - component: {fileID: -671359458184219095}
+  - component: {fileID: 7659210708348236879}
+  - component: {fileID: 8721181809434923532}
+  - component: {fileID: 5573844423967664673}
   m_Layer: 19
   m_Name: FireSnake
   m_TagString: Untagged
@@ -357,6 +361,7 @@ MonoBehaviour:
       RawValue: 262144
     JumpHeightHigh:
       RawValue: 327680
+    FireSnakeSegments: 5
 --- !u!114 &8469971383967061488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +389,12 @@ MonoBehaviour:
     SlowInLiquids:
       Value: 0
     IsWaterSolid:
+      Value: 0
+    SinksInQuickSandAndGoo:
+      Value: 0
+    BreakMegaObjects:
+      Value: 0
+    WindImmune:
       Value: 0
 --- !u!114 &7955808855270409447
 MonoBehaviour:
@@ -439,6 +450,172 @@ MonoBehaviour:
   m_EditorClassIdentifier: Quantum.Unity::Quantum.QPrototypeWrappingObject
   Prototype:
     _empty_prototype_dummy_field_: 0
+--- !u!114 &-671359458184219095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376314409222945053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c56e80143ded340882f1dd834f2abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QPrototypeCoinItem
+  Prototype:
+    Scriptable:
+      Id:
+        Value: 330575751736567297
+--- !u!114 &7659210708348236879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376314409222945053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c912ba00eb8780d468a9d5e4288668e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QPrototypeHazard
+  Prototype:
+    DoNotDespawnInPit:
+      Value: 0
+    RestrictSpawnPosition:
+      Value: 0
+    IsHefty:
+      Value: 0
+    IPWSUntilGround:
+      Value: 1
+    IPWSTime: 30
+    SpawningVelocityRange:
+      X:
+        RawValue: 131072
+      Y:
+        RawValue: 65536
+--- !u!114 &8721181809434923532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376314409222945053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff24fad35d79d24d8d4415d4f61750b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NSMB.Entities.CoinItems.CoinItemAnimator
+  graphicsRoot: {fileID: 415502047157644210}
+  moveBehindBlocksRoot: {fileID: 0}
+  renderers:
+  - {fileID: 4391073860456758340}
+  - {fileID: 3906997045445772003}
+  childAnimator: {fileID: 0}
+  childAnimation: {fileID: 0}
+  blinkinRate: 12
+  scaleRate: 0.1333
+  scaleSize: 0.3
+  actualscale: 1
+  sfx: {fileID: 5573844423967664673}
+  koopaSpawnParticles: {fileID: 0}
+--- !u!82 &5573844423967664673
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376314409222945053}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -8359218312643153770, guid: b73add24eb026c844b85593f8bab1f8c,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8159173009383446842
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,6 +866,12 @@ PrefabInstance:
 --- !u!4 &2770661276929767820 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b1cca8aaa9cba5d4c9a64b277ebdd183,
+    type: 3}
+  m_PrefabInstance: {fileID: 2448239373035593319}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3906997045445772003 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: b1cca8aaa9cba5d4c9a64b277ebdd183,
     type: 3}
   m_PrefabInstance: {fileID: 2448239373035593319}
   m_PrefabAsset: {fileID: 0}

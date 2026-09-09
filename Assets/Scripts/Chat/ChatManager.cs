@@ -78,7 +78,7 @@ namespace NSMB.Chat {
                 } else {
                     if (f.TryFindAsset(rules.Stage, out Map map)
                         && f.TryFindAsset(map.UserAsset, out VersusStageData stageData)) {
-                        stageName = tm.GetTranslation(stageData.TranslationKey);
+                        stageName = tm.GetTranslation(stageData.TranslationKey) + " - " + stageData.StageDescription;
                     } else {
                         stageName = "???";
                     }

@@ -20,11 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<<< HEAD:Assets/Models/Hazards/Carryables/CannonBox/hole.mat
-  m_Name: hole
-========
   m_Name: mat_wingblock
->>>>>>>> nightly:Assets/Materials/3d/goldblock/mat_wingblock.mat
   m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -142,8 +138,6 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
-<<<<<<<< HEAD:Assets/Models/Hazards/Carryables/CannonBox/hole.mat
-========
 --- !u!114 &5701782813597067937
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -157,4 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 10
->>>>>>>> nightly:Assets/Materials/3d/goldblock/mat_wingblock.mat
+

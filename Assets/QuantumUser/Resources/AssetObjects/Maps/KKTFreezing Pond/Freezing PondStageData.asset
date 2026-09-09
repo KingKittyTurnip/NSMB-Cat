@@ -74,6 +74,8 @@ MonoBehaviour:
   YAreaBounds: []
   BannedCoinItems: []
   BannedHazards: []
+  mainPowerupTile: {fileID: -3061604471713882216, guid: 08bb8c3767a0c744caffa1be1e8af38b,
+    type: 2}
   SfxOverrides: []
   MainMusic:
   - Id:

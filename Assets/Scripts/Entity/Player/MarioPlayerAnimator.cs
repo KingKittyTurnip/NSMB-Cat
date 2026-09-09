@@ -341,7 +341,7 @@ namespace NSMB.Entities.Player {
             bool walkingOnWater = mario->IsWalkingOnWater(f, EntityRef);
             
             SetParticleEmission(drillParticle, !disableParticles && mario->IsDrilling);
-            SetParticleEmission(sparkles, !disableParticles && mario->IsStarmanInvincible);
+            SetParticleEmission(sparkles, !disableParticles && (mario->IsStarmanInvincible || (mario->CurrentPowerupState == PowerupState.Jumpsuit && mario->JumpState == JumpState.TripleJump)));
             SetParticleEmission(iceSkiddingParticle, !disableParticles && physicsObject->IsOnSlipperyGround && ((mario->IsSkidding && physicsObject->Velocity.SqrMagnitude.AsFloat > 0.25f) || mario->FastTurnaroundFrames > 0));
             SetParticleEmission(waterSkiddingParticle, !disableParticles && walkingOnWater && ((mario->IsSkidding && physicsObject->Velocity.SqrMagnitude.AsFloat > 0.25f) || mario->FastTurnaroundFrames > 0));
             SetParticleEmission(waterRunningParticle, !disableParticles && !waterSkiddingParticle.isPlaying && walkingOnWater && FPMath.Abs(physicsObject->Velocity.X) > FP._0_10);
@@ -657,8 +657,6 @@ namespace NSMB.Entities.Player {
             // Hit flash
             float remainingDamageInvincibility = mario->DamageInvincibilityFrames / 60f;
             /*
-            models.SetActive(f.Global->GameState >= GameState.Playing && ((mario->KnockbackGetupFrames > 0 || mario->MegaMushroomStartFrames > 0 || (!mario->IsRespawning && (mario->IsDead || !(remainingDamageInvincibility > 0 && (f.Number * f.DeltaTime.AsFloat) * (remainingDamageInvincibility <= 0.75f ? 5 : 2) % 0.2f < 0.1f)))) && mario->IsBoss == EntityRef.None));
-
             // Model changing
             bool large = mario->CurrentPowerupState >= PowerupState.Mushroom;
             if (smallModel == null) { //kkt mod addition
@@ -694,7 +692,8 @@ namespace NSMB.Entities.Player {
             bool modelShouldBeInvisible = f.Global->GameState < GameState.Playing
                 || mario->IsRespawning
                 || (mario->IsDead && IsBelowDeathplane)
-                || (remainingDamageInvincibility > 0 && (f.Number * f.DeltaTime.AsFloat) * (remainingDamageInvincibility <= 0.75f ? 5 : 2) % 0.2f < 0.1f);
+                || (remainingDamageInvincibility > 0 && (f.Number * f.DeltaTime.AsFloat) * (remainingDamageInvincibility <= 0.75f ? 5 : 2) % 0.2f < 0.1f)
+                || mario->IsBoss != EntityRef.None;
 
             bool modelFinalVisibleState = modelShouldBeVisible || !modelShouldBeInvisible;
             if (modelFinalVisibleState != modelRoot.activeSelf) {

@@ -1,13 +1,7 @@
 using Quantum;
-using Quantum.Profiling;
 using UnityEngine;
-using NSMB.Utilities.Extensions;
 using static NSMB.Utilities.QuantumViewUtils;
-using System.Drawing.Drawing2D;
-using NSMB.Utilities;
 using System.Collections.Generic;
-using Photon.Deterministic;
-using UnityEditor.SceneManagement;
 
 public unsafe class CloudBillPlatformAnimator : QuantumEntityViewComponent {
 

@@ -13,6 +13,4 @@ component Bot {
       [ExcludeFromPrototype] bool PressingRight;
       [ExcludeFromPrototype] byte BotWallJumping;
       [ExcludeFromPrototype] byte BotAtkCooldown;
-      
-      [ExcludeFromPrototype] byte BotTeam;
 }

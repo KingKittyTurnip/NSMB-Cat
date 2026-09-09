@@ -30,9 +30,6 @@ MonoBehaviour:
   SilhouetteSprite: {fileID: 21300000, guid: 69ebf16f7ccd5c34fb0733a2b65e900f, type: 3}
   SelectionSprite: {fileID: 1263302900, guid: 66a50f8ce62e8954a977cf86df786637, type: 3}
   SelectionColor: {r: 0.401459, g: 0.9716981, b: 0.3254272, a: 1}
-  SelectionOrder: -1000
-  SmallOverrides: {fileID: 22100000, guid: a1854453357bb034e89ec419b0f57906, type: 2}
-  LargeOverrides: {fileID: 22100000, guid: 671e2adc5dbd26a45abdf5c18398a86e, type: 2}
   Order: 1
   SfxOverrides:
   - SoundEffect: 33
@@ -114,3 +111,7 @@ MonoBehaviour:
     PlayGlobally: 0
     AudioClips:
     - {fileID: 8300000, guid: 38c85634a5e84b349a693e6a90106354, type: 3}
+  PropellerblockTexture: {fileID: 2800000, guid: 35bdb4e3b26cacf44b9c664816d9158c,
+    type: 3}
+  BillblockTexture: {fileID: 2800000, guid: c44d4ebccab1dc74593e3a8ac0a1ceec, type: 3}
+  CannonboxTexture: {fileID: 2800000, guid: 8ee3143e14382cb429e49f08119e1a91, type: 3}

@@ -65,14 +65,17 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
                 cmd.TeamAttack = (int) value;
                 break;
 
+            case CommandChangeRules.Rules.StarFreq:
+                cmd.StarFrequency = (int) value;
+                break;
             case CommandChangeRules.Rules.MaxHazards:
-                cmd.MaxHazards = (byte) value;
+                cmd.MaxHazards = (int) value;
                 break;
             case CommandChangeRules.Rules.HazardFrequency:
-                cmd.HazardFrequency = (byte) value;
+                cmd.HazardFrequency = (int) value;
                 break;
             case CommandChangeRules.Rules.HeftyPercentage:
-                cmd.HeftyPercentage = (FP) value;
+                cmd.HeftyPercentage = (int) value;
                 break;
             case CommandChangeRules.Rules.HazardLifetime:
                 cmd.HazardLifetime = (int) value;

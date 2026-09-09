@@ -20,6 +20,7 @@ public unsafe class MetalPowerupAsset : PowerupAsset {
         var marphys = f.Unsafe.GetPointer<PhysicsObject>(marioEntity);
 
         mario->MetalMushroomFrames = MetalDuration;
+        mario->InvincibilityFrames = 0;
         //mario->DoKnockback(f, marioEntity, mario->FacingRight, 0, KnockbackStrength.CollisionBump, marioEntity, true);
         //marphys->Velocity = new FPVector2(0, 6);
 

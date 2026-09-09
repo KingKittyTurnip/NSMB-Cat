@@ -2,9 +2,6 @@ using Photon.Deterministic;
 using Quantum.Prototypes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using static Quantum.CommandChangePlayerData;
-using static UnityEditor.Progress;
 
 namespace Quantum {
     public abstract unsafe class GamemodeAsset : AssetObject, IOrderedAsset {
@@ -280,7 +277,8 @@ namespace Quantum {
             for (int i = 0; i < MaxTypes; i++) {
                 var l = f.ResolveList(items[i].Items);
                 //UnityEngine.Debug.Log("lisssssst " + l.Count);
-                chanceExists.Add(l.Count > 64);//????
+                //if (!(items[i].Chance == ItemChanceType.JokeMiddle)) // restrict joke powerups to only sometimes appear
+                    chanceExists.Add(l.Count > 64);//??? idk how you would check for a list with nothing but i don't want more than 64 objects in a list anyway
             }
 
             //pick random chance type
@@ -334,8 +332,7 @@ namespace Quantum {
                 ItemChanceType.Middling => new(2, -1, -1),//2nd stage powerups
                 ItemChanceType.LastCommon => new(-FP._0_20, 0, 3), //weaker catchup, not guerenteed
                 ItemChanceType.LastRare => new(-3, -1, 5), //strong catchup, guerenteed if yur very behind
-                ItemChanceType.JokeFirst => new(-FP._0_25, FP._1_50, -4), //doneflower & jumpsuit
-                ItemChanceType.JokeMiddle => new(1, -FP._0_50, -FP._0_50), //cake & turnipbasket
+                ItemChanceType.JokeMiddle => new(FP._0_50, -FP._0_50, -1), //cake & turnipbasket
                 _ => new(0, 0, 0),
                 /*
                 ItemChanceType.FirstCommon => new(0, 1, -4),

@@ -33,7 +33,7 @@ public unsafe class LemmyBallAnimator : QuantumEntityViewComponent {
             var physicsObject = f.Unsafe.GetPointer<PhysicsObject>(EntityRef);
             //Model.rotation = Quaternion.Euler(0, billblock->Facing ? 90 : -90, 0);
             //Model.rotation = Quaternion.Euler(0, -55, Model.transform.eulerAngles.z + (LemmyBall->FacingRight ? -3 : 3));
-            Model.rotation = Quaternion.RotateTowards(Model.rotation, Quaternion.Euler(0, -55, Model.rotation.eulerAngles.z + ((LemmyBall->FacingRight ? -3 : 3) * 100 * Time.deltaTime)), 2000f * Time.deltaTime);
+            Model.rotation = Quaternion.RotateTowards(Model.rotation, Quaternion.Euler(0, -55, Model.rotation.eulerAngles.z + ((LemmyBall->FacingRight ? -3 : 3) * 200 * Time.deltaTime)), 2000f * Time.deltaTime);
             //Model.rotation = Quaternion.RotateTowards(Model.rotation, Quaternion.Euler(0, Model.rotation.eulerAngles.y + ((float) physicsObject->Velocity.X * 100 * Time.deltaTime), 0), 2000f * Time.deltaTime);
         }
     }

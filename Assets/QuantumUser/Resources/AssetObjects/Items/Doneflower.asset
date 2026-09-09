@@ -30,7 +30,7 @@ MonoBehaviour:
   MaxNumberOfItems: 0
   CanSpawnAfterSeconds:
     RawValue: 0
-  TranslationKey: 
+  TranslationKey: coinitem.doneflower
   CameraSpawnOffset:
     X:
       RawValue: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
   State: 16
   SoundPlaysEverywhere: 0
   SoundEffect: 16
-  ReserveSprite: {fileID: 5709720548119103520, guid: a87d3b028baa82640b06b88398a8c4f0,
+  ReserveSprite: {fileID: -6080119536613256813, guid: a87d3b028baa82640b06b88398a8c4f0,
     type: 3}
   IsSmart: 1
   AvoidPlayers: 1
@@ -78,8 +78,8 @@ MonoBehaviour:
     OriginalPreWrapMode: 0
     OriginalPostWrapMode: 0
     Keys: []
-  StatePriority: 1
-  ItemPriority: 1
+  StatePriority: 2
+  ItemPriority: 2
   EnterReserveIfOverridden: 1
   Instant: 0
   SfxOverrides: []

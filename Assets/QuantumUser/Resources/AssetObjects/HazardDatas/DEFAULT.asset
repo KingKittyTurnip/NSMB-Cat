@@ -31,11 +31,11 @@ MonoBehaviour:
         Gamemode:
           Id:
             Value: 326486899682662279
-        StarsToWin: 185
-        StarFrequency: 10
-        CoinsForPowerup: 5
+        StarsToWin: 15
+        StarFrequency: 100
+        CoinsForPowerup: 4
         RouletteBlocksEnabled:
-          Value: 0
+          Value: 1
         Items:
         - Chance:
             Value: 0
@@ -139,6 +139,13 @@ MonoBehaviour:
             Team: 255
             Extra:
               Extra: 
+          - Name: Jumpsuit
+            PowerupPrototype:
+              Id:
+                Value: 1490579344614088993
+            Team: 255
+            Extra:
+              Extra: 
         - Chance:
             Value: 6
           Items: []
@@ -150,16 +157,15 @@ MonoBehaviour:
         TeamsEnabled:
           Value: 0
         TeamAttack:
-          Value: 0
-        StarFountain: 0
-        CoinDeathPenalty: 0
+          Value: 1
+        StarFountain: 100
+        CoinDeathPenalty: 100
         CoinItemCustomSpawnWeights: []
         ModifierHazardsEnabled:
           Value: 1
         MaxHazards: 10
-        HazardFrequency: 10
-        HeftyPercentage:
-          RawValue: 7864
+        HazardFrequency: 100
+        HeftyPercentage: 3
         HazardLifetime: 80
         Hazards:
         - Name: Baseball
@@ -472,7 +478,7 @@ MonoBehaviour:
           Id:
             Value: 326486899682662279
         StarsToWin: 30
-        StarFrequency: 0
+        StarFrequency: 100
         CoinsForPowerup: 3
         RouletteBlocksEnabled:
           Value: 0
@@ -582,25 +588,24 @@ MonoBehaviour:
         CoinItemCustomSpawnWeights: []
         ModifierHazardsEnabled:
           Value: 1
-        MaxHazards: 2
-        HazardFrequency: 40
-        HeftyPercentage:
-          RawValue: 65536
+        MaxHazards: 30
+        HazardFrequency: 50
+        HeftyPercentage: 0
         HazardLifetime: 80
         Hazards:
         - Name: Springboard
           HazardPrototype:
             Id:
-              Value: 1341125926870955329
+              Value: 1453526262079163515
           Team: 255
           Hefty:
-            Value: 1
+            Value: 0
           SpawnRandom:
             Value: 1
           SpawnFridge:
             Value: 1
           Extra:
-            Extra: 00000000
+            Extra: 14
         ModifierBulbEnabled:
           Value: 0
         BulbAbilityCount: 0
@@ -737,8 +742,7 @@ MonoBehaviour:
           Value: 1
         MaxHazards: 2
         HazardFrequency: 40
-        HeftyPercentage:
-          RawValue: 65536
+        HeftyPercentage: 0
         HazardLifetime: 80
         Hazards:
         - Name: Springboard
@@ -879,8 +883,7 @@ MonoBehaviour:
           Value: 0
         MaxHazards: 0
         HazardFrequency: 5
-        HeftyPercentage:
-          RawValue: 196608
+        HeftyPercentage: 0
         HazardLifetime: 80
         Hazards:
         - Name: Springboard
@@ -1291,8 +1294,7 @@ MonoBehaviour:
           Value: 0
         MaxHazards: 0
         HazardFrequency: 0
-        HeftyPercentage:
-          RawValue: 3277
+        HeftyPercentage: 0
         HazardLifetime: 40
         Hazards:
         - Name: Tornado
@@ -1559,8 +1561,7 @@ MonoBehaviour:
           Value: 0
         MaxHazards: 0
         HazardFrequency: 0
-        HeftyPercentage:
-          RawValue: 7864
+        HeftyPercentage: 0
         HazardLifetime: 80
         Hazards: []
         ModifierBulbEnabled:
@@ -1945,6 +1946,27 @@ MonoBehaviour:
       BulbSpawnType: 1
       BulbCooldown: 3
       SpecialValues: []
+    - Name: Firesnake
+      entityPrototype:
+        Id:
+          Value: 1453526262079163515
+      Icon: {fileID: 0}
+      type: 4
+      categorey: 1048576
+      Teamable: 1
+      CanSpawnAsHazard: 1
+      Hefty: 0
+      SpawnChance: 0
+      BulbSpawnType: 1
+      BulbCooldown: 3
+      SpecialValues:
+      - ButtonName: Segment Count
+        ButtonType: 1
+        BaseValue: 5
+        ValueRange:
+          X: 0
+          Y: 20
+        valuenames: []
     - Name: Thwomp
       entityPrototype:
         Id:

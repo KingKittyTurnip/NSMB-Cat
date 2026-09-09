@@ -21,9 +21,9 @@ MonoBehaviour:
   MusicComposer: Nintendo
   TranslationKey: Campless
   StageDescription: A map where it's impossible to camp, it's kinda barren tho...
-  GroupingTranslationKey: '- Joke Maps -'
+  GroupingTranslationKey: '- Other -'
   DiscordStageImage: 
-  SortOrder: 0
+  SortOrder: 5
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
   MainMenuPreviewPrefab: {fileID: 0}
   OverrideAutomaticTilemapSettings: 1
@@ -74,7 +74,7 @@ MonoBehaviour:
   BannedCoinItems: []
   BannedHazards:
   - Id:
-      Value: 1492502967219584567
+      Value: 1437294020411531186
   - Id:
       Value: 1286010981056643553
   - Id:
@@ -95,6 +95,7 @@ MonoBehaviour:
       Value: 1500840674427279327
   - Id:
       Value: 1300211052819551813
+  mainPowerupTile: {fileID: 0}
   SfxOverrides: []
   MainMusic:
   - Id:

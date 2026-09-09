@@ -118,21 +118,6 @@ namespace Quantum {
         //Other
         Other = 1 << 99,
     }
-    public enum HefPercent : int {
-        zero = 0,
-        five = 1,
-        twelve = 2,
-        twentyfive = 3,
-        fifty = 4,
-        sevendyfive = 5,
-        onehundred = 6,
-        onefifty = 7,
-        twohundred = 8,
-        threehundred = 9,
-        fivehundred = 10,
-        thousand = 11,
-        heftyOnly = 12, //only hefty hazards spawn
-    }
 
     public enum DespawnTime : int {
         fastest = 5,

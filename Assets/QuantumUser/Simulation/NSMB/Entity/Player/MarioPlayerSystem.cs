@@ -567,7 +567,7 @@ namespace Quantum {
                 return;
             }
 
-            bool topSpeed = FPMath.Abs(physicsObject->Velocity.X) >= (physics.WalkMaxVelocity[physics.RunSpeedStage] - FP._0_10);
+            bool topSpeed = FPMath.Abs(physicsObject->Velocity.X) >= (physics.WalkMaxVelocity[physics.RunSpeedStage] - FP._0_10) || mario->CurrentPowerupState == PowerupState.Jumpsuit;
             bool canSpecialJump =
                 topSpeed
                 && !inputs.Down.IsDown && !mario->JumpHeld
@@ -581,7 +581,7 @@ namespace Quantum {
                 && mario->JumpState != JumpState.TripleJump
                 && !mario->IsCrouching
                 && !mario->IsInShell
-                && (physicsObject->Velocity.X < 0 != mario->FacingRight)
+                && (physicsObject->Velocity.X < 0 != mario->FacingRight || mario->CurrentPowerupState == PowerupState.Jumpsuit)
                 && !mario->RidingStarball;
 
             mario->IsSkidding = false;
@@ -626,13 +626,13 @@ namespace Quantum {
 
             if (mario->StoneBux) {
                 newY = FPMath.Min(newY, physics.JumpVelocity - (physics.JumpTripleBonusVelocity));
-            } else if (canSpecialJump && mario->JumpState == JumpState.SingleJump) {
+            } else if (canSpecialJump && mario->JumpState <= JumpState.SingleJump) {
                 // Double jump
                 mario->JumpState = JumpState.DoubleJump;
             } else if (canSpecialJump && mario->JumpState == JumpState.DoubleJump) {
                 // Triple Jump
                 mario->JumpState = JumpState.TripleJump;
-                newY += physics.JumpTripleBonusVelocity;
+                newY += physics.JumpTripleBonusVelocity * (mario->CurrentPowerupState == PowerupState.Jumpsuit ? 3 : 1);
             } else {
                 // Normal jump
                 mario->JumpState = JumpState.SingleJump;
@@ -2577,6 +2577,31 @@ namespace Quantum {
             bool marioAAbove = dot > Constants._0_66 && FPMath.Abs(yDiff) >= FP._0_10;
             bool marioBAbove = dot < -Constants._0_66 && FPMath.Abs(yDiff) >= FP._0_10;
 
+            bool marioAMetal = marioA->IsMetal;
+            bool marioBMetal = marioB->IsMetal;
+
+            //metal cases
+            if (!eitherDamageInvincible) {
+                if (marioAMetal) {
+                    if (marioB->TryGetCurrentPowerTransition(f, out _) && !marioB->IsMetal) {
+                        goto NormalInteractions;
+                    }
+                    MarioMarioAttackMetal(f, marioAEntity, marioBEntity, fromRight, dropStars, avgPosition);
+                    return;
+                } else if (marioBMetal) {
+                    if (marioA->TryGetCurrentPowerTransition(f, out _) && !marioA->IsMetal) {
+                        goto NormalInteractions;
+                    }
+                    MarioMarioAttackMetal(f, marioBEntity, marioAEntity, !fromRight, dropStars, avgPosition);
+                    return;
+                }
+            }
+
+            if (marioAMetal || marioBMetal) {
+                // Already handled metal cases.
+                return;
+            }
+
             // Mega mushroom cases
             bool marioAMega = marioA->CurrentPowerupState == PowerupState.MegaMushroom;
             bool marioBMega = marioB->CurrentPowerupState == PowerupState.MegaMushroom;
@@ -2677,6 +2702,7 @@ namespace Quantum {
                     MarioMarioAttackStarman(f, marioBEntity, marioAEntity, !fromRight, dropStars, avgPosition);
                     return;
                 }
+
             }
             
             if (marioAStarman || marioBStarman) {
@@ -2912,6 +2938,25 @@ namespace Quantum {
                 } else {
                     dealtKnockback = defenderMario->DoKnockback(f, defender, !fromRight, 0, KnockbackStrength.CollisionBump, attacker, ignoreInvincibleStates: true);
                 }
+            }
+
+            if (dealtKnockback) {
+                f.Events.PlayKnockbackEffect(attacker, defender, KnockbackStrength.CollisionBump, avgPosition, true);
+            }
+        }
+
+        private static void MarioMarioAttackMetal(Frame f, EntityRef attacker, EntityRef defender, bool fromRight, bool dropStars, FPVector2 avgPosition) {
+            var attackerMario = f.Unsafe.GetPointer<MarioPlayer>(attacker);
+            var defenderMario = f.Unsafe.GetPointer<MarioPlayer>(defender);
+
+            bool dealtKnockback = false;
+            if (defenderMario->CurrentPowerupState == PowerupState.MegaMushroom || defenderMario->IsMetal) {
+                // clash with dem big bois & other heavy rockers
+                dealtKnockback = defenderMario->DoKnockback(f, attacker, !fromRight, dropStars ? 1 : 0, KnockbackStrength.CollisionBump, defender, ignoreInvincibleStates: true);
+                dealtKnockback |= attackerMario->DoKnockback(f, defender, fromRight, dropStars ? 1 : 0, KnockbackStrength.CollisionBump, attacker, ignoreInvincibleStates: true);
+            } else {
+                // bump
+                dealtKnockback = defenderMario->DoKnockback(f, attacker, !fromRight, dropStars ? 1 : 0, KnockbackStrength.CollisionBump, defender, ignoreInvincibleStates: true);
             }
 
             if (dealtKnockback) {

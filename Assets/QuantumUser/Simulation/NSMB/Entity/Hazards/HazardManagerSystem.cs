@@ -83,9 +83,11 @@ namespace Quantum {
                 newhazardspawner->Lifetime = 150;
                 newhazardspawner->spawnIndex = index;
                 spawnedHazardSpawn = true;
-                f.Global->TimeTilNextHazard = (ushort) (f.Global->Rules.HazardFrequency * 60);
+                f.Global->TimeTilNextHazard = (ushort) (f.Global->Rules.HazardFrequency * 6);
                 return;
             }
+
+            //perhaps make em spawn anywhere, write new system here
 
             if (!spawnedHazardSpawn) {
                 //max hazards exist
@@ -133,7 +135,7 @@ namespace Quantum {
 
                 //spawn a hefty or a normal hazard?
                 //UnityEngine.Debug.LogError("hefty's: " + f.Global->HeftyCount + " percentage: " + f.Global->Rules.HeftyPercentage);
-                FP heftychance = f.Global->Rules.HeftyPercentage - ((FP)f.Global->HeftyCount);
+                FP heftychance =  f.Global->Rules.RealHeftyPercent - ((FP)f.Global->HeftyCount);
                 bool hefty = f.RNG->Next() < heftychance;
                 bool TryAgain = false;
 
@@ -162,7 +164,7 @@ namespace Quantum {
 
                 //pick a hazard selected
                 int pick = f.RNG->Next(0, spawnablehazards.Count);
-                UnityEngine.Debug.Log(pick + " " + spawnablehazards.Count);
+                //UnityEngine.Debug.Log(pick + " " + spawnablehazards.Count);
                 //if (hefty)
                 //    f.Global->HeftyCount++;
 

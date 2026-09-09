@@ -26,11 +26,11 @@ namespace Quantum {
         public bool HazardEnabled;
         public bool BulbEnabled;
 
-        public byte StarFrequency;
+        public int StarFrequency;
         public bool RouletteEnabled;
-        public byte MaxHazards;
-        public byte HazardFrequency;
-        public FP HeftyPercentage;
+        public int MaxHazards;
+        public int HazardFrequency;
+        public int HeftyPercentage;
         public int HazardLifetime;
 
         public override void Serialize(BitStream stream) {
@@ -44,6 +44,7 @@ namespace Quantum {
             stream.Serialize(ref Gamemode);
             stream.Serialize(ref StarsToWin);
             stream.Serialize(ref CoinsForPowerup);
+            stream.Serialize(ref Lives);
             stream.Serialize(ref TimerMinutes);
             stream.Serialize(ref TeamsEnabled);
             /*
@@ -101,26 +102,6 @@ namespace Quantum {
                 rules.StarFrequency = DefaultRules.StarFrequency;
 
                 rules = newRules;
-                /*
-                                gamemodeChanged = rules.Gamemode != Gamemode;
-
-                GameRules tempRules = default;
-                //f.FindAsset(Gamemode).DefaultRules.Materialize(f, ref tempRules);
-                if (f.FindAsset(Gamemode) is StarChasersGamemode) {
-                    rules.StarsToWin = DefaultRules.StarsToWin;
-                    rules.StarFrequency = DefaultRules.StarFrequency;
-                } else if (f.FindAsset(Gamemode) is CoinRunnersGamemode) {
-                    rules.StarsToWin = 0;
-                    rules.StarFrequency = DefaultRules.StarFrequency;
-                } else if (false) {
-                    rules.StarsToWin = DefaultRules.StarsToWin;
-                } else if (false) {
-
-                }
-                tempRules.Stage = rules.Stage;
-
-                rules = tempRules;
-                */
             }
 
             if (rulesChanges.HasFlag(Rules.Stage)) {
@@ -214,7 +195,7 @@ namespace Quantum {
                 rules.HazardFrequency = HazardFrequency;
             }
             if (rulesChanges.HasFlag(Rules.HeftyPercentage)) {
-                rules.HeftyPercentage = HeftyPercentage;//modify
+                rules.HeftyPercentage = HeftyPercentage;
             }
             if (rulesChanges.HasFlag(Rules.HazardLifetime)) {
                 rules.HazardLifetime = HazardLifetime;

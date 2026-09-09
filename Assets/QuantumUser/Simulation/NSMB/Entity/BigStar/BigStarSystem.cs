@@ -110,7 +110,7 @@ namespace Quantum {
                 var physicsCollider = f.Unsafe.GetPointer<PhysicsCollider2D>(entity);
                 if (!PhysicsObjectSystem.BoxInGround(f, transform->Position, physicsCollider->Shape, stage: stage)) {
                     physicsObject->DisableCollision = false;
-                    physicsObject->SlowInLiquids = true;
+                    //physicsObject->SlowInLiquids = true; //NO.
                 }
             }
             if (FPMath.Abs(physicsObject->Velocity.X) < bigStar->Speed) {
@@ -138,7 +138,7 @@ namespace Quantum {
 
             if (starEntity == f.Global->MainBigStar) { //bigStar->IsStationary ?? might break something
                 stage.ResetStage(f, false);
-                f.Global->BigStarSpawnTimer = (ushort) (624 - (f.Global->RealPlayers * 12));
+                f.Global->BigStarSpawnTimer = (ushort) FPMath.RoundToInt(((FP) (624 - (f.Global->RealPlayers * 12)) * ((FP)f.Global->Rules.StarFrequency/(FP)100)));
             }
 
             f.Signals.OnMarioPlayerCollectedStar(marioEntity);

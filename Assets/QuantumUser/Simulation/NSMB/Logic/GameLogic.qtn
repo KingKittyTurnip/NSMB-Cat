@@ -48,7 +48,7 @@ struct GameRules {
 
     AssetRef<GamemodeAsset> Gamemode;//
 	int StarsToWin; //coinrunner's coins, balloon battle's balloons
-	  byte StarFrequency; //coinrunner's starcoin frequency
+	  int StarFrequency; //coinrunner's starcoin frequency
 
     //Stage Coins Group
     int CoinsForPowerup;
@@ -75,15 +75,15 @@ struct GameRules {
 
     //Hazards Group
     bool ModifierHazardsEnabled;
-    byte MaxHazards; //10 1-30
-    byte HazardFrequency;
-    FP HeftyPercentage; //0.12
+    int MaxHazards; //10 1-30
+    int HazardFrequency;
+    int HeftyPercentage; //0.12
     int HazardLifetime;
     [AllocateOnComponentAdded, FreeOnComponentRemoved] list<HazardList> Hazards;
 
     //Bulb
     bool ModifierBulbEnabled;
-    byte BulbAbilityCount; //The Amount Of Options Bulb Has, 0-3
+    int BulbAbilityCount; //The Amount Of Options Bulb Has, 0-3
 	bool HostControl; //only the host can choose what the bulb does
 
     //put these in advanced

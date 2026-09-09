@@ -21,7 +21,7 @@ MonoBehaviour:
   MusicComposer: Nintendo
   TranslationKey: Final Destonation
   StageDescription: No Items. Fox Only.
-  GroupingTranslationKey: '- Brawl Jump Battle Maps -'
+  GroupingTranslationKey: '- Other -'
   DiscordStageImage: 
   SortOrder: 0
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
@@ -99,6 +99,7 @@ MonoBehaviour:
       Value: 1394417262128408316
   - Id:
       Value: 1406808205652346148
+  mainPowerupTile: {fileID: 0}
   SfxOverrides: []
   MainMusic:
   - Id:

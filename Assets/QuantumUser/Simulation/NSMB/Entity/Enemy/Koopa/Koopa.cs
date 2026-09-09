@@ -16,7 +16,7 @@ namespace Quantum {
             f.Unsafe.GetPointer<Interactable>(entity)->ColliderDisabled = false;
             f.Unsafe.GetPointer<ComboKeeper>(entity)->Combo = 0;
 
-            f.Unsafe.GetPointer<PhysicsObject>(entity)->SinksInQuickSandAndGoo = false;
+            f.Unsafe.GetPointer<PhysicsObject>(entity)->SinksInQuickSandAndGoo = true;
         }
 
         public void EnterShell(Frame f, EntityRef entity, EntityRef initiator, bool flipped, bool groundpounded) {
@@ -47,6 +47,8 @@ namespace Quantum {
             IsInShell = true;
             CurrentSpeed = KickSpeed + speed;
             f.Unsafe.GetPointer<ComboKeeper>(entity)->Combo = 1;
+
+            f.Unsafe.GetPointer<PhysicsObject>(entity)->SinksInQuickSandAndGoo = false;
 
             f.Events.PlayComboSound(entity, 0);
             f.Events.EnemyKicked(entity, false);

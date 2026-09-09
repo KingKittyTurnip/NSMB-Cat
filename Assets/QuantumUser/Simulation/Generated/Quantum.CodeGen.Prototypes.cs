@@ -677,6 +677,7 @@ namespace Quantum.Prototypes {
     public FP JumpHorizontalSpeed;
     public FP JumpHeightLow;
     public FP JumpHeightHigh;
+    public Int32 FireSnakeSegments;
     partial void MaterializeUser(Frame frame, ref Quantum.FireSnake result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.FireSnake component = default;
@@ -688,6 +689,7 @@ namespace Quantum.Prototypes {
         result.JumpHorizontalSpeed = this.JumpHorizontalSpeed;
         result.JumpHeightLow = this.JumpHeightLow;
         result.JumpHeightHigh = this.JumpHeightHigh;
+        result.FireSnakeSegments = this.FireSnakeSegments;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -742,7 +744,7 @@ namespace Quantum.Prototypes {
     public AssetRef<Map>[] RandomDisabledStages = {};
     public AssetRef<GamemodeAsset> Gamemode;
     public Int32 StarsToWin;
-    public Byte StarFrequency;
+    public Int32 StarFrequency;
     public Int32 CoinsForPowerup;
     public QBoolean RouletteBlocksEnabled;
     [AllocateOnComponentAdded()]
@@ -759,16 +761,16 @@ namespace Quantum.Prototypes {
     [DynamicCollectionAttribute()]
     public DictionaryEntry_AssetRefCoinItemAsset_FP[] CoinItemCustomSpawnWeights = {};
     public QBoolean ModifierHazardsEnabled;
-    public Byte MaxHazards;
-    public Byte HazardFrequency;
-    public FP HeftyPercentage;
+    public Int32 MaxHazards;
+    public Int32 HazardFrequency;
+    public Int32 HeftyPercentage;
     public Int32 HazardLifetime;
     [AllocateOnComponentAdded()]
     [FreeOnComponentRemoved()]
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.HazardListPrototype[] Hazards = {};
     public QBoolean ModifierBulbEnabled;
-    public Byte BulbAbilityCount;
+    public Int32 BulbAbilityCount;
     public QBoolean HostControl;
     public QBoolean DisableStageRestrictions;
     public QBoolean DisableComplexStageRestrictions;

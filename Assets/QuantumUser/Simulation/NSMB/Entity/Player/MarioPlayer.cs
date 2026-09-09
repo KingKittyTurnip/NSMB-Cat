@@ -134,6 +134,14 @@ namespace Quantum {
         public readonly byte? GetTeam(Frame f) {
             var data = QuantumUtils.GetPlayerData(f, PlayerRef);
             if (data == null) {
+                if (BotTeam == 0) {
+                    byte autoBotTeam = 10;
+                    var filter = f.Filter<Bot, MarioPlayer>();
+                    while (filter.NextUnsafe(out EntityRef entity, out Bot* bot, out MarioPlayer* botmar)) {
+                        autoBotTeam++;
+                        botmar->BotTeam = autoBotTeam;
+                    }
+                }
                 return IsBot ? BotTeam : (byte) 0;
             } else {
                 return (byte) (data->RealTeam % Constants.MaxPlayers);
@@ -278,6 +286,7 @@ namespace Quantum {
 
             if (newItem == null) {
                 // Not a valid powerup, so just clear our reserve item instead
+                Debug.Log("AHHHHHHHHHHHHH");
                 ReserveItem = null;
                 return;
             }

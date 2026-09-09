@@ -3,9 +3,7 @@ using Quantum.Profiling;
 using UnityEngine;
 using NSMB.Utilities.Extensions;
 using static NSMB.Utilities.QuantumViewUtils;
-using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-using static UnityEditor.PlayerSettings;
 using NSMB.Utilities;
 
 public unsafe class ChainPostAnimator : QuantumEntityViewComponent {

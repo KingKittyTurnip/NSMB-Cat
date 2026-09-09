@@ -92,6 +92,8 @@ MonoBehaviour:
       Value: 1286010981056643553
   - Id:
       Value: 1437294020411531186
+  mainPowerupTile: {fileID: -7447348961868832792, guid: 435964e6679ad794995ec38a55c58d07,
+    type: 2}
   SfxOverrides: []
   MainMusic:
   - Id:

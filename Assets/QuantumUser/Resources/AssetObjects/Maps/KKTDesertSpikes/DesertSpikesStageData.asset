@@ -17,11 +17,11 @@ MonoBehaviour:
     Guid:
       Value: 330912709176827638
   ShowAuthorAndComposer: 0
-  StageAuthor: ipodtouch0218
-  MusicComposer: 
+  StageAuthor: KingKittyTurnip
+  MusicComposer: Nintendo
   TranslationKey: Desert Spikes
   StageDescription: Giant stone spikes protrude from the sand, beware of those spiky
-    enemies
+    enemies (who is he talking about)
   GroupingTranslationKey: '- KKT Maps -'
   DiscordStageImage: 
   SortOrder: 0
@@ -76,6 +76,8 @@ MonoBehaviour:
   BannedHazards:
   - Id:
       Value: 1300211052819551813
+  mainPowerupTile: {fileID: -3061604471713882216, guid: 0ffdd217d1f2ce148930be60c260f209,
+    type: 2}
   SfxOverrides: []
   MainMusic:
   - Id:

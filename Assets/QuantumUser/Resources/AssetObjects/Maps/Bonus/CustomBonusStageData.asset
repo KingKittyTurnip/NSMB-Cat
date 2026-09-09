@@ -76,6 +76,8 @@ MonoBehaviour:
   BannedHazards:
   - Id:
       Value: 1313060240537942267
+  mainPowerupTile: {fileID: -3061604471713882216, guid: 0ffdd217d1f2ce148930be60c260f209,
+    type: 2}
   SfxOverrides: []
   MainMusic:
   - Id:
@@ -12303,54 +12305,62 @@ MonoBehaviour:
       RawValue: 360448
   HazardSpawnpoints:
   - X:
-      RawValue: 32768
-    Y:
-      RawValue: 212992
-  - X:
-      RawValue: -1638400
-    Y:
-      RawValue: 262144
-  - X:
-      RawValue: -294912
-    Y:
-      RawValue: 393216
-  - X:
-      RawValue: 851968
+      RawValue: 917504
     Y:
       RawValue: 360448
   - X:
-      RawValue: 491520
+      RawValue: 2031616
     Y:
-      RawValue: 212992
+      RawValue: 344064
   - X:
-      RawValue: -2031616
+      RawValue: -557056
     Y:
       RawValue: 262144
   - X:
-      RawValue: 2048000
+      RawValue: -1097728
     Y:
-      RawValue: 360448
+      RawValue: 114688
   - X:
-      RawValue: -1048576
-    Y:
-      RawValue: 212992
-  - X:
-      RawValue: -524288
-    Y:
-      RawValue: 212992
-  - X:
-      RawValue: -1310720
+      RawValue: 1523712
     Y:
       RawValue: 229376
   - X:
-      RawValue: 1048576
+      RawValue: 49152
     Y:
-      RawValue: 212992
+      RawValue: 180224
   - X:
-      RawValue: 262144
+      RawValue: -1343488
     Y:
-      RawValue: 212992
+      RawValue: 393216
   - X:
-      RawValue: 1572864
+      RawValue: 442368
     Y:
-      RawValue: 212992
+      RawValue: 327680
+  - X:
+      RawValue: -311296
+    Y:
+      RawValue: 327680
+  - X:
+      RawValue: -1556480
+    Y:
+      RawValue: 245760
+  - X:
+      RawValue: -442368
+    Y:
+      RawValue: 147456
+  - X:
+      RawValue: -1982464
+    Y:
+      RawValue: 311296
+  - X:
+      RawValue: 1687552
+    Y:
+      RawValue: 147456
+  - X:
+      RawValue: 524288
+    Y:
+      RawValue: 180224
+  - X:
+      RawValue: 1015808
+    Y:
+      RawValue: 196608

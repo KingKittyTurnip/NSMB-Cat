@@ -1,14 +1,17 @@
 using Photon.Deterministic;
+using Quantum.Collections;
+using UnityEngine;
 
 namespace Quantum {
     public unsafe class FireSnakeSystem : SystemMainThreadEntityFilter<FireSnake, FireSnakeSystem.Filter>, ISignalOnEnemyReturnedHome,
-        ISignalOnComponentAdded<FireSnake>, ISignalOnComponentRemoved<FireSnake>, ISignalOnEnemyRespawned {
+        ISignalOnComponentAdded<FireSnake>, ISignalOnComponentRemoved<FireSnake>, ISignalOnEnemyRespawned, ISignalInitializeHazard {
 
         public struct Filter {
             public EntityRef Entity;
             public FireSnake* FireSnake;
             public Enemy* Enemy;
             public PhysicsObject* PhysicsObject;
+            public Hazard* Hazard;
         }
 
         public override void OnInit(Frame f) {
@@ -20,12 +23,13 @@ namespace Quantum {
 
         public override void Update(Frame f, ref Filter filter, VersusStageData stage) {
             var fireSnake = filter.FireSnake;
+            var hazard = filter.Hazard;
             if (!f.Exists(fireSnake->Segments[0])) {
                 SpawnSegments(f, filter.Entity, fireSnake);
             }
             
-            for (int i = 0; i < fireSnake->Segments.Length; i++) {
-                UpdateSegment(f, fireSnake->Segments[i]);
+            for (int i = 0; i < fireSnake->FireSnakeSegments; i++) {
+                UpdateSegment(f, fireSnake->Segments[i], fireSnake->FireSnakeSegments);
             }
 
             var enemy = filter.Enemy;
@@ -66,28 +70,29 @@ namespace Quantum {
             }
         }
 
-        private void UpdateSegment(Frame f, EntityRef segment) {
+        private void UpdateSegment(Frame f, EntityRef segment, int fireSnakeSegments) {
             var fireSnakeSegment = f.Unsafe.GetPointer<FireSnakeSegment>(segment);
             var transform = f.Unsafe.GetPointer<Transform2D>(segment);
             var parentTransform = f.Unsafe.GetPointer<Transform2D>(fireSnakeSegment->Parent);
 
             var buffer = fireSnakeSegment->PositionBuffer;
             int index = f.Number - fireSnakeSegment->SpawnTick;
-            if (index >= buffer.Length) {
-                transform->Position = buffer[index % buffer.Length];
-            } else if (index == 0) {
+            if (index >= fireSnakeSegments) {
+                transform->Position = buffer[index % fireSnakeSegments];
+            } else if (index == 0) {        
                 transform->Position = parentTransform->Position;
             }
-            buffer[index % buffer.Length] = parentTransform->Position;
+            buffer[index % fireSnakeSegments] = parentTransform->Position;
         }
 
         private void SpawnSegments(Frame f, EntityRef fireSnakeEntity, FireSnake* fireSnake) {
             for (int i = 0; i < fireSnake->Segments.Length; i++) {
+                if (f.Exists(fireSnake->Segments[i]))
                 f.Destroy(fireSnake->Segments[i]);
             }
 
             EntityRef parent = fireSnakeEntity;
-            for (int i = 0; i < fireSnake->Segments.Length; i++) {
+            for (int i = 0; i < fireSnake->FireSnakeSegments; i++) {
                 EntityRef newEntity = f.Create(fireSnake->SegmentPrototype);
                 var newSegment = f.Unsafe.GetPointer<FireSnakeSegment>(newEntity);
                 newSegment->FireSnake = fireSnakeEntity;
@@ -123,7 +128,7 @@ namespace Quantum {
         public void OnEnemyReturnedHome(Frame f, EntityRef entity) {
             if (f.Unsafe.TryGetPointer(entity, out FireSnake* fireSnake)) {
                 if (f.Exists(fireSnake->Segments[0])) {
-                    for (int i = 0; i < fireSnake->Segments.Length; i++) {
+                    for (int i = 0; i < fireSnake->FireSnakeSegments; i++) {
                         EntityRef segment = fireSnake->Segments[i];
                         f.Unsafe.GetPointer<FireSnakeSegment>(segment)->Reset(f, fireSnake->Segments[i]);
                     }
@@ -137,7 +142,7 @@ namespace Quantum {
         }
 
         public unsafe void OnRemoved(Frame f, EntityRef entity, FireSnake* component) {
-            for (int i = 0; i < component->Segments.Length; i++) {
+            for (int i = 0; i < component->FireSnakeSegments; i++) {
                 f.Destroy(component->Segments[i]);
             }
         }
@@ -146,6 +151,20 @@ namespace Quantum {
             if (f.Unsafe.TryGetPointer(entity, out FireSnake* fireSnake)) {
                 fireSnake->Respawn(f, entity);
             }
+        }
+        //KKT mod
+        public void InitializeHazard(Frame f, EntityRef thisEntity, EntityRef owner, FPVector2 spawnpoint, SpawnReason spawnReason, QListPtr<byte> spawnData) {
+            if (!f.Unsafe.TryGetPointer(thisEntity, out Hazard* hazard)
+                || !f.Unsafe.TryGetPointer(thisEntity, out FireSnake* firesnack)
+                || !f.Unsafe.TryGetPointer(thisEntity, out Enemy* enemy)) {
+                return;
+            }
+            var specialValues = f.ResolveList(spawnData);
+
+            enemy->IsActive = true;
+            firesnack->FireSnakeSegments = specialValues[0];
+            SpawnSegments(f, thisEntity, firesnack);
+            Debug.Log("AHHHH " + firesnack->FireSnakeSegments);
         }
     }
 }

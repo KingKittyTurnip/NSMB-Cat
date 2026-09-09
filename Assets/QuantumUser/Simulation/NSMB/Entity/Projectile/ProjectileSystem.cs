@@ -47,7 +47,7 @@ namespace Quantum {
             HandleTileCollision(f, ref filter, asset);
 
             if (projectile->BounceOff) { //this is bad code
-                var newcap = FPMath.Max(FPMath.Abs(physicsObject->Velocity.X) - FP._0_10, FP._1_50);
+                var newcap = FPMath.Max(FPMath.Abs(physicsObject->Velocity.X) - Constants._0_09, FP._1_50);
                 physicsObject->Velocity.X = FPMath.Clamp(physicsObject->Velocity.X, -newcap, newcap);
 
                 physicsObject->TerminalVelocity = FPMath.Min(physicsObject->TerminalVelocity + FP._0_03, -FP._0_10);
@@ -102,31 +102,33 @@ namespace Quantum {
             var projectileAssetB = f.FindAsset(projectileB->Asset);
 
             //bubble.... 
-            if (projectileA->BounceOff) {
-                switch (projectileAssetB.Effect) {
-                case ProjectileEffectType.Fire:
-                case ProjectileEffectType.Freeze: {
-                    Destroy(f, projectileEntityB, projectileAssetB.DestroyParticleEffect);
-                    return;
-                }
-                case ProjectileEffectType.KillEnemiesAndSoftKnockbackPlayers: {
-                    Destroy(f, projectileEntityA, projectileAssetA.DestroyParticleEffect);
-                    f.Signals.OnProjectileHitEntity(projectileEntityB, projectileEntityA);
-                    return;
-                }
-                }
-            } else if (projectileB->BounceOff) {
-                switch (projectileAssetA.Effect) {
-                case ProjectileEffectType.Fire:
-                case ProjectileEffectType.Freeze: {
-                    Destroy(f, projectileEntityA, projectileAssetA.DestroyParticleEffect);
-                    return;
-                }
-                case ProjectileEffectType.KillEnemiesAndSoftKnockbackPlayers: {
-                    Destroy(f, projectileEntityB, projectileAssetB.DestroyParticleEffect);
-                    f.Signals.OnProjectileHitEntity(projectileEntityA, projectileEntityB);
-                    return;
-                }
+            if (projectileA->BounceOff ^ projectileB->BounceOff) {
+                if (projectileA->BounceOff) {
+                    switch (projectileAssetB.Effect) {
+                    case ProjectileEffectType.Fire:
+                    case ProjectileEffectType.Freeze: {
+                        Destroy(f, projectileEntityB, projectileAssetB.DestroyParticleEffect);
+                        return;
+                    }
+                    case ProjectileEffectType.KillEnemiesAndSoftKnockbackPlayers: {
+                        Destroy(f, projectileEntityA, projectileAssetA.DestroyParticleEffect);
+                        f.Signals.OnProjectileHitEntity(projectileEntityB, projectileEntityA);
+                        return;
+                    }
+                    }
+                } else if (projectileB->BounceOff) {
+                    switch (projectileAssetA.Effect) {
+                    case ProjectileEffectType.Fire:
+                    case ProjectileEffectType.Freeze: {
+                        Destroy(f, projectileEntityA, projectileAssetA.DestroyParticleEffect);
+                        return;
+                    }
+                    case ProjectileEffectType.KillEnemiesAndSoftKnockbackPlayers: {
+                        Destroy(f, projectileEntityB, projectileAssetB.DestroyParticleEffect);
+                        f.Signals.OnProjectileHitEntity(projectileEntityA, projectileEntityB);
+                        return;
+                    }
+                    }
                 }
             }
 
@@ -148,7 +150,10 @@ namespace Quantum {
             var projectile = f.Unsafe.GetPointer<Projectile>(projectileEntity);
             var projectileAsset = f.FindAsset(projectile->Asset);
 
-            if (projectileAsset.DestroyOnHit) {
+            if (projectile->BounceOff && f.Has<Enemy>(hitEntity)) {
+                //stop moving but don't break
+                projectile->Speed = 0;
+            } else if (projectileAsset.DestroyOnHit) {
                 Destroy(f, projectileEntity, projectileAsset.DestroyParticleEffect);
             } else if (projectileAsset.Bounce) {
                 var physicsObject = f.Unsafe.GetPointer<PhysicsObject>(projectileEntity);

@@ -1,11 +1,8 @@
-using NSMB.UI.Game;
 using NSMB.Utilities.Extensions;
-using Photon.Deterministic;
 using Quantum;
 using Quantum.Profiling;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public unsafe class KingBooAnimator : QuantumEntityViewComponent {

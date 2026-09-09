@@ -3,10 +3,6 @@ using Quantum.Profiling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using UnityEditor.SceneManagement;
-using UnityEditor.ShaderKeywordFilter;
-using static UnityEditor.Progress;
 
 namespace Quantum {
     public unsafe class GameLogicSystem : SystemMainThread, ISignalOnPlayerAdded, ISignalOnPlayerRemoved, ISignalOnMarioPlayerDied,
@@ -161,6 +157,8 @@ namespace Quantum {
                         data->IsLoaded = false;
                         data->IsReady = false;
                     }
+
+                    HandleReplaceTiles(f);
 
                 } else if (f.Global->GameStartFrames == 79) {
                     f.Events.RecordingStarted();
@@ -546,6 +544,10 @@ namespace Quantum {
             f.Global->ClipboardRules = f.Global->Rules;
             var stage = f.FindAsset<VersusStageData>(f.Map.UserAsset);
 
+            f.Global->HeftyCount = 0;
+            f.Global->UsedHazardSpawnCount = 0;
+
+
             if (!f.Global->Rules.DisableStageRestrictions) {
                 if (stage.OverwriteRules != null) {
                     UnityEngine.Debug.Log("Overwriting rules");
@@ -579,6 +581,71 @@ namespace Quantum {
         //Still KKT mod
         public static void RewriteRules(Frame f) {
             f.Global->Rules = f.Global->ClipboardRules;
+        }
+        //Stiiiiiiiiill kkt mod
+        public void HandleReplaceTiles(Frame f) {
+            /*if (!f.RuntimeConfig.IsRealGame) {
+                return;
+            }*/
+            //SetupReplaceTile
+            VersusStageData stage = f.FindAsset<VersusStageData>(f.Map.UserAsset);
+            if (stage.mainPowerupTile == null) {
+                //um, ignore?
+                return;
+            }
+            StageTileInstance* stageTiles = f.StageTiles;
+
+            //Get Tiles
+            List<(int, IntVector2)> RTInStage = new();
+            for (int i = 0; i < stage.TileData.Length; i++) {
+                ref StageTileInstance newTile = ref stage.TileData[i];
+                if (!stageTiles[i].Equals(newTile)) {
+                    int x = i % stage.TileDimensions.X;
+                    int y = i / stage.TileDimensions.X;
+                    IntVector2 tile = new(x, y);
+                    if (f.FindAsset(stage.GetTileRelative(f, tile).Tile) is PowerupTile or RouletteTile) {
+                        RTInStage.Add((i, tile));
+                    }
+                } else if (f.FindAsset(newTile.Tile) is PowerupTile or RouletteTile) {
+                    int x = i % stage.TileDimensions.X;
+                    int y = i / stage.TileDimensions.X;
+                    IntVector2 tile = new(x, y);
+                    RTInStage.Add((i, tile));
+                }
+                stageTiles[i] = newTile;
+            }
+
+            //SetTiles
+            int count = (RTInStage.Count);
+            for (int i = 0; i < count; i++) {
+                int rid = f.RNG->Next(0, RTInStage.Count-1);
+
+                ref StageTileInstance newTile = ref stage.TileData[RTInStage[rid].Item1];
+                if (!stageTiles[RTInStage[rid].Item1].Equals(newTile)) {
+                    if (f.FindAsset(stage.GetTileRelative(f, RTInStage[rid].Item2).Tile) is PowerupTile or RouletteTile) {
+                        newTile = GetTile(f);
+                        f.Signals.OnTileChanged(RTInStage[rid].Item2, stageTiles[i]);
+                    } else {
+                        f.Signals.OnTileChanged(RTInStage[rid].Item2, newTile);
+                    }
+                    f.Events.TileChanged(RTInStage[rid].Item2 + stage.TileOrigin, newTile);
+                } else if (f.FindAsset(stage.GetTileRelative(f, RTInStage[rid].Item2).Tile) is PowerupTile or RouletteTile) {
+                    newTile = GetTile(f);
+                    stageTiles[RTInStage[rid].Item1] = newTile;
+                    f.Signals.OnTileChanged(RTInStage[rid].Item2, stageTiles[RTInStage[rid].Item1]);
+                    f.Events.TileChanged(RTInStage[rid].Item2 + stage.TileOrigin, newTile);
+
+                    stageTiles[RTInStage[rid].Item1] = newTile;
+                }
+                stageTiles[RTInStage[rid].Item1] = newTile;
+                RTInStage.RemoveAt(rid);
+            }
+            return;
+
+            StageTileInstance GetTile(Frame f) {
+                StageTileInstance newtile = new StageTileInstance { Tile = f.Global->Rules.RouletteBlocksEnabled ? f.SimulationConfig.rouletteTile : stage.mainPowerupTile, };
+                return newtile;
+            }
         }
     }
 }

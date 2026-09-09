@@ -30,7 +30,7 @@ MonoBehaviour:
   MaxNumberOfItems: 0
   CanSpawnAfterSeconds:
     RawValue: 0
-  TranslationKey: 
+  TranslationKey: coinitem.jumpsuit
   CameraSpawnOffset:
     X:
       RawValue: 0
@@ -78,8 +78,8 @@ MonoBehaviour:
     OriginalPreWrapMode: 0
     OriginalPostWrapMode: 0
     Keys: []
-  StatePriority: 1
-  ItemPriority: 1
+  StatePriority: 2
+  ItemPriority: 2
   EnterReserveIfOverridden: 1
   Instant: 0
   SfxOverrides: []

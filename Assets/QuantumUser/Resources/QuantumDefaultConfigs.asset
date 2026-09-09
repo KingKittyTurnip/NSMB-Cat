@@ -258,6 +258,8 @@ MonoBehaviour:
   BaseRules:
     Id:
       Value: 425424764972781941
+  rouletteTile: {fileID: -1798150327832402011, guid: 19dae49bc21284b4c95edfeb3aaf00e9,
+    type: 2}
 --- !u!114 &-100545808229499591
 MonoBehaviour:
   m_ObjectHideFlags: 0

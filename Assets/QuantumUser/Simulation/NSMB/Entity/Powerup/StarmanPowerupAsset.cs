@@ -17,7 +17,11 @@ public unsafe class StarmanPowerupAsset : PowerupAsset {
 
     public override unsafe PowerupReserveResult Collect(Frame f, EntityRef marioEntity) {
         var mario = f.Unsafe.GetPointer<MarioPlayer>(marioEntity);
-        mario->InvincibilityFrames = (ushort) (StarmanDuration * f.UpdateRate);
+        if (mario->IsMetal) {
+            mario->MetalBoost = 1;
+        } else {
+            mario->InvincibilityFrames = (ushort) (StarmanDuration * f.UpdateRate);
+        }
 
         f.Signals.OnMarioPlayerBecameInvincible(marioEntity);
         return PowerupReserveResult.CollectNewIgnoreOld;

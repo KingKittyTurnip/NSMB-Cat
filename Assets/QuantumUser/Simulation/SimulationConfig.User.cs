@@ -27,5 +27,6 @@ namespace Quantum {
 
         [Header("Gamemode Shenanigans")]
         public AssetRef<RulesBaser> BaseRules;
+        public RouletteTile rouletteTile;
     }
 }

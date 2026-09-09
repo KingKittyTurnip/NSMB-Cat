@@ -21,9 +21,9 @@ MonoBehaviour:
   MusicComposer: Nintendo
   TranslationKey: Flipsidown
   StageDescription: Flip out in this gravity flipping map
-  GroupingTranslationKey: '- Complex -'
+  GroupingTranslationKey: '- Other -'
   DiscordStageImage: 
-  SortOrder: 0
+  SortOrder: 6
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
   MainMenuPreviewPrefab: {fileID: 0}
   OverrideAutomaticTilemapSettings: 1
@@ -75,6 +75,8 @@ MonoBehaviour:
   BannedHazards:
   - Id:
       Value: 1300211052819551813
+  mainPowerupTile: {fileID: 7107447637654450289, guid: 2fd7fa3181f039a4491742549b97d8f0,
+    type: 2}
   SfxOverrides: []
   MainMusic:
   - Id:

@@ -19,7 +19,7 @@ MonoBehaviour:
   Effect: 2
   Bounce: 1
   Speed:
-    RawValue: 262144
+    RawValue: 229376
   BounceStrength:
     RawValue: 0
   LifeTime: 180

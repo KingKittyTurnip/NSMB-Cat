@@ -654,6 +654,7 @@ MonoBehaviour:
   Faces:
   - {fileID: 1960758212550600718}
   - {fileID: 4746034259370170652}
+  - {fileID: 2720617141829643282}
   - {fileID: 4188825744437376356}
   - {fileID: 1689827002858505035}
   - {fileID: 4140188649213712916}
@@ -705,7 +706,7 @@ MonoBehaviour:
   - {fileID: 4750004926892365420}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 8
+  blinkinRate: 12
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1
@@ -1036,6 +1037,12 @@ GameObject:
 --- !u!1 &1960758212550600718 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -403280076132382211, guid: 9330e6ad189a3f948985a3513617f100,
+    type: 3}
+  m_PrefabInstance: {fileID: 7012458511709839859}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2720617141829643282 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4940681048632135137, guid: 9330e6ad189a3f948985a3513617f100,
     type: 3}
   m_PrefabInstance: {fileID: 7012458511709839859}
   m_PrefabAsset: {fileID: 0}

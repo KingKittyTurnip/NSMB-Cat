@@ -6,7 +6,7 @@ namespace Quantum {
             f.Unsafe.GetPointer<Interactable>(entity)->ColliderDisabled = false;
 
             if (f.Exists(Segments[0])) {
-                for (int i = 0; i < Segments.Length; i++) {
+                for (int i = 0; i < FireSnakeSegments; i++) {
                     EntityRef segment = Segments[i];
                     f.Unsafe.GetPointer<FireSnakeSegment>(segment)->Respawn(f, segment);
                 }

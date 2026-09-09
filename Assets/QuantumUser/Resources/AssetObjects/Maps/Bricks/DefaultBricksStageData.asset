@@ -76,6 +76,8 @@ MonoBehaviour:
   BannedHazards:
   - Id:
       Value: 1313060240537942267
+  mainPowerupTile: {fileID: 4693619951757477808, guid: 7833a44a5c5ede241bf057e9e7ecc82f,
+    type: 2}
   SfxOverrides: []
   MainMusic:
   - Id:

@@ -20,8 +20,7 @@ MonoBehaviour:
   StageAuthor: KingKittyTurnip
   MusicComposer: Nintendo
   TranslationKey: Bamboozling Jungle
-  StageDescription: This is a dangerous forest is filled with bamboo! It's very...
-    BAMBOOZLING
+  StageDescription: This dangerous forest is filled with bamboo! It's very... BAMBOOZLING
   GroupingTranslationKey: '- KKT Maps -'
   DiscordStageImage: 
   SortOrder: 0
@@ -76,6 +75,8 @@ MonoBehaviour:
   BannedHazards:
   - Id:
       Value: 1300211052819551813
+  mainPowerupTile: {fileID: -3061604471713882216, guid: 0ffdd217d1f2ce148930be60c260f209,
+    type: 2}
   SfxOverrides: []
   MainMusic:
   - Id:

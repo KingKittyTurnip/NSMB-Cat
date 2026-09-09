@@ -1,7 +1,3 @@
-using NSMB.Utilities.Components;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class SwapStuffWithMonthEvent : MonoBehaviour {
@@ -11,7 +7,7 @@ public class SwapStuffWithMonthEvent : MonoBehaviour {
     //[SerializeField] private LegacyAnimateSpriteRenderer ourLegacyAnimator;
     [Space]
     [SerializeField] private GameObject[] EnableObjects;
-    [SerializeField] private AnimatorController[] Controllers;
+    [SerializeField] private RuntimeAnimatorController[] Controllers;
     //[SerializeField] private List<Sprite[]> LegacyFrames;
     [SerializeField] private Sprite[] Sprites;
     [SerializeField] private Color32[] Colors;
