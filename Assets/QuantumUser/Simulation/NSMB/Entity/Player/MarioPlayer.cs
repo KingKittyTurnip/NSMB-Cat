@@ -99,7 +99,7 @@ namespace Quantum {
         public readonly bool CanCollectOwnTeamsObjectiveCoins => !IsInKnockback && DamageInvincibilityFrames == 0;
         public readonly bool IsStarmanOrMega => IsStarmanInvincible || CurrentPowerupState == PowerupState.MegaMushroom;
         public readonly bool IsValid(Frame f) => !Disconnected && !(f.Global->Rules.IsLivesEnabled && Lives == 0);
-        public readonly bool IsDamageable(Frame f) => !IsStarmanInvincible && DamageInvincibilityFrames == 0 && !TryGetCurrentPowerTransition(f, out _);
+        public readonly bool IsDamageable(Frame f) => !IsStarmanInvincible && !IsMetal && DamageInvincibilityFrames == 0 && !TryGetCurrentPowerTransition(f, out _);
         /**
          * <summary>Outputs a pointer to the current transition animation Mario is in, if he is in one.</summary>
          * <returns><strong>true</strong> if in a transition otherwise <strong>false</strong>.</returns>
@@ -503,6 +503,7 @@ namespace Quantum {
             MegaMushroomFrames = 0;
             MegaMushroomStartFrames = 0;
             MegaMushroomEndFrames = 0;
+            MetalMushroomFrames = MetalBoost = MetalSlowdownDelay = 0;
             IsCrouching = false;
             IsSliding = false;
             IsTurnaround = false;
@@ -744,9 +745,12 @@ namespace Quantum {
             f.Unsafe.GetPointer<Interactable>(mario)->ColliderDisabled = true;
 
             IsSpinnerFlying = IsPropellerFlying = false;
-	    CurrentKnockback = KnockbackStrength.None;
-	    DamageInvincibilityFrames = KnockbackGetupFrames = 0;
+	        CurrentKnockback = KnockbackStrength.None;
+	        DamageInvincibilityFrames = KnockbackGetupFrames = 0;
             InvincibilityFrames = MegaMushroomStartFrames = MegaMushroomEndFrames = MegaMushroomFootstepFrames = 0;
+            MetalMushroomFrames = MetalBoost = MetalSlowdownDelay = 0;
+            if (CurrentPowerupState == PowerupState.MegaMushroom)
+                CurrentPowerupState = PowerupState.Mushroom;
             MegaMushroomFrames = 0;
 
             if (f.Unsafe.TryGetPointer(HeldEntity, out Holdable* holdable)) {

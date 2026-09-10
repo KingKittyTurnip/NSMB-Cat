@@ -216,7 +216,7 @@ namespace Quantum {
 
             //Projectile Powerups
             QuantumUtils.Decrement(ref BotAtkCooldown);
-            bool firedownwards = mario->CurrentPowerupState == PowerupState.FireFlower || mario->CurrentPowerupState == PowerupState.BubbleFlower || mario->CurrentPowerupState == PowerupState.Doneflower;
+            bool firedownwards = mario->CurrentPowerupState == PowerupState.FireFlower || mario->CurrentPowerupState == PowerupState.IceFlower || mario->CurrentPowerupState == PowerupState.BubbleFlower || mario->CurrentPowerupState == PowerupState.Doneflower;
             if (Attack && BotAtkCooldown <= 0
               && ((firedownwards && Diffrence.Y > -2)
               || (mario->CurrentPowerupState == PowerupState.HammerSuit && Diffrence.Y < 2)

@@ -259,16 +259,17 @@ namespace Quantum {
             var items = f.ResolveList(f.Global->Rules.Items);
             int ourObjectiveCount = GetTeamObjectiveCount(f, mario->GetTeam(f)) ?? 0;
 
-            bool CanSpawnJoke = true;
-            FP MushroomChance = 1;
+            var marioreserve = f.FindAsset(mario->ReserveItem);
 
-            bool StageSpawnsBigItems;
-            bool StageSpawnsVerticalItems;
+            bool MarioHasJoke = mario->CurrentPowerupState == PowerupState.Jumpsuit || mario->CurrentPowerupState == PowerupState.Doneflower || (marioreserve != null && (marioreserve.State == PowerupState.Jumpsuit || marioreserve.State == PowerupState.Doneflower));
+            bool CanSpawnJoke = mario->TimesWithoutAJoke > FPMath.Max(8-f.Global->Rules.CoinsForPowerup-1, 0) && !MarioHasJoke;
+
+            bool CanSpawnCatchups = !(mario->CurrentPowerupState <= PowerupState.Mushroom || MarioHasJoke);
 
             //pick random chance type
             ItemChanceType chancePick = ItemChanceType.Middling;
             FP totalChance = 0;
-            FP highestChance = -999;
+            FP highestChance = FP.MinValue;
             ItemChanceType highestChanceGroup = ItemChanceType.First;
             byte MaxTypes = ((int) ItemChanceType.Invalid);
 
@@ -276,9 +277,22 @@ namespace Quantum {
             List<bool> chanceExists = new List<bool>();
             for (int i = 0; i < MaxTypes; i++) {
                 var l = f.ResolveList(items[i].Items);
-                //UnityEngine.Debug.Log("lisssssst " + l.Count);
-                //if (!(items[i].Chance == ItemChanceType.JokeMiddle)) // restrict joke powerups to only sometimes appear
-                    chanceExists.Add(l.Count > 64);//??? idk how you would check for a list with nothing but i don't want more than 64 objects in a list anyway
+
+                //??? idk how you would check for a list with nothing but i don't want more than 64 objects in a list anyway
+                bool exists = l.Count > 64;
+                if (exists) {
+                    // only spawn jokes if we haven't had one in a while,
+                    // this is so players don't constantly get them
+                    if (items[i].Chance == ItemChanceType.JokeMiddle && !CanSpawnJoke)
+                        exists = false;
+
+                    //only spawn catchups if mario has a proper powerup,
+                    //this is to make it so super far behind players aren't bombarded by powerups
+                    if ((items[i].Chance == ItemChanceType.LastRare || items[i].Chance == ItemChanceType.LastCommon) && !CanSpawnCatchups)
+                        exists = false;
+                }
+
+                chanceExists.Add(exists);
             }
 
             //pick random chance type
@@ -319,6 +333,13 @@ namespace Quantum {
             //pick a random object with this chance type
             var listOfpowerups = f.ResolveList(items[(int) chancePick].Items);
             PowerupData pick = listOfpowerups[f.RNG->Next(0, listOfpowerups.Count)];
+
+            //is a joke?
+            if (true || MarioHasJoke) {
+                mario->TimesWithoutAJoke = 0;
+            } else {
+                mario->TimesWithoutAJoke++;
+            }
 
             //UnityEngine.Debug.Log("item: " + pick.Name);
 

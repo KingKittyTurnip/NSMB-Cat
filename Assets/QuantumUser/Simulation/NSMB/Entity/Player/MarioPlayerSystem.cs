@@ -516,7 +516,7 @@ namespace Quantum {
                         //add a bit extra velocity
                         physicsObject->Velocity.X = FPMath.Clamp(physicsObject->Velocity.X + (inputs.Left ? -2 : 2), -cap, cap);
                     }
-                    mario->MetalSlowdownDelay = Constants._0_66;
+                    mario->MetalSlowdownDelay = Constants._0_95;
                     f.Events.MetalLanded(filter.Entity, filter.Transform->Position);
                 }
             }
@@ -2956,7 +2956,11 @@ namespace Quantum {
                 dealtKnockback |= attackerMario->DoKnockback(f, defender, fromRight, dropStars ? 1 : 0, KnockbackStrength.CollisionBump, attacker, ignoreInvincibleStates: true);
             } else {
                 // bump
-                dealtKnockback = defenderMario->DoKnockback(f, attacker, !fromRight, dropStars ? 1 : 0, KnockbackStrength.CollisionBump, defender, ignoreInvincibleStates: true);
+                if (dropStars) {
+                    defenderMario->Powerdown(f, defender, false, attacker);
+                } else {
+                    dealtKnockback = defenderMario->DoKnockback(f, defender, !fromRight, 0, KnockbackStrength.CollisionBump, attacker, ignoreInvincibleStates: true);
+                }
             }
 
             if (dealtKnockback) {

@@ -98,7 +98,7 @@ MonoBehaviour:
   UsesBrawlJumps: 0
   ForceCharacter:
     Id:
-      Value: 532063855470386108
+      Value: 355933347838853819
   OverwriteRules:
     Id:
       Value: 0
@@ -2640,7 +2640,7 @@ MonoBehaviour:
     Flags: 0
   - Tile:
       Id:
-        Value: 4548163005596971322
+        Value: 1967635100678340115
     Rotation: 0
     Flags: 0
   - Tile:
@@ -4320,7 +4320,7 @@ MonoBehaviour:
     Flags: 0
   - Tile:
       Id:
-        Value: 4548163005596971322
+        Value: 1967635100678340115
     Rotation: 0
     Flags: 0
   - Tile:

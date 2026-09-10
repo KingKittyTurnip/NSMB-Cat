@@ -4140,11 +4140,11 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct MarioPlayer : Quantum.IComponent {
-    public const Int32 SIZE = 256;
+    public const Int32 SIZE = 280;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(128)]
+    [FieldOffset(136)]
     public AssetRef<MarioPlayerPhysicsInfo> PhysicsAsset;
-    [FieldOffset(120)]
+    [FieldOffset(128)]
     public AssetRef<CharacterAsset> CharacterAsset;
     [FieldOffset(68)]
     [ExcludeFromPrototype()]
@@ -4158,13 +4158,13 @@ namespace Quantum {
     [FieldOffset(46)]
     [ExcludeFromPrototype()]
     public PowerupState PreviousPowerupState;
-    [FieldOffset(136)]
+    [FieldOffset(144)]
     [ExcludeFromPrototype()]
     public AssetRef<PowerupAsset> ReserveItem;
-    [FieldOffset(240)]
+    [FieldOffset(264)]
     [ExcludeFromPrototype()]
     public RNGSession RNG;
-    [FieldOffset(216)]
+    [FieldOffset(240)]
     [ExcludeFromPrototype()]
     public GamemodeSpecificData GamemodeData;
     [FieldOffset(3)]
@@ -4176,13 +4176,13 @@ namespace Quantum {
     [FieldOffset(76)]
     [ExcludeFromPrototype()]
     public QBoolean Disconnected;
-    [FieldOffset(88)]
+    [FieldOffset(92)]
     [ExcludeFromPrototype()]
     public QBoolean IsDead;
     [FieldOffset(80)]
     [ExcludeFromPrototype()]
     public QBoolean FireDeath;
-    [FieldOffset(92)]
+    [FieldOffset(96)]
     [ExcludeFromPrototype()]
     public QBoolean IsRespawning;
     [FieldOffset(8)]
@@ -4197,7 +4197,7 @@ namespace Quantum {
     [FieldOffset(21)]
     [ExcludeFromPrototype()]
     public Byte NoLivesStarDirection;
-    [FieldOffset(144)]
+    [FieldOffset(152)]
     [ExcludeFromPrototype()]
     public BitSet21 Flags;
     [FieldOffset(9)]
@@ -4263,10 +4263,10 @@ namespace Quantum {
     [FieldOffset(16)]
     [ExcludeFromPrototype()]
     public Byte KnockbackGetupFrames;
-    [FieldOffset(184)]
+    [FieldOffset(200)]
     [ExcludeFromPrototype()]
     public EntityRef LastAttacker;
-    [FieldOffset(112)]
+    [FieldOffset(120)]
     [ExcludeFromPrototype()]
     [AllocateOnComponentAdded()]
     [FreeOnComponentRemoved()]
@@ -4316,16 +4316,16 @@ namespace Quantum {
     [FieldOffset(28)]
     [ExcludeFromPrototype()]
     public Byte PropellerDrillHoldFrames;
-    [FieldOffset(168)]
+    [FieldOffset(184)]
     [ExcludeFromPrototype()]
     public EntityRef HeldEntity;
     [FieldOffset(52)]
     [ExcludeFromPrototype()]
     public Int32 HoldStartFrame;
-    [FieldOffset(152)]
+    [FieldOffset(168)]
     [ExcludeFromPrototype()]
     public EntityRef CurrentPipe;
-    [FieldOffset(224)]
+    [FieldOffset(248)]
     [ExcludeFromPrototype()]
     public FPVector2 PipeDirection;
     [FieldOffset(23)]
@@ -4337,19 +4337,19 @@ namespace Quantum {
     [FieldOffset(37)]
     [ExcludeFromPrototype()]
     public Byte TauntFrames;
-    [FieldOffset(160)]
+    [FieldOffset(176)]
     [ExcludeFromPrototype()]
     public EntityRef CurrentSpinner;
-    [FieldOffset(96)]
+    [FieldOffset(100)]
     [ExcludeFromPrototype()]
     public QBoolean JumpHeld;
-    [FieldOffset(200)]
+    [FieldOffset(224)]
     [ExcludeFromPrototype()]
     public FP MetalMushroomFrames;
-    [FieldOffset(192)]
+    [FieldOffset(216)]
     [ExcludeFromPrototype()]
     public FP MetalBoost;
-    [FieldOffset(208)]
+    [FieldOffset(232)]
     [ExcludeFromPrototype()]
     public FP MetalSlowdownDelay;
     [FieldOffset(1)]
@@ -4358,22 +4358,34 @@ namespace Quantum {
     [FieldOffset(38)]
     [ExcludeFromPrototype()]
     public Byte TimesWithoutAJoke;
-    [FieldOffset(108)]
+    [FieldOffset(160)]
+    [ExcludeFromPrototype()]
+    public EntityRef BombProjectile;
+    [FieldOffset(208)]
+    [ExcludeFromPrototype()]
+    public EntityRef MeleeProjectile;
+    [FieldOffset(116)]
+    [ExcludeFromPrototype()]
+    public QBoolean UsedGrappleThisJump;
+    [FieldOffset(84)]
+    [ExcludeFromPrototype()]
+    public QBoolean Grappling;
+    [FieldOffset(112)]
     [ExcludeFromPrototype()]
     public QBoolean StoneBux;
-    [FieldOffset(100)]
+    [FieldOffset(104)]
     [ExcludeFromPrototype()]
     public QBoolean PropellerBux;
     [FieldOffset(72)]
     [ExcludeFromPrototype()]
     public QBoolean BillBux;
-    [FieldOffset(176)]
+    [FieldOffset(192)]
     [ExcludeFromPrototype()]
     public EntityRef IsBoss;
-    [FieldOffset(104)]
+    [FieldOffset(108)]
     [ExcludeFromPrototype()]
     public QBoolean RidingStarball;
-    [FieldOffset(84)]
+    [FieldOffset(88)]
     public QBoolean IsBot;
     [FieldOffset(0)]
     public Byte BotTeam;
@@ -4455,6 +4467,10 @@ namespace Quantum {
         hash = hash * 31 + MetalSlowdownDelay.GetHashCode();
         hash = hash * 31 + BubbleJumps.GetHashCode();
         hash = hash * 31 + TimesWithoutAJoke.GetHashCode();
+        hash = hash * 31 + BombProjectile.GetHashCode();
+        hash = hash * 31 + MeleeProjectile.GetHashCode();
+        hash = hash * 31 + UsedGrappleThisJump.GetHashCode();
+        hash = hash * 31 + Grappling.GetHashCode();
         hash = hash * 31 + StoneBux.GetHashCode();
         hash = hash * 31 + PropellerBux.GetHashCode();
         hash = hash * 31 + BillBux.GetHashCode();
@@ -4539,6 +4555,7 @@ namespace Quantum {
         QBoolean.Serialize(&p->BillBux, serializer);
         QBoolean.Serialize(&p->Disconnected, serializer);
         QBoolean.Serialize(&p->FireDeath, serializer);
+        QBoolean.Serialize(&p->Grappling, serializer);
         QBoolean.Serialize(&p->IsBot, serializer);
         QBoolean.Serialize(&p->IsDead, serializer);
         QBoolean.Serialize(&p->IsRespawning, serializer);
@@ -4546,16 +4563,19 @@ namespace Quantum {
         QBoolean.Serialize(&p->PropellerBux, serializer);
         QBoolean.Serialize(&p->RidingStarball, serializer);
         QBoolean.Serialize(&p->StoneBux, serializer);
+        QBoolean.Serialize(&p->UsedGrappleThisJump, serializer);
         QList.Serialize(&p->PowerupTransitionQueue, serializer, Statics.SerializePowerupTransitionAnimation);
         AssetRef.Serialize(&p->CharacterAsset, serializer);
         AssetRef.Serialize(&p->PhysicsAsset, serializer);
         AssetRef.Serialize(&p->ReserveItem, serializer);
         Quantum.BitSet21.Serialize(&p->Flags, serializer);
+        EntityRef.Serialize(&p->BombProjectile, serializer);
         EntityRef.Serialize(&p->CurrentPipe, serializer);
         EntityRef.Serialize(&p->CurrentSpinner, serializer);
         EntityRef.Serialize(&p->HeldEntity, serializer);
         EntityRef.Serialize(&p->IsBoss, serializer);
         EntityRef.Serialize(&p->LastAttacker, serializer);
+        EntityRef.Serialize(&p->MeleeProjectile, serializer);
         FP.Serialize(&p->MetalBoost, serializer);
         FP.Serialize(&p->MetalMushroomFrames, serializer);
         FP.Serialize(&p->MetalSlowdownDelay, serializer);

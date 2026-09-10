@@ -19,13 +19,13 @@ MonoBehaviour:
   Prototype:
     Id:
       Value: 1276118639740473461
-  UiString: <sprite name=level_author>
+  UiString: <sprite name=hud_bjr>
   TranslationString: Bowser Jr
   LoadingSmallSprite: {fileID: 1877992483946861272, guid: ccda1bcdf9b065742a9aad726d15c3cf,
     type: 3}
   LoadingLargeSprite: {fileID: -3609178595106788802, guid: ccda1bcdf9b065742a9aad726d15c3cf,
     type: 3}
-  ReadySprite: {fileID: -1902142894, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  ReadySprite: {fileID: -694802935, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
   SilhouetteSprite: {fileID: -868722806, guid: 48a5e760b4eb1394f859ec7f219dd691, type: 3}
   SelectionSprite: {fileID: 313871279, guid: f9058fc3dbd9d6846bacf70193d0a05f, type: 3}
   SelectionColor: {r: 1, g: 0.9558201, b: 0, a: 1}

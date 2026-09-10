@@ -154,6 +154,11 @@ component MarioPlayer {
 	[ExcludeFromPrototype] byte BubbleJumps;
 	[ExcludeFromPrototype] byte TimesWithoutAJoke;
 
+	[ExcludeFromPrototype] EntityRef BombProjectile;
+	[ExcludeFromPrototype] EntityRef MeleeProjectile;
+	[ExcludeFromPrototype] bool UsedGrappleThisJump;
+	[ExcludeFromPrototype] bool Grappling;
+
 	// Carryables
 	[ExcludeFromPrototype] bool StoneBux;
 	[ExcludeFromPrototype] bool PropellerBux;

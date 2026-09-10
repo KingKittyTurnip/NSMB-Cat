@@ -664,6 +664,180 @@ PrefabInstance:
       propertyPath: SmallModelScale.z
       value: 0.045
       objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.BaseModel
+      value: 
+      objectReference: {fileID: 3700026439895322707}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.AnimationAvatar
+      value: 
+      objectReference: {fileID: 9000000, guid: cae710c27164ab64c90a9bc90845cebc, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[0].BaseModel
+      value: 
+      objectReference: {fileID: 3700026439895322707}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[1].BaseModel
+      value: 
+      objectReference: {fileID: 3700026439895322707}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[2].BaseModel
+      value: 
+      objectReference: {fileID: 3700026439895322707}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.AnimatorOverrides
+      value: 
+      objectReference: {fileID: 22100000, guid: 996c66ad20b17dc4a91d97f7e78e0014,
+        type: 2}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[0].ModelScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[0].ModelScale.y
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[0].ModelScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[1].ModelScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[1].ModelScale.y
+      value: 0.275
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[1].ModelScale.z
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[0].AnimationAvatar
+      value: 
+      objectReference: {fileID: 9000000, guid: cae710c27164ab64c90a9bc90845cebc, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[1].AnimationAvatar
+      value: 
+      objectReference: {fileID: 9000000, guid: cae710c27164ab64c90a9bc90845cebc, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[2].AnimationAvatar
+      value: 
+      objectReference: {fileID: 9000000, guid: cae710c27164ab64c90a9bc90845cebc, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[0].AnimatorOverrides
+      value: 
+      objectReference: {fileID: 22100000, guid: 996c66ad20b17dc4a91d97f7e78e0014,
+        type: 2}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[1].AnimatorOverrides
+      value: 
+      objectReference: {fileID: 22100000, guid: 996c66ad20b17dc4a91d97f7e78e0014,
+        type: 2}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[2].AnimatorOverrides
+      value: 
+      objectReference: {fileID: 22100000, guid: 996c66ad20b17dc4a91d97f7e78e0014,
+        type: 2}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.AdditionalGameObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[0].AdditionalGameObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[1].AdditionalGameObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[2].AdditionalGameObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[0].Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 04a78844143d4ea4a8ceaef76f70b4e8, type: 2}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[1].Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 4b5bd6bb498c88348bad98ea84d1c05a, type: 2}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[0].AlbedoTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: f4149cfd1e78f0b448e1a23db1703683, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[1].AlbedoTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 0423611ab2793704e86228adc8b1b757, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[0].CapMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: b11e951425bbdaf4e94524d9ab032356, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[1].CapMaskTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[0].ShirtMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 0c308cc2c4465bb4b9a27e7d3b9748ac, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[1].ShirtMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: e2afee463a269d34a9bcfeef558fac5d, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[0].OverallsMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 2bf904eac12bc29439a938c0e3ecf360, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[1].OverallsMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: fbe49d0233b053142911cde517b7e1df, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[0].StarmanAlbedoTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: f3f5183c959f61441beb7289aa1cde9d, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: fallbackPowerupVisuals.TextureReplacements.Array.data[1].StarmanAlbedoTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 8cc90e30ee9da7d4fb1b13b34a24a86e, type: 3}
     - target: {fileID: 2209300530651413591, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
       propertyPath: m_IsActive

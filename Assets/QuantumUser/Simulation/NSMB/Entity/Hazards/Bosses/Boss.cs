@@ -7,12 +7,16 @@ namespace Quantum {
             var hazard = f.Unsafe.GetPointer<Hazard>(thisEntity);
             var boss = f.Unsafe.GetPointer<Boss>(thisEntity);
             var physicsObject = f.Unsafe.GetPointer<PhysicsObject>(thisEntity);
-            if ((boss->iframes != 0 && boss->knockbackframes == 0) || boss->Dead)
+            if ((boss->iframes != 0 && boss->knockbackframes == 0) || boss->Dead || boss->knockbackframes > 40 /*too early*/)
                 return;
 
             if (boss->ControllerPlayer != EntityRef.None) {
                 //Controlled By Player, Just Drop
                 f.Signals.OnMarioPlayerDropObjective(boss->ControllerPlayer, Damage == KnockbackStrength.Groundpound ? 2 : 1, EntityRef.None);
+                if (Damage == KnockbackStrength.Groundpound) {
+                    //stop combos
+                    boss->knockbackframes = 1;
+                }
             } else {
                 byte total = Damage switch {
                     KnockbackStrength.Groundpound => 6,

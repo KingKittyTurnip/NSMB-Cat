@@ -33,7 +33,7 @@ MonoBehaviour:
             Value: 326486899682662279
         StarsToWin: 15
         StarFrequency: 100
-        CoinsForPowerup: 4
+        CoinsForPowerup: 1
         RouletteBlocksEnabled:
           Value: 1
         Items:
@@ -57,21 +57,21 @@ MonoBehaviour:
         - Chance:
             Value: 1
           Items:
-          - Name: FireFlower
+          - Name: Fire Flower
             PowerupPrototype:
               Id:
                 Value: 1349070666859566638
             Team: 255
             Extra:
               Extra: 
-          - Name: BlueShell
+          - Name: Blueshell
             PowerupPrototype:
               Id:
                 Value: 1466930856010351358
             Team: 255
             Extra:
               Extra: 
-          - Name: IceFlower
+          - Name: Ice Flower
             PowerupPrototype:
               Id:
                 Value: 1524544283524633813
@@ -85,7 +85,7 @@ MonoBehaviour:
             Team: 255
             Extra:
               Extra: 
-          - Name: Hammer
+          - Name: Hammer Suit
             PowerupPrototype:
               Id:
                 Value: 1472665878288241371
@@ -96,6 +96,20 @@ MonoBehaviour:
             PowerupPrototype:
               Id:
                 Value: 1437294020411531186
+            Team: 255
+            Extra:
+              Extra: 
+          - Name: Bombro
+            PowerupPrototype:
+              Id:
+                Value: 1355472840853239745
+            Team: 255
+            Extra:
+              Extra: 
+          - Name: Bio Flower
+            PowerupPrototype:
+              Id:
+                Value: 1460778516708280298
             Team: 255
             Extra:
               Extra: 
@@ -1691,7 +1705,7 @@ MonoBehaviour:
     - Name: Hammer Suit
       entityPrototype:
         Id:
-          Value: 1300211052819551813
+          Value: 1472665878288241371
       Icon: {fileID: 0}
       type: 1
       categorey: 1
@@ -1719,7 +1733,7 @@ MonoBehaviour:
     - Name: Bombro
       entityPrototype:
         Id:
-          Value: 1500840674427279327
+          Value: 1355472840853239745
       Icon: {fileID: 0}
       type: 1
       categorey: 2
@@ -1730,10 +1744,10 @@ MonoBehaviour:
       BulbSpawnType: 3
       BulbCooldown: 4
       SpecialValues: []
-    - Name: Bioflower
+    - Name: Bio Flower
       entityPrototype:
         Id:
-          Value: 1500840674427279327
+          Value: 1460778516708280298
       Icon: {fileID: 0}
       type: 1
       categorey: 2

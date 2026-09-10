@@ -101,6 +101,9 @@ namespace NSMB.Entities.Player {
         [SerializeField] private GameObject modelRoot;
         [SerializeField] private Animator animator;
         [SerializeField] private GameObject largeShellExclude, propeller;
+        //KKT Mod
+        [SerializeField] private GameObject bombroSparks;
+        [SerializeField] private Animator BioHatAnimator;
 
         [Header("Prefabs")]
         [SerializeField] private GameObject coinNumberParticle;
@@ -413,7 +416,7 @@ namespace NSMB.Entities.Player {
             float delta = Time.deltaTime;
 
             float angle = mario->CurrentPowerupState switch {
-                PowerupState.BlueShell => 90f,
+                PowerupState.BlueShell => 89f,//90. kkt mod changed this due to a rendering issue
                 PowerupState.MegaMushroom => 78.75f,
                 _ => 67.5f,
             };
@@ -686,6 +689,10 @@ namespace NSMB.Entities.Player {
                 animator.avatar = targetAvatar;
                 animator.runtimeAnimatorController = large ? character.LargeOverrides : character.SmallOverrides;
             */
+
+            bombroSparks.SetActive(!f.Exists(mario->BombProjectile));
+            if (mario->CurrentPowerupState == PowerupState.Bioflower) //it's whatever
+                BioHatAnimator.SetBool("Grappling", mario->MeleeProjectile != EntityRef.None || mario->UsedGrappleThisJump);
 
             bool modelShouldBeVisible = mario->KnockbackGetupFrames > 0
                 || mario->MegaMushroomStartFrames > 0;

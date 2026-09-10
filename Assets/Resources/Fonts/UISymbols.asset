@@ -661,6 +661,41 @@ MonoBehaviour:
     m_GlyphIndex: 114
     m_Scale: 1
     m_Name: hud_shyguy
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 115
+    m_Scale: 1
+    m_Name: hud_bjr
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 116
+    m_Scale: 1
+    m_Name: hud_bombecture
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 117
+    m_Scale: 1
+    m_Name: hud_fox
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 118
+    m_Scale: 1
+    m_Name: hud_sonic
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 119
+    m_Scale: 1
+    m_Name: hud_turnip
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 120
+    m_Scale: 1
+    m_Name: room_bombchasers
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 121
+    m_Scale: 1
+    m_Name: room_hazards
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -2479,7 +2514,7 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 22
       m_Height: 20
-      m_HorizontalBearingX: 2
+      m_HorizontalBearingX: -2
       m_HorizontalBearingY: 20
       m_HorizontalAdvance: 22
     m_GlyphRect:
@@ -2507,5 +2542,117 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: -1253153738, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  - m_Index: 115
+    m_Metrics:
+      m_Width: 19
+      m_Height: 20
+      m_HorizontalBearingX: -2
+      m_HorizontalBearingY: 20
+      m_HorizontalAdvance: 19
+    m_GlyphRect:
+      m_X: 173
+      m_Y: 2
+      m_Width: 19
+      m_Height: 20
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -694802935, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  - m_Index: 116
+    m_Metrics:
+      m_Width: 20
+      m_Height: 20
+      m_HorizontalBearingX: -2
+      m_HorizontalBearingY: 20
+      m_HorizontalAdvance: 20
+    m_GlyphRect:
+      m_X: 236
+      m_Y: 3
+      m_Width: 20
+      m_Height: 20
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 827388116, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  - m_Index: 117
+    m_Metrics:
+      m_Width: 12
+      m_Height: 12
+      m_HorizontalBearingX: -2
+      m_HorizontalBearingY: 12
+      m_HorizontalAdvance: 12
+    m_GlyphRect:
+      m_X: 195
+      m_Y: 23
+      m_Width: 12
+      m_Height: 12
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -1392950157, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  - m_Index: 118
+    m_Metrics:
+      m_Width: 20
+      m_Height: 20
+      m_HorizontalBearingX: -2
+      m_HorizontalBearingY: 20
+      m_HorizontalAdvance: 20
+    m_GlyphRect:
+      m_X: 193
+      m_Y: 2
+      m_Width: 20
+      m_Height: 20
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -1539481218, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  - m_Index: 119
+    m_Metrics:
+      m_Width: 20
+      m_Height: 20
+      m_HorizontalBearingX: -2
+      m_HorizontalBearingY: 20
+      m_HorizontalAdvance: 20
+    m_GlyphRect:
+      m_X: 213
+      m_Y: 2
+      m_Width: 20
+      m_Height: 20
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 1185254851, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  - m_Index: 120
+    m_Metrics:
+      m_Width: 13
+      m_Height: 13
+      m_HorizontalBearingX: -2
+      m_HorizontalBearingY: 13
+      m_HorizontalAdvance: 13
+    m_GlyphRect:
+      m_X: 221
+      m_Y: 23
+      m_Width: 13
+      m_Height: 13
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -1955830757, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  - m_Index: 121
+    m_Metrics:
+      m_Width: 13
+      m_Height: 13
+      m_HorizontalBearingX: -2
+      m_HorizontalBearingY: 13
+      m_HorizontalAdvance: 13
+    m_GlyphRect:
+      m_X: 239
+      m_Y: 23
+      m_Width: 13
+      m_Height: 13
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -2039471840, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets: []

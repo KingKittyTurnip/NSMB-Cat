@@ -41,8 +41,7 @@ MonoBehaviour:
   State: 16
   SoundPlaysEverywhere: 0
   SoundEffect: 16
-  ReserveSprite: {fileID: -6080119536613256813, guid: a87d3b028baa82640b06b88398a8c4f0,
-    type: 3}
+  ReserveSprite: {fileID: -1708552484, guid: fb349ddf81c3ffb438ccb5273be7a9de, type: 3}
   IsSmart: 1
   AvoidPlayers: 1
   Speed:
