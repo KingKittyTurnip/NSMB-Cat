@@ -1,5 +1,6 @@
 using Photon.Deterministic;
 using System;
+using static Quantum.CommandChangeRules;
 
 namespace Quantum {
     public class CommandChangeRules : DeterministicCommand, ILobbyCommand {
@@ -23,15 +24,19 @@ namespace Quantum {
         public int TeamAttack;
 
         //KKT Mod
-        public bool HazardEnabled;
-        public bool BulbEnabled;
+        //public bool BulbEnabled;
 
         public int StarFrequency;
         public bool RouletteEnabled;
+        public bool HazardEnabled;
         public int MaxHazards;
         public int HazardFrequency;
         public int HeftyPercentage;
         public int HazardLifetime;
+
+        public bool DisableStageRestrictions;
+        public bool DisableComplexStageRestrictions;
+        public bool EveryItemHasTheSameChance;
 
         public override void Serialize(BitStream stream) {
             if (stream.Writing) {
@@ -57,7 +62,7 @@ namespace Quantum {
 
             //KKT Mod
             stream.Serialize(ref HazardEnabled);
-            stream.Serialize(ref BulbEnabled);
+            //stream.Serialize(ref BulbEnabled);
 
             stream.Serialize(ref StarFrequency);
             stream.Serialize(ref RouletteEnabled);
@@ -66,6 +71,10 @@ namespace Quantum {
             stream.Serialize(ref HazardFrequency);
             stream.Serialize(ref HeftyPercentage);
             stream.Serialize(ref HazardLifetime);
+
+            stream.Serialize(ref DisableStageRestrictions);
+            stream.Serialize(ref DisableComplexStageRestrictions);
+            stream.Serialize(ref EveryItemHasTheSameChance);
 
             if (stream.Writing) {
                 stream.WriteByte((byte) ChooseMode);
@@ -172,7 +181,7 @@ namespace Quantum {
                     }
                 }
             }
-            if (rulesChanges.HasFlag(Rules.ToggleBulb)) {
+            /*if (rulesChanges.HasFlag(Rules.ToggleBulb)) {
                 if (BulbEnabled) {
                     rules.ModifierBulbEnabled = true;
                     rules.BulbAbilityCount = DefaultRules.BulbAbilityCount;
@@ -180,7 +189,7 @@ namespace Quantum {
                     rules.ModifierBulbEnabled = false;
                     rules.BulbAbilityCount = 0;
                 }
-            }
+            }*/
             //KKT Mod
             if (rulesChanges.HasFlag(Rules.StarFreq)) {
                 rules.StarFrequency = StarFrequency;
@@ -188,6 +197,7 @@ namespace Quantum {
             if (rulesChanges.HasFlag(Rules.Roulette)) {
                 rules.RouletteBlocksEnabled = RouletteEnabled;
             }
+
             if (rulesChanges.HasFlag(Rules.MaxHazards)) {
                 rules.MaxHazards = MaxHazards;
             }
@@ -201,12 +211,22 @@ namespace Quantum {
                 rules.HazardLifetime = HazardLifetime;
             }
 
+            if (rulesChanges.HasFlag(Rules.DisableStageRestrictions)) {
+                rules.DisableStageRestrictions = DisableStageRestrictions;
+            }
+            if (rulesChanges.HasFlag(Rules.DisableComplexStageRestrictions)) {
+                rules.DisableComplexStageRestrictions = DisableComplexStageRestrictions;
+            }
+            if (rulesChanges.HasFlag(Rules.EveryItemHasTheSameChance)) {
+                rules.EveryItemHasTheSameChance = EveryItemHasTheSameChance;
+            }
+
             f.Global->Rules = rules;
             f.Events.RulesChanged(gamemodeChanged, levelChanged);
         }
 
         [Flags]
-        public enum Rules : int {
+        public enum Rules : uint {
             None = 0,
             Stage = 1 << 0,
             Gamemode = 1 << 1,
@@ -233,6 +253,10 @@ namespace Quantum {
             HazardFrequency = 1 << 17,
             HeftyPercentage = 1 << 18,
             HazardLifetime = 1 << 19,
+
+            DisableStageRestrictions = 1 << 20,
+            DisableComplexStageRestrictions = 1 << 21,
+            EveryItemHasTheSameChance = 1 << 22,
         }
     }
 }

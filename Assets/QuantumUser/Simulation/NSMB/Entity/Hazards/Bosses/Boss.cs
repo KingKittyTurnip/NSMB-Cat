@@ -13,9 +13,10 @@ namespace Quantum {
             if (boss->ControllerPlayer != EntityRef.None) {
                 //Controlled By Player, Just Drop
                 f.Signals.OnMarioPlayerDropObjective(boss->ControllerPlayer, Damage == KnockbackStrength.Groundpound ? 2 : 1, EntityRef.None);
-                if (Damage == KnockbackStrength.Groundpound) {
+                if (Damage == KnockbackStrength.Groundpound || longiframes) {
                     //stop combos
                     boss->knockbackframes = 1;
+                    boss->iframes = 121;
                 }
             } else {
                 byte total = Damage switch {

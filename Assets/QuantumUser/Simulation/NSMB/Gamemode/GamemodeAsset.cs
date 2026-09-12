@@ -254,96 +254,103 @@ namespace Quantum {
 
 
         #region KKT Mod
-        public PowerupData NEWGetRandomItem(Frame f, MarioPlayer* mario, bool fromBlock) {
+        public void NEWGetRandomItem(Frame f, MarioPlayer* mario, bool fromBlock, out AssetRef<EntityPrototype> entityPrototype, out ExtrasList extra) {
             var stage = f.FindAsset<VersusStageData>(f.Map.UserAsset);
             var items = f.ResolveList(f.Global->Rules.Items);
             int ourObjectiveCount = GetTeamObjectiveCount(f, mario->GetTeam(f)) ?? 0;
 
-            var marioreserve = f.FindAsset(mario->ReserveItem);
+            var stuff = f.FindAsset(f.SimulationConfig.BaseRules).Rules.ListOfAvalibleObjects;
 
-            bool MarioHasJoke = mario->CurrentPowerupState == PowerupState.Jumpsuit || mario->CurrentPowerupState == PowerupState.Doneflower || (marioreserve != null && (marioreserve.State == PowerupState.Jumpsuit || marioreserve.State == PowerupState.Doneflower));
-            bool CanSpawnJoke = mario->TimesWithoutAJoke > FPMath.Max(8-f.Global->Rules.CoinsForPowerup-1, 0) && !MarioHasJoke;
-
-            bool CanSpawnCatchups = !(mario->CurrentPowerupState <= PowerupState.Mushroom || MarioHasJoke);
-
-            //pick random chance type
-            ItemChanceType chancePick = ItemChanceType.Middling;
-            FP totalChance = 0;
-            FP highestChance = FP.MinValue;
-            ItemChanceType highestChanceGroup = ItemChanceType.First;
-            byte MaxTypes = ((int) ItemChanceType.Invalid);
-
-            //get chances that exist
-            List<bool> chanceExists = new List<bool>();
-            for (int i = 0; i < MaxTypes; i++) {
-                var l = f.ResolveList(items[i].Items);
-
-                //??? idk how you would check for a list with nothing but i don't want more than 64 objects in a list anyway
-                bool exists = l.Count > 64;
-                if (exists) {
-                    // only spawn jokes if we haven't had one in a while,
-                    // this is so players don't constantly get them
-                    if (items[i].Chance == ItemChanceType.JokeMiddle && !CanSpawnJoke)
-                        exists = false;
-
-                    //only spawn catchups if mario has a proper powerup,
-                    //this is to make it so super far behind players aren't bombarded by powerups
-                    if ((items[i].Chance == ItemChanceType.LastRare || items[i].Chance == ItemChanceType.LastCommon) && !CanSpawnCatchups)
-                        exists = false;
-                }
-
-                chanceExists.Add(exists);
+            if (f.Global->Rules.EveryItemHasTheSameChance) {
+                //ignore all code and just pick anything in the list
+                int item = f.RNG->Next(0, items.Count);
+                entityPrototype = stuff[items[item].PrototypeRef].entityPrototype;
+                extra = items[item].Extra;
+                return;
             }
 
-            //pick random chance type
+                var marioreserve = f.FindAsset(mario->ReserveItem);
+            bool MarioHasJoke = (mario->CurrentPowerupState == PowerupState.Jumpsuit || mario->CurrentPowerupState == PowerupState.Doneflower || (marioreserve != null && (marioreserve.State == PowerupState.Jumpsuit || marioreserve.State == PowerupState.Doneflower)));
+            bool CanSpawnJoke = (mario->TimesWithoutAJoke > FPMath.Max(8-f.Global->Rules.CoinsForPowerup-1, 0) && !MarioHasJoke);
+            bool CanSpawnCatchups = !(mario->CurrentPowerupState <= PowerupState.Mushroom || MarioHasJoke);
+            bool WontSpawnFirst = mario->CurrentPowerupState == PowerupState.NoPowerup && marioreserve != null && marioreserve.State == PowerupState.NoPowerup;
+
+            FP totalChance = 0;
+            Dictionary<ItemChanceType, FP> sortchances = new Dictionary<ItemChanceType, FP>();
+            byte MaxTypes = ((int) ItemChanceType.Invalid);
+
+            //sort random chance types
             for (int i = 0; i < MaxTypes; i++) {
-                if (chanceExists[i])
+                // only spawn jokes if we haven't had one in a while, so players don't constantly get them
+                //only spawn catchups if mario has a proper powerup, makes it so yur aren't weak
+                //don't spawn first if we have absolutly nothing, makes it feel more fair
+                if ((i == (int) ItemChanceType.Joke && !CanSpawnJoke) || 
+                    ((i == (int) ItemChanceType.LastRare || i == (int) ItemChanceType.LastCommon) && !CanSpawnCatchups) ||
+                    (i == (int) ItemChanceType.First && WontSpawnFirst)) {
+                    //sortchances.Add((ItemChanceType) i, FP.MinValue);
+                    //do not add
                     continue;
+                }
 
                 var e = NEWGetSpawnWeight(f, (ItemChanceType) i, ourObjectiveCount);
                 totalChance += FPMath.Max(0, e);
-                if (e > highestChance) {
-                    highestChance = e;
-                    highestChanceGroup = (ItemChanceType) i;
-                }
-                //UnityEngine.Debug.Log((ItemChanceType) i + " " + totalChance);
+                sortchances.Add((ItemChanceType)i, e);
             }
-            //UnityEngine.Debug.Log(totalChance);
-            if (totalChance <= 0) {
-                //UnityEngine.Debug.Log("powerup pick is at it's LAST RESORT: " + highestChanceGroup);
-                //the total of all the chances makes 0, pick the one that is the highest
-                chancePick = highestChanceGroup;
-            } else {
-                FP rand = mario->RNG.Next(0, totalChance);
-                for (int ik = 0; ik < MaxTypes; ik++) {
-                    if (chanceExists[ik])
-                        continue;
-                    FP chance = FPMath.Max(0, NEWGetSpawnWeight(f, (ItemChanceType) ik, ourObjectiveCount));
 
+            //pick chance group
+            ItemChanceType chancePick = ItemChanceType.First;
+            List<(int, ExtrasList)> possibleItems = new List<(int, ExtrasList)>();
+            TryPickChance:
+
+            if (sortchances.Count == 0) {
+                //ok we checked everything just spawn a mushroom sob
+                entityPrototype = stuff[0].entityPrototype;
+                extra = new ExtrasList();
+                return;
+            } if (totalChance <= 0) {
+                //no chance for any items...?
+                FP highestChance = FP.MinValue;
+                foreach (var i in sortchances) {
+                    if (i.Value > highestChance) {
+                        highestChance = i.Value;
+                        chancePick = i.Key;
+                    }
+                }
+            } else {
+                //randomly pick which chance we want to calculate
+                FP rand = mario->RNG.Next(0, totalChance);
+                foreach (var i in sortchances) {
+                    FP chance = FPMath.Max(0, NEWGetSpawnWeight(f, i.Key, ourObjectiveCount));
                     if (rand < chance) {
-                        chancePick = (ItemChanceType) ik;
-                        //UnityEngine.Debug.Log("Powerup pick, type: " + chancePick);
+                        chancePick = i.Key;
                         break;
                     }
-
-                    rand -= chance;
                 }
             }
+            sortchances.Remove(chancePick); //remove it from the list, in case there is nothing here
 
-            //pick a random object with this chance type
-            var listOfpowerups = f.ResolveList(items[(int) chancePick].Items);
-            PowerupData pick = listOfpowerups[f.RNG->Next(0, listOfpowerups.Count)];
-
-            //is a joke?
-            if (true || MarioHasJoke) {
-                mario->TimesWithoutAJoke = 0;
-            } else {
-                mario->TimesWithoutAJoke++;
+            //get items of the chance we picked
+            foreach (var i in items) {
+                if (stuff[i.PrototypeRef].SpawnChance == chancePick)
+                    possibleItems.Add((i.PrototypeRef, i.Extra));
             }
 
-            //UnityEngine.Debug.Log("item: " + pick.Name);
+            //um, there was no items?
+            if (possibleItems.Count == 0) {
+                goto TryPickChance;
+            }
 
-            return pick;
+            //was this a joke?
+                if (chancePick == ItemChanceType.Joke || MarioHasJoke) {
+                    mario->TimesWithoutAJoke = 0;
+                } else {
+                    mario->TimesWithoutAJoke++;
+                }
+
+            //pick a random object
+            int id = f.RNG->Next(0, possibleItems.Count);
+            entityPrototype = stuff[possibleItems[id].Item1].entityPrototype;
+            extra = possibleItems[id].Item2;
         }
         public FP NEWGetSpawnWeight(Frame f, ItemChanceType j, int ourStars) {
 
@@ -353,21 +360,8 @@ namespace Quantum {
                 ItemChanceType.Middling => new(2, -1, -1),//2nd stage powerups
                 ItemChanceType.LastCommon => new(-FP._0_20, 0, 3), //weaker catchup, not guerenteed
                 ItemChanceType.LastRare => new(-3, -1, 5), //strong catchup, guerenteed if yur very behind
-                ItemChanceType.JokeMiddle => new(FP._0_50, -FP._0_50, -1), //cake & turnipbasket
+                ItemChanceType.Joke => new(FP._0_50, -FP._0_50, -1), //jokes
                 _ => new(0, 0, 0),
-                /*
-                ItemChanceType.FirstCommon => new(0, 1, -4),
-                ItemChanceType.FirstRare => new(FP._0_50, FP._0_50, -1),
-                ItemChanceType.Middling => new(1, -FP._0_25, 1),
-                ItemChanceType.LastCommon => new(-FP._0_25, 0, Constants._2_50),
-                ItemChanceType.LastRare => new(-2, 0, Constants._4_50),
-
-                ItemChanceType.Mushroom => new(FP._1_50, FP._0_50, -2), //new(FP._1_50, 1, -1), old chance, maybe we want this when we add the tpf mushroom mechanic
-                ItemChanceType.Vertical => new(2, -FP._0_75, FP._0_50),
-                ItemChanceType.Large => new(-2, 0, Constants._4_50),
-                ItemChanceType.JokeFirst => new(FP._0_50, 2, -Constants._2_50),
-                ItemChanceType.JokeMiddle => new(1, -FP._0_25, 1),
-                _ => new(0, 0, 0),*/
             };
 
             int starsToWin = f.Global->Rules.StarsToWin;

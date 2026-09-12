@@ -72,6 +72,7 @@ namespace Quantum {
                     physicsObject->DisableCollision = interactable->ColliderDisabled = false;
                     physicsObject->IsFrozen = true;
                     collider->Shape.Centroid.Y = 0;
+                    collider->Enabled = true;
                 }
             }
         }
@@ -106,6 +107,7 @@ namespace Quantum {
                 physicsObject->DisableCollision = interactable->ColliderDisabled = true;
                 physicsObject->IsFrozen = false;
                 collider->Shape.Centroid.Y = -999;
+                collider->Enabled = false;
                 return false;
             }
             return false;

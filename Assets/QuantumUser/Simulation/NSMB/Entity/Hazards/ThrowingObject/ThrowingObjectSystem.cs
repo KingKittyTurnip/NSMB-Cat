@@ -2,6 +2,7 @@ using Photon.Deterministic;
 using Quantum.Collections;
 using System;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Quantum {
     
@@ -224,7 +225,29 @@ namespace Quantum {
                         f.Unsafe.GetPointer<Interactable>(filter.Entity)->ColliderDisabled = physicsObject->DisableCollision = physicsObject->IsFrozen = true;
                         hazard->LifeTime = 120;
                         Dis->HitSomething = Dis->Thrown = false;
+                        collider->Enabled = false;
                         f.Events.ThrowObjSimple(filter.Entity, transform->Position);
+
+                        if (Dis->Varient == 1) {
+                            //explode blocks
+                            int sizeTiles = 6;
+                            IntVector2 origin = QuantumUtils.WorldToRelativeTile(stage, transform->Position + collider->Shape.Centroid);
+                            for (int x = -sizeTiles; x <= sizeTiles; x++) {
+                                for (int y = -sizeTiles; y <= sizeTiles; y++) {
+                                    // Taxicab distance
+                                    if (FPMath.Abs(x) + FPMath.Abs(y) > sizeTiles) {
+                                        continue;
+                                    }
+
+                                    IntVector2 tilePos = origin + new IntVector2(x, y);
+                                    StageTileInstance tileInstance = stage.GetTileRelative(f, tilePos);
+                                    StageTile tile = f.FindAsset(tileInstance.Tile);
+                                    if (tile is IInteractableTile it) {
+                                        it.Interact(f, filter.Entity, InteractionDirection.None, tilePos, tileInstance, out _);
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     var type = Dis->Varient == 1 ? ExplosionType.Shockwave : ExplosionType.GroundedShockwave;
@@ -795,6 +818,15 @@ namespace Quantum {
                     } else if (Dis->Type == ThrowingObjectType.Freezie) {
                         Dis->HitSomething = true;
                         f.Unsafe.GetPointer<IceBlock>(IceBlockSystem.Freeze(f, marioEntity))->AutoBreakFrames = 360;
+                    } else if (Dis->Type == ThrowingObjectType.Pow) {
+                        //direct hit, get extra value
+                        if (mario->DoKnockback(f, marioEntity, hitRight, Dis->StarsToDrop + 1, KnockbackStrength.Normal, thisEntity)) {
+                            mario->DamageInvincibilityFrames = 120;
+                            if (Dis->Varient != 1) {
+                                mario->JumpHeld = true;
+                                f.Unsafe.GetPointer<PhysicsObject>(marioEntity)->Velocity.Y = 10;
+                            }
+                        }
                     } else {
                         if (mario->DoKnockback(f, marioEntity, hitRight, Dis->StarsToDrop, /*TeamateItem*/ Dis->StarsToDrop == 2 ? KnockbackStrength.Normal : Dis->StarsToDrop > 2 ? KnockbackStrength.Groundpound : KnockbackStrength.FireballBump, thisEntity)) {
                             f.Events.PlayKnockbackEffect(marioEntity, thisEntity, KnockbackStrength.FireballBump,
@@ -1189,11 +1221,14 @@ namespace Quantum {
                 || !f.Unsafe.TryGetPointer(entity, out PhysicsObject* physicsObject)
                 || !f.Unsafe.TryGetPointer(entity, out ThrowingObject* Dis)
                 || !f.Unsafe.TryGetPointer(entity, out Holdable* holdable)
+                || !f.Unsafe.TryGetPointer(blockBump, out BlockBump* bump)
                 || f.Exists(holdable->Holder)
                 || holdable->IgnoreOwnerFrames > 0) {
 
                 return;
             }
+
+            holdable->PreviousHolder = bump->Owner;
 
             f.Events.PlayComboSound(entity, 0);
             physicsObject->IsTouchingGround = false;

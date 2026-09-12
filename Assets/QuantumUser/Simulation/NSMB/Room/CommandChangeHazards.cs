@@ -1,0 +1,91 @@
+using Photon.Deterministic;
+using System.Collections.Generic;
+
+namespace Quantum {
+    /*public class CommandChangeHazards : DeterministicCommand, ILobbyCommand {
+        
+        public int Index;
+        public bool RemoveSingle, RemoveAll;
+        public int TriggerCondition = (int)Quantum.TriggerCondition.GotStar;
+        public int TriggerConditionTarget = (int)TriggerTarget.Any;
+        public string TriggerConditionParameter = "";
+        public int TriggerAction = (int)Quantum.TriggerAction.Kill;
+        public int TriggerActionTarget = (int)TriggerTarget.Conditioner;
+        public string TriggerActionParameter = "";
+        public int TriggerConstraint = (int)Quantum.TriggerConstraint.Always;
+        public int TriggerConstraintTarget = (int)TriggerTarget.Conditioner;
+        public string TriggerConstraintParameter = "";
+        public byte TriggerDelaySeconds = 0, TriggerRepeatCount = 1, TriggerChance = 100;
+
+        public override void Serialize(BitStream stream) {
+            stream.Serialize(ref Index);
+            stream.Serialize(ref RemoveSingle);
+            stream.Serialize(ref RemoveAll);
+            stream.Serialize(ref TriggerCondition);
+            stream.Serialize(ref TriggerConditionTarget);
+            stream.Serialize(ref TriggerConditionParameter);
+            stream.Serialize(ref TriggerAction);
+            stream.Serialize(ref TriggerActionTarget);
+            stream.Serialize(ref TriggerActionParameter);
+            stream.Serialize(ref TriggerConstraint);
+            stream.Serialize(ref TriggerConstraintTarget);
+            stream.Serialize(ref TriggerConstraintParameter);
+            stream.Serialize(ref TriggerDelaySeconds);
+            stream.Serialize(ref TriggerRepeatCount);
+            stream.Serialize(ref TriggerChance);
+        }
+
+        public unsafe void Execute(Frame f, PlayerRef sender, PlayerData* playerData) {
+            if (f.Global->GameState != GameState.PreGameRoom || !playerData->IsRoomHost) {
+                // Only the host can change rules.
+                return;
+            }
+
+            var rules = f.ResolveList(f.Global->Rules.Triggers);
+
+            if (RemoveAll) rules.Clear();
+            else if (RemoveSingle) rules.RemoveAt(Index);
+            else {
+                if (Index >= rules.Count) {
+                    if (rules.Count >= 80) return;
+                    rules.Add(new MatchConditionerTrigger() {
+                        Action = (TriggerAction) TriggerAction,
+                        ActionParameter = TriggerActionParameter,
+                        ActionTarget = (TriggerTarget) TriggerActionTarget,
+                        Condition = (TriggerCondition) TriggerCondition,
+                        ConditionParameter = TriggerConditionParameter,
+                        ConditionTarget = (TriggerTarget) TriggerConditionTarget,
+                        Constraint = (TriggerConstraint) TriggerConstraint,
+                        ConstraintParameter = TriggerConstraintParameter,
+                        ConstraintTarget = (TriggerTarget) TriggerConstraintTarget,
+                        DelaySeconds = TriggerDelaySeconds,
+                        RepeatCount = TriggerRepeatCount,
+                        Chance = TriggerChance,
+                    });
+                } else {
+                    rules[Index] = new MatchConditionerTrigger() {
+                        Action = (TriggerAction) TriggerAction,
+                        ActionParameter = TriggerActionParameter,
+                        ActionTarget = (TriggerTarget) TriggerActionTarget,
+                        Condition = (TriggerCondition) TriggerCondition,
+                        ConditionParameter = TriggerConditionParameter,
+                        ConditionTarget = (TriggerTarget) TriggerConditionTarget,
+                        Constraint = (TriggerConstraint) TriggerConstraint,
+                        ConstraintParameter = TriggerConstraintParameter,
+                        ConstraintTarget = (TriggerTarget) TriggerConstraintTarget,
+                        DelaySeconds = TriggerDelaySeconds,
+                        RepeatCount = TriggerRepeatCount,
+                        Chance = TriggerChance,
+                    };
+                }
+            }
+
+            f.Global->Rules.Triggers = rules;
+            f.Events.TriggersChanged(f);
+
+            if (f.Global->GameStartFrames > 0 && !QuantumUtils.IsGameStartable(f)) {
+                GameLogicSystem.StopCountdown(f);
+            }
+        }
+    }*/
+}

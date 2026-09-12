@@ -22,7 +22,7 @@ MonoBehaviour:
   TranslationKey: Campless
   StageDescription: A map where it's impossible to camp, it's kinda barren tho...
   GroupingTranslationKey: '- Other -'
-  DiscordStageImage: 
+  DiscordStageImage: placeholder
   SortOrder: 5
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
   MainMenuPreviewPrefab: {fileID: 0}
@@ -118,6 +118,8 @@ MonoBehaviour:
   ForceCharacter:
     Id:
       Value: 0
+  ForceItem: 0
+  StageIsComplex: 0
   OverwriteRules:
     Id:
       Value: 0

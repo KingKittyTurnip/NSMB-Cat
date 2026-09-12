@@ -3,6 +3,7 @@ using Quantum.Profiling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static UnityEditor.Progress;
 
 namespace Quantum {
     public unsafe class GameLogicSystem : SystemMainThread, ISignalOnPlayerAdded, ISignalOnPlayerRemoved, ISignalOnMarioPlayerDied,
@@ -447,7 +448,7 @@ namespace Quantum {
                 if (!f.TryFindAsset(data->Character, out var character)) {
                     character = f.Context.GetAllAssets<CharacterAsset>()[0];
                 }
-                if (stage.ForceCharacter != null) { //if the overwrite rules are skipped then skip this too
+                if (stage.ForceCharacter != null && !f.Global->Rules.CanIgnoreStageRestrictions(f, stage)) {
                     character = f.FindAsset(stage.ForceCharacter);
                 }
 
@@ -546,9 +547,10 @@ namespace Quantum {
 
             f.Global->HeftyCount = 0;
             f.Global->UsedHazardSpawnCount = 0;
+            f.Global->UsedHazardSpawns.ClearAll();
 
 
-            if (!f.Global->Rules.DisableStageRestrictions) {
+            if (!f.Global->Rules.CanIgnoreStageRestrictions(f, stage)) {
                 if (stage.OverwriteRules != null) {
                     UnityEngine.Debug.Log("Overwriting rules");
 
@@ -556,21 +558,19 @@ namespace Quantum {
                     f.FindAsset(stage.OverwriteRules).BaseRulesList.DefaultRules.Materialize(f, ref f.Global->Rules);
                 } else {
                     //remove banned items from list
-                    var itemslist = f.ResolveList(f.Global->Rules.Items);
-                    for (int i = 0; i < itemslist.Count; i++) {
-                        var items = f.ResolveList(itemslist[i].Items);
-                        foreach (var item in items) {
-                            foreach (var banned in stage.BannedHazards) {
-                                if (item.PowerupPrototype == banned) {
-                                    items.Remove(item);
-                                }
+                    var stuff = f.FindAsset(f.SimulationConfig.BaseRules).Rules.ListOfAvalibleObjects;
+                    var items = f.ResolveList(f.Global->Rules.Items);
+                    foreach (var item in items) {
+                        foreach (var banned in stage.BannedHazards) {
+                            if (stuff[item.PrototypeRef].entityPrototype == banned) {
+                                items.Remove(item);
                             }
                         }
                     }
                     var hazards = f.ResolveList(f.Global->Rules.Hazards);
                     foreach (var hazard in hazards) {
                         foreach (var banned in stage.BannedHazards) {
-                            if (hazard.HazardPrototype == banned) {
+                            if (stuff[hazard.PrototypeRef].entityPrototype == banned) {
                                 hazards.Remove(hazard);
                             }
                         }

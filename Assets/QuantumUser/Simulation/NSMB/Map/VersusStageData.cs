@@ -73,10 +73,11 @@ public unsafe class VersusStageData : AssetObject, ISoundOverrideProvider {
     [Header("Map Rules")]
     public bool UsesBrawlJumps;
     public AssetRef<CharacterAsset> ForceCharacter;
+    public PowerupState ForceItem;
 
     [Header("-- Overwrite Rules")]
     //We use these in the "complex" maps, since it's mechanics aren't built for the entire mod
-    //if the "Advancedlobby" toggle is disabled in the overwrite rules you can opt out of it to play with custom rules
+    public bool StageIsComplex = false;
     public AssetRef<OverwriteRules> OverwriteRules;
 
     [HideInInspector] public StageTileInstance[] TileData;

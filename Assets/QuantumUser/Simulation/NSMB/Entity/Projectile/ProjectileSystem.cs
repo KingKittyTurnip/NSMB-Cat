@@ -47,7 +47,7 @@ namespace Quantum {
             HandleTileCollision(f, ref filter, asset);
 
             if (projectile->BounceOff) { //this is bad code
-                var newcap = FPMath.Max(FPMath.Abs(physicsObject->Velocity.X) - Constants._0_09, FP._1_50);
+                var newcap = FPMath.Max(FPMath.Abs(physicsObject->Velocity.X) - Constants._0_09, projectile->Speed);
                 physicsObject->Velocity.X = FPMath.Clamp(physicsObject->Velocity.X, -newcap, newcap);
 
                 physicsObject->TerminalVelocity = FPMath.Min(physicsObject->TerminalVelocity + FP._0_03, -FP._0_10);

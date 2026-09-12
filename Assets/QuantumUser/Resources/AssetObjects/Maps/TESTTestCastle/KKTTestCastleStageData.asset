@@ -22,7 +22,7 @@ MonoBehaviour:
   TranslationKey: TestCastle
   StageDescription: A map KKT used to test stuff, it works as a simple map too
   GroupingTranslationKey: '- Other -'
-  DiscordStageImage: 
+  DiscordStageImage: placeholder
   SortOrder: 999
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
   MainMenuPreviewPrefab: {fileID: 0}
@@ -72,9 +72,7 @@ MonoBehaviour:
   MultiAreaMap: 0
   YAreaBounds: []
   BannedCoinItems: []
-  BannedHazards:
-  - Id:
-      Value: 1300211052819551813
+  BannedHazards: []
   mainPowerupTile: {fileID: -7447348961868832792, guid: 435964e6679ad794995ec38a55c58d07,
     type: 2}
   SfxOverrides: []
@@ -98,7 +96,9 @@ MonoBehaviour:
   UsesBrawlJumps: 0
   ForceCharacter:
     Id:
-      Value: 355933347838853819
+      Value: 340373735311116071
+  ForceItem: 0
+  StageIsComplex: 0
   OverwriteRules:
     Id:
       Value: 0

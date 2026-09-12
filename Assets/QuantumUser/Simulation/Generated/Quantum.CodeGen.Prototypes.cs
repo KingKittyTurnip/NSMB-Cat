@@ -959,19 +959,17 @@ namespace Quantum.Prototypes {
   public unsafe partial class HazardListPrototype : StructPrototype {
     [MaxStringByteCount(62, "Unicode")]
     public string Name;
-    public AssetRef<EntityPrototype> HazardPrototype;
+    public Int32 PrototypeRef;
     public Byte Team;
-    public QBoolean Hefty;
-    public QBoolean SpawnRandom;
+    public QBoolean SpawnHazard;
     public QBoolean SpawnFridge;
     public Quantum.Prototypes.ExtrasListPrototype Extra;
     partial void MaterializeUser(Frame frame, ref Quantum.HazardList result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.HazardList result, in PrototypeMaterializationContext context = default) {
         PrototypeValidator.AssignQString(this.Name, 64, in context, out result.Name);
-        result.HazardPrototype = this.HazardPrototype;
+        result.PrototypeRef = this.PrototypeRef;
         result.Team = this.Team;
-        result.Hefty = this.Hefty;
-        result.SpawnRandom = this.SpawnRandom;
+        result.SpawnHazard = this.SpawnHazard;
         result.SpawnFridge = this.SpawnFridge;
         this.Extra.Materialize(frame, ref result.Extra, in context);
         MaterializeUser(frame, ref result, in context);
@@ -1104,24 +1102,17 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.ItemList))]
   public unsafe partial class ItemListPrototype : StructPrototype {
-    public Quantum.QEnum8<ItemChanceType> Chance;
-    [AllocateOnComponentAdded()]
-    [FreeOnComponentRemoved()]
-    [DynamicCollectionAttribute()]
-    public Quantum.Prototypes.PowerupDataPrototype[] Items = {};
+    [MaxStringByteCount(62, "Unicode")]
+    public string Name;
+    public Int32 PrototypeRef;
+    public Byte Team;
+    public Quantum.Prototypes.ExtrasListPrototype Extra;
     partial void MaterializeUser(Frame frame, ref Quantum.ItemList result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.ItemList result, in PrototypeMaterializationContext context = default) {
-        result.Chance = this.Chance;
-        if (this.Items.Length == 0) {
-          result.Items = default;
-        } else {
-          var list = frame.AllocateList(out result.Items, this.Items.Length);
-          for (int i = 0; i < this.Items.Length; ++i) {
-            Quantum.PowerupData tmp = default;
-            this.Items[i].Materialize(frame, ref tmp, in context);
-            list.Add(tmp);
-          }
-        }
+        PrototypeValidator.AssignQString(this.Name, 64, in context, out result.Name);
+        result.PrototypeRef = this.PrototypeRef;
+        result.Team = this.Team;
+        this.Extra.Materialize(frame, ref result.Extra, in context);
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -1476,23 +1467,6 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.Powerup result, in PrototypeMaterializationContext context = default) {
         result.FacingRight = this.FacingRight;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.PowerupData))]
-  public unsafe partial class PowerupDataPrototype : StructPrototype {
-    [MaxStringByteCount(62, "Unicode")]
-    public string Name;
-    public AssetRef<EntityPrototype> PowerupPrototype;
-    public Byte Team;
-    public Quantum.Prototypes.ExtrasListPrototype Extra;
-    partial void MaterializeUser(Frame frame, ref Quantum.PowerupData result, in PrototypeMaterializationContext context);
-    public void Materialize(Frame frame, ref Quantum.PowerupData result, in PrototypeMaterializationContext context = default) {
-        PrototypeValidator.AssignQString(this.Name, 64, in context, out result.Name);
-        result.PowerupPrototype = this.PowerupPrototype;
-        result.Team = this.Team;
-        this.Extra.Materialize(frame, ref result.Extra, in context);
         MaterializeUser(frame, ref result, in context);
     }
   }

@@ -130,27 +130,24 @@ enum GameState : Byte {
 }
 
 struct ItemList {
-	ItemChanceType Chance;
-	[AllocateOnComponentAdded, FreeOnComponentRemoved] list<PowerupData> Items;
-}
-struct PowerupData {
-//Base
+    //Base
     QString<64> Name;
-    AssetRef<EntityPrototype> PowerupPrototype;
-//Sub Data
+    int PrototypeRef;
+    //Sub Data
     byte Team;
     //FP Scale;
-//Specific Data
+    //Specific Data
     ExtrasList Extra;
 }
 
 struct HazardList {
     QString<64> Name;
-    AssetRef<EntityPrototype> HazardPrototype;
+	int PrototypeRef;
+    //AssetRef<EntityPrototype> HazardPrototype;
 //Sub Data
     byte Team;
-    bool Hefty;
-    bool SpawnRandom;
+    bool SpawnHazard;
+	//bool SpawnCoin;
     bool SpawnFridge;
     //FP Scale;
 //Specific Data
@@ -166,8 +163,7 @@ enum ItemChanceType : Byte {
 	Middling,
 	LastCommon,
 	LastRare,
-	JokeFirst,
-	JokeMiddle,
+	Joke,
 	Bulb,
 	Invalid,
 }

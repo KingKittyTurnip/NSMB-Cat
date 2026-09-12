@@ -45,8 +45,17 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
             case CommandChangeRules.Rules.ToggleHazards:
                 cmd.HazardEnabled = (bool) value;
                 break;
-            case CommandChangeRules.Rules.ToggleBulb:
+            /*case CommandChangeRules.Rules.ToggleBulb:
                 cmd.BulbEnabled = (bool) value;
+                break;*/
+            case CommandChangeRules.Rules.DisableStageRestrictions:
+                cmd.DisableStageRestrictions = (bool) value;
+                break;
+            /*case CommandChangeRules.Rules.DisableComplexStageRestrictions:
+                cmd.DisableComplexStageRestrictions = (bool) value;
+                break;*/
+            case CommandChangeRules.Rules.EveryItemHasTheSameChance:
+                cmd.EveryItemHasTheSameChance = (bool) value;
                 break;
             }
 

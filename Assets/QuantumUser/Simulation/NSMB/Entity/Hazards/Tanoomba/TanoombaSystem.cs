@@ -559,8 +559,10 @@ namespace Quantum {
         public bool ExistsInRules(Frame f, TanoombaTransformationAsset.TanoombaFormData thing) { //add the ability to "out" the special values
             var hazarddata = f.ResolveList(f.Global->Rules.Hazards);
 
+            //TODO: redo this code so he checks for the int instead of the ref
+            /*
             foreach (var h in hazarddata) {
-                if (h.HazardPrototype == thing.comparePrototype) {
+                if (h.PrototypeRef == thing.comparePrototype) {
                     return true;
                 }
             }
@@ -590,7 +592,7 @@ namespace Quantum {
             if (f.Global->Rules.IsCoinsEnabled && 
                 (thing.SpawnType == TanoombaTransformationAsset.TanoombaFormSpawnType.SpawnsAtCoinAndReplace || thing.SpawnType == TanoombaTransformationAsset.TanoombaFormSpawnType.AwayAndCoinsEnabled)) {
                 return true;
-            }
+            }*/
             return false;
         }
         public bool ExistsInStage(Frame f, AssetRef<EntityPrototype> compare) {

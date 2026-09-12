@@ -55,7 +55,7 @@ MonoBehaviour:
     - reworked the gamerules customisation for advanced lobbies
     - ANYTHING can spawn as a powerup if you make it part of the *powerup list
     - ANYTHING can spawn as a hazard if you make it part of the *hazard list
-    - added new characters (shy guy, toadette)
+    - added new characters (shy guy, toadette, fox)
     - added boss hazards (bowser, petey piranha, king boo, whomp king)
     - added conversion cauldron, chainpost, baseball, billblock, cannonbox, tanoomba,
       fan, & starball hazards

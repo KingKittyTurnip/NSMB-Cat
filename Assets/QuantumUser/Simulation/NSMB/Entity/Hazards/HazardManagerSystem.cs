@@ -131,6 +131,7 @@ namespace Quantum {
             if (hazardspawner->Lifetime > 0 && QuantumUtils.Decrement(ref hazardspawner->Lifetime)) {
                 //Sort Hazards
                 List<HazardList> spawnablehazards = new();
+                var stuff = f.FindAsset(f.SimulationConfig.BaseRules).Rules.ListOfAvalibleObjects;
                 var position = f.Unsafe.GetPointer<Transform2D>(entity)->Position;
 
                 //spawn a hefty or a normal hazard?
@@ -141,12 +142,12 @@ namespace Quantum {
 
                 TryAgain:
                 for (byte item = 0; item < hazarddata.Count; item++) {
-                    if (hazarddata[item].SpawnRandom) {
+                    if (hazarddata[item].SpawnHazard) {
                         //Hazard Can Spawn
                         //Add special spawn conditions for:
                         //potion: spawns when the lobby contains at least 6 players, if one doesn't exist the next hazard is guerenteed to be it (this condition is disabled in advanced lobbies)
                         //cauldron: spawns only if a boss entity is in the ruleset
-                        if (hazarddata[item].Hefty == hefty) { //Hefty Or No...
+                        if (stuff[hazarddata[item].PrototypeRef].Hefty == hefty) { //Hefty Or No...
                             spawnablehazards.Add(hazarddata[item]);
                         }
                     }
@@ -169,7 +170,7 @@ namespace Quantum {
                 //    f.Global->HeftyCount++;
 
                 //SpawnHazard
-                EntityRef newEntity = f.Create(spawnablehazards[pick].HazardPrototype); //error out of range?
+                EntityRef newEntity = f.Create(stuff[spawnablehazards[pick].PrototypeRef].entityPrototype); //error out of range?
                 var newhazardspawnerTransform = f.Unsafe.GetPointer<Transform2D>(newEntity);
                 f.Signals.InitializeHazard(newEntity, EntityRef.None, position, SpawnReason.Normal, spawnablehazards[pick].Extra.Extra);
 
@@ -195,20 +196,20 @@ namespace Quantum {
         /// creates a hazard with an id for the hazards list, returns the entityref and spawndata but doesn't signal to them
         /// This Code Is Deprecated
         /// </summary>
-        public static void CreateHazardFromReference(Frame f, byte HazardId, out EntityRef newEntity, out HazardList newSpawndata) {
+        /*public static void CreateHazardFromReference(Frame f, byte HazardId, out EntityRef newEntity, out HazardList newSpawndata) {
             var hazarddata = f.ResolveList(f.Global->Rules.Hazards);
 
             newEntity = f.Create(hazarddata[HazardId].HazardPrototype);
             newSpawndata = hazarddata[HazardId];
-        }
+        }*/
         /// <summary>
         /// creates a hazard with an id for the hazards list, returns the entityref and spawndata but doesn't signal to them
         /// 
         /// this version exists for optimal parts
         /// </summary>
-        public static void CreateHazardFromReference(Frame f, byte HazardId, Quantum.Collections.QList<HazardList> hazarddata, out EntityRef newEntity, out HazardList newSpawndata) {
+        /*public static void CreateHazardFromReference(Frame f, byte HazardId, Quantum.Collections.QList<HazardList> hazarddata, out EntityRef newEntity, out HazardList newSpawndata) {
             newEntity = f.Create(hazarddata[HazardId].HazardPrototype);
             newSpawndata = hazarddata[HazardId];
-        }
+        }*/
     }
 }

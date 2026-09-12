@@ -26,6 +26,8 @@ namespace Quantum {
             _ => -1,
         };
 
+        public readonly bool CanIgnoreStageRestrictions(Frame f, VersusStageData stage) => (f.Global->Rules.DisableStageRestrictions && !stage.StageIsComplex) || f.Global->Rules.DisableComplexStageRestrictions;
+
         //KKT Mod Won't use This
         public readonly bool IsCoinItemDisabled(Frame f, AssetRef<CoinItemAsset> coinItem) {
             if (f.TryResolveDictionary(CoinItemCustomSpawnWeights, out var customWeights)) {

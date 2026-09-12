@@ -2387,7 +2387,7 @@ PrefabInstance:
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
       propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
@@ -2561,6 +2561,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: da804c6dd430d87419b77a9d98ca3367, type: 2}
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
+      propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[1].Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 6a0ff0c8adb71d0469b702946398eb3d, type: 2}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
       propertyPath: powerupVisuals.Array.data[6].TextureReplacements.Array.data[0].Material
       value: 
       objectReference: {fileID: 2100000, guid: aa0ae4b7edaf62842ad504eb5d367de6, type: 2}
@@ -2626,6 +2631,11 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 5753ab18b28d8314e892fce2c0764792, type: 3}
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
+      propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[1].AlbedoTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: a29feef4390ec4a49ab1d077e6f4c042, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
       propertyPath: powerupVisuals.Array.data[6].TextureReplacements.Array.data[0].AlbedoTexture
       value: 
       objectReference: {fileID: 2800000, guid: 8301373c08169994b86469eaa260c7db, type: 3}
@@ -2681,6 +2691,11 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 67d43cce06d66084daf5c8776bef3ee3, type: 3}
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
+      propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[1].CapMaskTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
       propertyPath: powerupVisuals.Array.data[12].TextureReplacements.Array.data[0].CapMaskTexture
       value: 
       objectReference: {fileID: 2800000, guid: 67d43cce06d66084daf5c8776bef3ee3, type: 3}
@@ -2704,6 +2719,11 @@ PrefabInstance:
       propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[0].ShirtMaskTexture
       value: 
       objectReference: {fileID: 2800000, guid: d5f6079e3d136624a87f0ed2af826997, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[1].ShirtMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 134013eac4fc3274c86d24153aba0f81, type: 3}
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
       propertyPath: powerupVisuals.Array.data[6].TextureReplacements.Array.data[0].ShirtMaskTexture
@@ -2761,6 +2781,11 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 110e2f323c5c1104796d1d44bbd70e56, type: 3}
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
+      propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[1].OverallsMaskTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
       propertyPath: powerupVisuals.Array.data[6].TextureReplacements.Array.data[0].OverallsMaskTexture
       value: 
       objectReference: {fileID: 2800000, guid: 0cf743dadec2dde40b894fd9202c3b51, type: 3}
@@ -2809,6 +2834,11 @@ PrefabInstance:
       propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[0].StarmanAlbedoTexture
       value: 
       objectReference: {fileID: 2800000, guid: 33c6e8080ae572f46897d9e95fc26fb3, type: 3}
+    - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
+        type: 3}
+      propertyPath: powerupVisuals.Array.data[5].TextureReplacements.Array.data[1].StarmanAlbedoTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 5f2d8ce488662404ca916c6eff899054, type: 3}
     - target: {fileID: 79918617084146557, guid: 7624e7a260085f5409f044e3d21ae8d5,
         type: 3}
       propertyPath: powerupVisuals.Array.data[6].TextureReplacements.Array.data[0].StarmanAlbedoTexture

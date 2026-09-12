@@ -3,6 +3,7 @@ using UnityEngine;
 using static NSMB.Utilities.QuantumViewUtils;
 using NSMB.Utilities.Extensions;
 using NSMB.Utilities;
+using NSMB.Cameras;
 
 public unsafe class HeavystoneAnimator : QuantumEntityViewComponent {
 
@@ -33,6 +34,8 @@ public unsafe class HeavystoneAnimator : QuantumEntityViewComponent {
         if (e.Entity != EntityRef) {
             return;
         }
+
+        CameraAnimator.TriggerScreenshake(0.1f);
         sfx.Play();
         Instantiate(
             Enums.PrefabParticle.Player_Groundpound.GetGameObject(),

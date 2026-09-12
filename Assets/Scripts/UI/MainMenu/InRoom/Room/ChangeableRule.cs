@@ -222,6 +222,10 @@ namespace NSMB.UI.MainMenu.Submenus.InRoom {
                 CommandChangeRules.Rules.HazardFrequency => rules.HazardFrequency,
                 CommandChangeRules.Rules.HeftyPercentage => rules.HeftyPercentage,
                 CommandChangeRules.Rules.HazardLifetime => rules.HazardLifetime,
+
+                CommandChangeRules.Rules.DisableStageRestrictions => (bool) rules.DisableStageRestrictions,
+                CommandChangeRules.Rules.DisableComplexStageRestrictions => (bool) rules.DisableComplexStageRestrictions,
+                CommandChangeRules.Rules.EveryItemHasTheSameChance => (bool) rules.EveryItemHasTheSameChance,
                 _ => null
             };
 

@@ -119,8 +119,7 @@ namespace Quantum {
     Middling,
     LastCommon,
     LastRare,
-    JokeFirst,
-    JokeMiddle,
+    Joke,
     Bulb,
     Invalid,
   }
@@ -1444,18 +1443,16 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct HazardList {
-    public const Int32 SIZE = 96;
-    public const Int32 ALIGNMENT = 8;
-    [FieldOffset(32)]
+    public const Int32 SIZE = 84;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(20)]
     public QString64 Name;
-    [FieldOffset(24)]
-    public AssetRef<EntityPrototype> HazardPrototype;
+    [FieldOffset(8)]
+    public Int32 PrototypeRef;
     [FieldOffset(0)]
     public Byte Team;
-    [FieldOffset(8)]
-    public QBoolean Hefty;
     [FieldOffset(16)]
-    public QBoolean SpawnRandom;
+    public QBoolean SpawnHazard;
     [FieldOffset(12)]
     public QBoolean SpawnFridge;
     [FieldOffset(4)]
@@ -1464,10 +1461,9 @@ namespace Quantum {
       unchecked { 
         var hash = 8539;
         hash = hash * 31 + Name.GetHashCode();
-        hash = hash * 31 + HazardPrototype.GetHashCode();
+        hash = hash * 31 + PrototypeRef.GetHashCode();
         hash = hash * 31 + Team.GetHashCode();
-        hash = hash * 31 + Hefty.GetHashCode();
-        hash = hash * 31 + SpawnRandom.GetHashCode();
+        hash = hash * 31 + SpawnHazard.GetHashCode();
         hash = hash * 31 + SpawnFridge.GetHashCode();
         hash = hash * 31 + Extra.GetHashCode();
         return hash;
@@ -1483,10 +1479,9 @@ namespace Quantum {
         var p = (HazardList*)ptr;
         serializer.Stream.Serialize(&p->Team);
         Quantum.ExtrasList.Serialize(&p->Extra, serializer);
-        QBoolean.Serialize(&p->Hefty, serializer);
+        serializer.Stream.Serialize(&p->PrototypeRef);
         QBoolean.Serialize(&p->SpawnFridge, serializer);
-        QBoolean.Serialize(&p->SpawnRandom, serializer);
-        AssetRef.Serialize(&p->HazardPrototype, serializer);
+        QBoolean.Serialize(&p->SpawnHazard, serializer);
         Quantum.QString64.Serialize(&p->Name, serializer);
     }
   }
@@ -1579,44 +1574,38 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct ItemList {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 76;
     public const Int32 ALIGNMENT = 4;
+    [FieldOffset(12)]
+    public QString64 Name;
+    [FieldOffset(8)]
+    public Int32 PrototypeRef;
     [FieldOffset(0)]
-    public ItemChanceType Chance;
+    public Byte Team;
     [FieldOffset(4)]
-    [AllocateOnComponentAdded()]
-    [FreeOnComponentRemoved()]
-    public QListPtr<PowerupData> Items;
+    public ExtrasList Extra;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 13249;
-        hash = hash * 31 + (Byte)Chance;
-        hash = hash * 31 + Items.GetHashCode();
+        hash = hash * 31 + Name.GetHashCode();
+        hash = hash * 31 + PrototypeRef.GetHashCode();
+        hash = hash * 31 + Team.GetHashCode();
+        hash = hash * 31 + Extra.GetHashCode();
         return hash;
       }
     }
     public void ClearPointers(FrameBase f, EntityRef entity) {
-      if (Items != default) {
-        var list = f.ResolveList(this.Items);
-        for (int i = 0; i < list.Count; ++i) {
-          list.GetPointer(i)->ClearPointers(f, entity);
-        }
-      }
-      if (Items != default) f.FreeList(ref Items);
+      Extra.ClearPointers(f, entity);
     }
     public void AllocatePointers(FrameBase f, EntityRef entity) {
-      f.TryAllocateList(ref Items);
-      if (Items != default) {
-        var list = f.ResolveList(this.Items);
-        for (int i = 0; i < list.Count; ++i) {
-          list.GetPointer(i)->AllocatePointers(f, entity);
-        }
-      }
+      Extra.AllocatePointers(f, entity);
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (ItemList*)ptr;
-        serializer.Stream.Serialize((Byte*)&p->Chance);
-        QList.Serialize(&p->Items, serializer, Statics.SerializePowerupData);
+        serializer.Stream.Serialize(&p->Team);
+        Quantum.ExtrasList.Serialize(&p->Extra, serializer);
+        serializer.Stream.Serialize(&p->PrototypeRef);
+        Quantum.QString64.Serialize(&p->Name, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1719,42 +1708,6 @@ namespace Quantum {
         AssetRef.Serialize(&p->Character, serializer);
         Quantum.QString48.Serialize(&p->Nickname, serializer);
         Quantum.QStringUtf8_48.Serialize(&p->NicknameColor, serializer);
-    }
-  }
-  [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct PowerupData {
-    public const Int32 SIZE = 80;
-    public const Int32 ALIGNMENT = 8;
-    [FieldOffset(16)]
-    public QString64 Name;
-    [FieldOffset(8)]
-    public AssetRef<EntityPrototype> PowerupPrototype;
-    [FieldOffset(0)]
-    public Byte Team;
-    [FieldOffset(4)]
-    public ExtrasList Extra;
-    public override readonly Int32 GetHashCode() {
-      unchecked { 
-        var hash = 17029;
-        hash = hash * 31 + Name.GetHashCode();
-        hash = hash * 31 + PowerupPrototype.GetHashCode();
-        hash = hash * 31 + Team.GetHashCode();
-        hash = hash * 31 + Extra.GetHashCode();
-        return hash;
-      }
-    }
-    public void ClearPointers(FrameBase f, EntityRef entity) {
-      Extra.ClearPointers(f, entity);
-    }
-    public void AllocatePointers(FrameBase f, EntityRef entity) {
-      Extra.AllocatePointers(f, entity);
-    }
-    public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (PowerupData*)ptr;
-        serializer.Stream.Serialize(&p->Team);
-        Quantum.ExtrasList.Serialize(&p->Extra, serializer);
-        AssetRef.Serialize(&p->PowerupPrototype, serializer);
-        Quantum.QString64.Serialize(&p->Name, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -7019,7 +6972,6 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeFP;
     public static FrameSerializer.Delegate SerializeHazardList;
     public static FrameSerializer.Delegate SerializeItemList;
-    public static FrameSerializer.Delegate SerializePowerupData;
     public static FrameSerializer.Delegate SerializePowerupTransitionAnimation;
     public static FrameSerializer.Delegate SerializePhysicsQueryRef;
     public static FrameSerializer.Delegate SerializePhysicsContact;
@@ -7037,7 +6989,6 @@ namespace Quantum {
       SerializeFP = FP.Serialize;
       SerializeHazardList = Quantum.HazardList.Serialize;
       SerializeItemList = Quantum.ItemList.Serialize;
-      SerializePowerupData = Quantum.PowerupData.Serialize;
       SerializePowerupTransitionAnimation = Quantum.PowerupTransitionAnimation.Serialize;
       SerializePhysicsQueryRef = PhysicsQueryRef.Serialize;
       SerializePhysicsContact = Quantum.PhysicsContact.Serialize;
@@ -7206,7 +7157,6 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Podobo), Quantum.Podobo.SIZE);
       typeRegistry.Register(typeof(Quantum.PodoboType), 1);
       typeRegistry.Register(typeof(Quantum.Powerup), Quantum.Powerup.SIZE);
-      typeRegistry.Register(typeof(Quantum.PowerupData), Quantum.PowerupData.SIZE);
       typeRegistry.Register(typeof(Quantum.PowerupReserveResult), 1);
       typeRegistry.Register(typeof(Quantum.PowerupSpawnReason), 1);
       typeRegistry.Register(typeof(Quantum.PowerupState), 1);

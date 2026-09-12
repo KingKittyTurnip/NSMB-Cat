@@ -325,15 +325,15 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -8359218312643153770, guid: b73add24eb026c844b85593f8bab1f8c,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 5b37bd296278e534a9d438cbf66937ca, type: 3}
-  m_PlayOnAwake: 1
+  m_Resource: {fileID: 8300000, guid: eb569758dcb6acc4183d64fffa344bd6, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 256
   DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 7.5
@@ -705,7 +705,7 @@ MonoBehaviour:
   - {fileID: 171610149387581476}
   childAnimator: {fileID: 0}
   childAnimation: {fileID: 0}
-  blinkingRate: 8
+  blinkinRate: 12
   scaleRate: 0.1333
   scaleSize: 0.3
   actualscale: 1

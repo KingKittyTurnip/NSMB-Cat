@@ -23,7 +23,7 @@ MonoBehaviour:
   StageDescription: An unused map from the og, renewed! Fight in the pit of doom,
     or the circle area around it
   GroupingTranslationKey: '- Other -'
-  DiscordStageImage: 
+  DiscordStageImage: placeholder
   SortOrder: 1
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
   MainMenuPreviewPrefab: {fileID: 0}
@@ -100,6 +100,8 @@ MonoBehaviour:
   ForceCharacter:
     Id:
       Value: 0
+  ForceItem: 0
+  StageIsComplex: 0
   OverwriteRules:
     Id:
       Value: 0

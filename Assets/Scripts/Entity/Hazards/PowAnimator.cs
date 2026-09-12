@@ -3,6 +3,7 @@ using UnityEngine;
 using static NSMB.Utilities.QuantumViewUtils;
 using NSMB.Utilities.Extensions;
 using NSMB.Utilities;
+using NSMB.Cameras;
 
 public unsafe class PowAnimator : QuantumEntityViewComponent {
 
@@ -40,7 +41,9 @@ public unsafe class PowAnimator : QuantumEntityViewComponent {
         if (e.Entity != EntityRef) {
             return;
         }
+        CameraAnimator.TriggerScreenshake(0.1f);
         sfx.Play();
+        sfx.volume = 1.5f;
         animator.SetTrigger("Explode");
     }
 

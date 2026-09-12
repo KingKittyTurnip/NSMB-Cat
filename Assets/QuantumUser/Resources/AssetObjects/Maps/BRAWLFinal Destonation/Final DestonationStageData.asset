@@ -22,7 +22,7 @@ MonoBehaviour:
   TranslationKey: Final Destonation
   StageDescription: No Items. Fox Only.
   GroupingTranslationKey: '- Other -'
-  DiscordStageImage: 
+  DiscordStageImage: placeholder
   SortOrder: 0
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
   MainMenuPreviewPrefab: {fileID: 0}
@@ -60,9 +60,9 @@ MonoBehaviour:
     X:
       RawValue: 524288
     Y:
-      RawValue: 196608
-  ThreeDeeCamera: 1
-  CaptureCamera: 1
+      RawValue: 393216
+  ThreeDeeCamera: 0
+  CaptureCamera: 0
   UIColor:
     R: 24
     G: 178
@@ -120,6 +120,8 @@ MonoBehaviour:
   ForceCharacter:
     Id:
       Value: 415549289640455479
+  ForceItem: 0
+  StageIsComplex: 0
   OverwriteRules:
     Id:
       Value: 371441101682118360

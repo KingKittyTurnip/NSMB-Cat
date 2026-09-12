@@ -168,10 +168,6 @@ namespace NSMB.Entities.Player {
         private bool previousStarmanEnabled;
         private PowerupVisuals previousPowerupVisuals;
 
-        [Header("KKT Mod")]
-        [SerializeField] private Vector3 SmallModelScale = Vector3.one;
-        [SerializeField] private Vector3 LargeModelScale = Vector3.one;
-
         public void OnValidate() {
             this.SetIfNull(ref animator);
         }
@@ -344,7 +340,7 @@ namespace NSMB.Entities.Player {
             bool walkingOnWater = mario->IsWalkingOnWater(f, EntityRef);
             
             SetParticleEmission(drillParticle, !disableParticles && mario->IsDrilling);
-            SetParticleEmission(sparkles, !disableParticles && (mario->IsStarmanInvincible || (mario->CurrentPowerupState == PowerupState.Jumpsuit && mario->JumpState == JumpState.TripleJump)));
+            SetParticleEmission(sparkles, !disableParticles && (mario->IsStarmanInvincible || mario->CurrentPowerupState == PowerupState.Jumpsuit));
             SetParticleEmission(iceSkiddingParticle, !disableParticles && physicsObject->IsOnSlipperyGround && ((mario->IsSkidding && physicsObject->Velocity.SqrMagnitude.AsFloat > 0.25f) || mario->FastTurnaroundFrames > 0));
             SetParticleEmission(waterSkiddingParticle, !disableParticles && walkingOnWater && ((mario->IsSkidding && physicsObject->Velocity.SqrMagnitude.AsFloat > 0.25f) || mario->FastTurnaroundFrames > 0));
             SetParticleEmission(waterRunningParticle, !disableParticles && !waterSkiddingParticle.isPlaying && walkingOnWater && FPMath.Abs(physicsObject->Velocity.X) > FP._0_10);

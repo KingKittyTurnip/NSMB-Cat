@@ -22,7 +22,7 @@ MonoBehaviour:
   TranslationKey: Pillar Castle
   StageDescription: A castle with many pillars holding up platforms
   GroupingTranslationKey: '- KKT Maps -'
-  DiscordStageImage: 
+  DiscordStageImage: placeholder
   SortOrder: 0
   Icon: {fileID: 21300000, guid: e64cca18721d2d14e95065a64ba3f71c, type: 3}
   MainMenuPreviewPrefab: {fileID: 0}
@@ -101,6 +101,8 @@ MonoBehaviour:
   ForceCharacter:
     Id:
       Value: 0
+  ForceItem: 0
+  StageIsComplex: 0
   OverwriteRules:
     Id:
       Value: 0

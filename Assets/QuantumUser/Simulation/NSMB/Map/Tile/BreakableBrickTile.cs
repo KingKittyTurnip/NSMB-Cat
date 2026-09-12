@@ -78,7 +78,7 @@ namespace Quantum {
                 allowSelfDamage = false;
 
             } else if (f.Unsafe.TryGetPointer(entity, out ThrowingObject* throwable)) {
-                doBreak = throwable->Type == ThrowingObjectType.BowserShell ? BreakingRules.HasFlag(BreakableBy.MegaMario) : BreakingRules.HasFlag(BreakableBy.Shells);
+                doBreak = throwable->Type == ThrowingObjectType.BowserShell ? BreakingRules.HasFlag(BreakableBy.MegaMario) : BreakingRules.HasFlag(BreakableBy.Bombs);
                 doBump = false;
                 bumpOwner = entity;
                 allowSelfDamage = false;

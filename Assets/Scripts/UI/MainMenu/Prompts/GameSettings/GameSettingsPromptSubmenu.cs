@@ -331,5 +331,17 @@ namespace NSMB.UI.MainMenu.Submenus.Prompts {
         public void OnPlayerPropertiesUpdate(Player targetPlayer, PhotonHashtable changedProps) { }
 
         public void OnMasterClientSwitched(Player newMasterClient) { }
+
+
+        //KKT Mod
+        public unsafe void ImportRuleset() {
+            QuantumGame game = NetworkHandler.Game;
+            var currentrules = game.Frames.Predicted.Global->Rules;
+        }
+
+        public unsafe void ExportRuleset() {
+            QuantumGame game = NetworkHandler.Game;
+            var currentrules = game.Frames.Predicted.Global->Rules;
+        }
     }
 }

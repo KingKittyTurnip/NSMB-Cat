@@ -497,7 +497,10 @@ namespace Quantum {
             PropellerLaunchFrames = 0;
             PropellerSpinFrames = 0;
             JumpState = JumpState.None;
-            PreviousPowerupState = CurrentPowerupState = PowerupState.NoPowerup;
+            if (stage.ForceItem != null && !f.Global->Rules.CanIgnoreStageRestrictions(f, stage)) {
+                CurrentPowerupState = stage.ForceItem;
+            } else
+                PreviousPowerupState = CurrentPowerupState = PowerupState.NoPowerup;
             DamageInvincibilityFrames = 0;
             InvincibilityFrames = 0;
             MegaMushroomFrames = 0;

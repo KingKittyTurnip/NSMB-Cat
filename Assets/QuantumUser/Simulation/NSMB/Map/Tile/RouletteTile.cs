@@ -35,7 +35,8 @@ public unsafe class RouletteTile : BreakableBrickTile {
         }
 
         var gamemode = f.FindAsset(f.Global->Rules.Gamemode);
-        Bump(f, null, tilePosition, resultTile, direction, entity, allowSelfDamage, gamemode.NEWGetRandomItem(f, mario, true).PowerupPrototype);
+        gamemode.NEWGetRandomItem(f, mario, true, out var entityPrototype, out var extra);
+        Bump(f, null, tilePosition, resultTile, direction, entity, allowSelfDamage, entityPrototype);
         playBumpSound = false;
         return false;
     }
